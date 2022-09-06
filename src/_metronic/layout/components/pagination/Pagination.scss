@@ -1,0 +1,12 @@
+.page-link {
+    border: 1px solid lightgrey;
+    border-radius: 3px;
+
+}
+
+li.active {
+    .page-link {
+        background-color: #181C32;
+        border-color: #181C32;
+    }
+}

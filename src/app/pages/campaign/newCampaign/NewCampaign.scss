@@ -1,0 +1,70 @@
+.campaign-outer-div {
+    background: repeating-linear-gradient(to right,
+            #404040 0px,
+            #404040 10px,
+            #696969 10px,
+            #696969 15px);
+
+    min-height: 500px;
+    width: 330px;
+
+    .logo {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .card .card-body {
+        padding: 10px;
+        height: 60px;
+
+    }
+
+    .claim-prize-btn {
+        width: 100%;
+        font-size: 11px;
+        color: #404040;
+        font-weight: bold;
+        border-radius: 10px;
+
+    }
+
+
+    label,
+    input {
+        position: relative;
+        display: block;
+        padding-right: 76px;
+        width: 174px;
+        box-sizing: border-box;
+    }
+
+    label::after {
+        content: '.'attr(data-domain);
+        position: absolute;
+        top: 4px;
+        left: 96px;
+        font-family: arial, helvetica, sans-serif;
+        font-size: 12px;
+        display: block;
+        color: rgba(0, 0, 0, 0.6);
+        font-weight: bold;
+    }
+}
+
+.new-campaign {
+    .input-group-text {
+        border-left: unset;
+        background-color: white;
+        border-top-left-radius: unset;
+        border-bottom-left-radius: unset;
+    }
+
+    .input-group input {
+        border-right: unset;
+    }
+}

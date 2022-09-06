@@ -1,0 +1,7 @@
+.count-widget-block{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 285px;
+    padding: 2rem;
+}

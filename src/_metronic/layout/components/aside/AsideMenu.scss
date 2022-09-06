@@ -1,0 +1,63 @@
+#kt_aside {
+
+    .menu {
+        margin-top: 10px;
+    }
+
+    .menu-link {
+        height: 45px;
+    }
+
+    .menu-item .active {
+        background-color: #f5f8fa;
+        color: black;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        position: relative;
+
+
+
+        .menu-title {
+            color: black;
+            font-weight: 500;
+        }
+
+        i {
+            color: black;
+        }
+
+    }
+
+    .menu-item .active::before {
+        content: '';
+        position: absolute;
+        top: -30px;
+        right: 0;
+        width: 30px;
+        height: 30px;
+        background-color: #1e1e2d;
+        border-radius: 50%;
+        box-shadow: 15px 12px 0 #f5f8fa;
+        ;
+    }
+
+
+    .menu-item .active::after {
+        content: '';
+        position: absolute;
+        bottom: -30px;
+        right: 0;
+        width: 30px;
+        height: 30px;
+        background-color: #1e1e2d;
+        border-radius: 50%;
+        box-shadow: 15px -15px 0 #f5f8fa;
+
+
+    }
+
+}
+
+.aside.aside-dark {
+    box-shadow: 10px 0 0 #f5f8fa;
+}

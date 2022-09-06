@@ -1,0 +1,21 @@
+.search-input {
+
+
+    input {
+        border: unset;
+    }
+
+    .input-group {
+        background-color: white;
+        border: 1px solid darkgrey;
+        height: 35px;
+
+        input {
+            height: 33px;
+        }
+    }
+
+    i {
+        padding: 9px 0px 7px 10px;
+    }
+}

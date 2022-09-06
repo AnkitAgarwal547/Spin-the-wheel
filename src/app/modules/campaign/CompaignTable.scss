@@ -1,0 +1,39 @@
+.table {
+  border-radius: 20px;
+}
+
+th:first-of-type {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+th:last-of-type {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.action-btns .btn {
+  border: 1px solid !important;
+  padding: 5px 10px !important;
+}
+
+.btn-outline-dark {
+  border: 1px solid !important;
+}
+
+.campaign-table {
+  tr {
+    border-bottom-style: solid !important;
+    font-weight: 600;
+  }
+
+  tr:last-child {
+    border-bottom: 1px solid transparent !important;
+    ;
+  }
+
+  th {
+    padding: 15px !important;
+
+  }
+}
