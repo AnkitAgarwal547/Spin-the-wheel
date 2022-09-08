@@ -1,4 +1,22 @@
 #kt_aside {
+    .svg-icon svg {
+        height: 20px;
+        width: 20px;
+        fill: #f5f8fa;
+
+
+    }
+
+    // .active {
+    //     .svg-icon svg {
+    //         fill: #1e1e2d;
+    //     }
+
+    //     path {
+    //         fill: #1e1e2d;
+
+    //     }
+    // }
 
     .menu {
         margin-top: 10px;
@@ -35,11 +53,13 @@
         right: 0;
         width: 30px;
         height: 30px;
-        background-color: #1e1e2d;
+        background-color: transparent;
         border-radius: 50%;
         box-shadow: 15px 12px 0 #f5f8fa;
         ;
     }
+
+
 
 
     .menu-item .active::after {
@@ -49,12 +69,44 @@
         right: 0;
         width: 30px;
         height: 30px;
-        background-color: #1e1e2d;
+        background-color: transparent;
         border-radius: 50%;
         box-shadow: 15px -15px 0 #f5f8fa;
 
 
     }
+
+    .menu-item .menu-link .menu-icon {
+        width: 2.5rem;
+    }
+
+    // .menu-item:hover .active::after {
+    //     background-color: transparent;
+    // }
+
+    // .menu-item:hover .active::before {
+    //     background-color: transparent;
+    // }
+
+    // .menu-item:hover {
+    //     background-color: gray;
+
+    //     .menu-title {
+    //         color: #1e1e2d;
+    //     }
+
+
+
+    //     .menu-link {
+    //         background-color: gray;
+    //     }
+    // }
+
+
+}
+
+.aside.aside-dark .aside-logo {
+    background-color: #303030;
 
 }
 

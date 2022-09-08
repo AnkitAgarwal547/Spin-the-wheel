@@ -1,3 +1,33 @@
-.add-new-questionnaire-header {
-    background-color: #D1D0CE;
+.questionnaire-table {
+
+    .add-new-questionnaire-header {
+        background-color: #D1D0CE;
+    }
+
+
+
+    .add-btn svg {
+        width: 15px !important;
+        height: 15px !important;
+
+    }
+
+    .action-btns .btn {
+        padding: 2px 5px !important;
+        border: unset !important;
+
+        .edit-questionnaire {
+            background-color: #ffffff;
+
+        }
+
+        .svg-icon {
+            margin-right: unset;
+
+            svg {
+                width: 25px !important;
+                height: 25px !important;
+            }
+        }
+    }
 }

@@ -7,13 +7,21 @@
     }
 
     .bell-icon {
-        i {
-            font-size: 18px;
-            padding: 10px;
+        svg {
+            height: 18px;
+            width: 35px;
         }
 
         margin-top: 5px;
 
+
+    }
+
+    #kt_aside_toggle {
+        svg {
+            height: 22px;
+            width: 22px;
+        }
     }
 
 }

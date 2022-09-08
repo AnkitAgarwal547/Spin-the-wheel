@@ -1,43 +1,36 @@
-import React, {useRef} from 'react'
+import React, {useEffect, useRef} from 'react'
 import {Button} from 'react-bootstrap'
+import {KTSVG} from '../../../helpers'
 import './FileUpload.scss'
 
-export default function FileUpload() {
+export default function FileUpload({setFileData, fileData}) {
   const inputRef = useRef<HTMLInputElement>(null)
+  var reader = new FileReader()
 
   const handleClick = () => {
-    // 👇️ open file input box on click of other element
-    console.log('click')
     if (inputRef.current) {
       inputRef.current.click()
     }
   }
 
   const handleFileChange = (event: any) => {
-    console.log('🚀 ~ file: FileUpload.tsx ~ line 13 ~ handleFileChange ~ event', event)
     const fileObj = event.target.files && event.target.files[0]
+    setFileData(event.target.files[0])
     if (!fileObj) {
       return
     }
-
-    console.log('fileObj is', fileObj)
-
-    // 👇️ reset file input
     event.target.value = null
+  }
 
-    // 👇️ is now empty
-    console.log(event.target.files)
-
-    // 👇️ can still access file object here
-    console.log(fileObj)
-    console.log(fileObj.name)
+  const removeFile = () => {
+    setFileData(null)
   }
 
   return (
     <div className='border border-gray-600 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3'>
       <div className='upload-files-container text-center'>
         <div className='text-center my-2'>
-          <i className='bi bi-arrow-bar-up file-upload-icon'></i>
+          <KTSVG path='/media/icons/upload.svg' />
         </div>
         <input type='file' ref={inputRef} onChange={handleFileChange} style={{display: 'none'}} />
 
@@ -50,6 +43,29 @@ export default function FileUpload() {
           Select
         </Button>
       </div>
+
+      {fileData && (
+        <div className='card border py-2 px-0 mt-2'>
+          <div className='d-flex justify-content-around align-items-center'>
+            <img
+              className='h-20px mr-1 '
+              src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTm9qUfU9tL5ypnST5dKQ_55r6uQNRSrDs61wtzL6M-0w&s'
+              alt='logo'
+            />
+            <div className='file-name'>
+              <small>{fileData?.name}</small>
+            </div>
+            <div>
+              <i
+                className='bi bi-x-lg text-dark fw-600 cursor-pointer'
+                onClick={() => {
+                  removeFile()
+                }}
+              ></i>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

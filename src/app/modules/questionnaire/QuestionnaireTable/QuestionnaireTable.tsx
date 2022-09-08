@@ -6,6 +6,7 @@ import PaginationWrappper from '../../../../_metronic/layout/components/paginati
 import ContentEditable from 'react-contenteditable'
 
 import './QuestionnaireTable.scss'
+import {KTSVG} from '../../../../_metronic/helpers'
 type Props = {
   className?: string
 }
@@ -148,7 +149,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
   const currrentQuestionnaireList = posts.slice(indexOfFirstPost, indexOfLastPost)
 
   return (
-    <div>
+    <div className='questionnaire-table'>
       <div className='d-flex flex-wrap flex-stack'>
         <h1 className='mb-0'>Questionnaire</h1>
         {
@@ -158,7 +159,8 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
               className='btn btn-dark btn-sm rounded-pill'
               onClick={() => setAddNewQuestionnaire(true)}
             >
-              <i className='bi bi-plus-lg'></i>Add
+              <KTSVG className='add-btn' path='/media/icons/plus.svg' />
+              Add
             </Link>
           </div>
         }
@@ -248,7 +250,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                 <th className='min-w-120px'>OPTION 1.</th>
                 <th className='min-w-100px'>OPTION 2.</th>
                 <th className='max-w-100px'>DIFFICULTY LEVEL</th>
-                <th className='min-w-100px text-center'>ACTION</th>
+                <th className='w-100px text-center'>ACTION</th>
               </tr>
             </thead>
             <tbody>
@@ -326,35 +328,35 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                       <div className='d-flex action-btns justify-content-evenly'>
                         {item.id === selectedItem ? (
                           <>
-                            <Button
+                            {/* <Button
                               variant='outline-dark'
                               onClick={() => {
                                 setSelectedItem(item.id)
                               }}
-                            >
-                              <i className='bi bi-check-lg  pe-0'></i>
-                            </Button>
+                            > */}
+                            <KTSVG className='svg-icon-sm mr-0' path='/media/icons/check.svg' />
+                            {/* </Button> */}
                             <Button
                               variant='danger'
                               onClick={() => {
                                 setSelectedItem(item.id)
                               }}
                             >
-                              <i className='bi bi-x-lg  pe-0'></i>
+                              <KTSVG className='svg-icon-sm mr-0' path='/media/icons/cancel.svg' />
                             </Button>
                           </>
                         ) : (
                           <>
                             <Button
-                              variant='outline-dark'
+                              variant=' edit-questionnaire'
                               onClick={() => {
                                 setSelectedItem(item.id)
                               }}
                             >
-                              <i className='bi bi-pencil-square pe-0'></i>
+                              <KTSVG className='svg-icon-2 mr-0' path='/media/icons/edit.svg' />
                             </Button>
-                            <Button variant='danger'>
-                              <i className='bi bi-trash3 pe-0'></i>
+                            <Button variant=''>
+                              <KTSVG className='svg-icon-2 mr-0' path='/media/icons/delete.svg' />
                             </Button>
                           </>
                         )}

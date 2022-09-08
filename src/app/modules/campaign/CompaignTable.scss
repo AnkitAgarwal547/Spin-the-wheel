@@ -12,28 +12,34 @@ th:last-of-type {
   border-bottom-right-radius: 20px;
 }
 
-.action-btns .btn {
-  border: 1px solid !important;
-  padding: 5px 10px !important;
-}
+
 
 .btn-outline-dark {
   border: 1px solid !important;
 }
 
-.campaign-table {
-  tr {
-    border-bottom-style: solid !important;
-    font-weight: 600;
+.campaign-table-wrapper {
+
+
+  .campaign-table {
+    tr {
+      border-bottom-style: solid !important;
+      font-weight: 600;
+    }
+
+    tr:last-child {
+      border-bottom: 1px solid transparent !important;
+      ;
+    }
+
+    th {
+      padding: 15px !important;
+
+    }
   }
 
-  tr:last-child {
-    border-bottom: 1px solid transparent !important;
-    ;
-  }
-
-  th {
-    padding: 15px !important;
-
+  .action-btns .btn {
+    border: 1px solid !important;
+    padding: 5px 10px !important;
   }
 }

@@ -1,13 +1,19 @@
-.file-input{
+.file-input {
     display: none;
 }
 
-.file-upload-icon{
+.file-upload-icon {
     color: #000;
     font-size: 20px;
     font-weight: bold;
 }
 
-.file-upload-btn{
+.file-upload-btn {
     padding: 5px 20px !important;
+}
+
+.file-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

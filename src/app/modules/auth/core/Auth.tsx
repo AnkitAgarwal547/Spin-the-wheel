@@ -13,6 +13,7 @@ import {AuthModel, UserModel} from './_models'
 import * as authHelper from './AuthHelpers'
 import {getUserByToken} from './_requests'
 import {WithChildren} from '../../../../_metronic/helpers'
+import useAuthHook from '../../../hooks/useAuthHooks'
 
 type AuthContextProps = {
   auth: AuthModel | undefined
@@ -39,7 +40,11 @@ const useAuth = () => {
 const AuthProvider: FC<WithChildren> = ({children}) => {
   const [auth, setAuth] = useState<AuthModel | undefined>(authHelper.getAuth())
   const [currentUser, setCurrentUser] = useState<UserModel | undefined>()
+  const [login] = useAuthHook()
+
   const saveAuth = (auth: AuthModel | undefined) => {
+    console.log('🚀 ~ file: Auth.tsx ~ line 47 ~ saveAuth ~ auth', auth)
+
     setAuth(auth)
     if (auth) {
       authHelper.setAuth(auth)
@@ -92,7 +97,6 @@ const AuthInit: FC<WithChildren> = ({children}) => {
       logout()
       setShowSplashScreen(false)
     }
-    // eslint-disable-next-line
   }, [])
 
   return showSplashScreen ? <LayoutSplashScreen /> : <>{children}</>

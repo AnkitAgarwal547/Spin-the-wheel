@@ -9,7 +9,7 @@ import CompaignWrapper from '../pages/campaign/CampaignWrapper'
 import {NewCampaign} from '../pages/campaign/newCampaign/NewCampaign'
 import ChangePassword from '../modules/auth/components/ChangePassword'
 import QuestionnaireWrapper from '../modules/questionnaire/QuestionnaireWrapper'
-import { CampaignDetailsWrapper } from '../pages/campaign/campaignDetails/CampaignDetailsWrapper'
+import {CampaignDetailsWrapper} from '../pages/campaign/campaignDetails/CampaignDetailsWrapper'
 
 const PrivateRoutes = () => {
   const WizardsPage = lazy(() => import('../modules/wizards/WizardsPage'))
@@ -21,10 +21,12 @@ const PrivateRoutes = () => {
         <Route path='auth/*' element={<Navigate to='/dashboard' />} />
         {/* Pages */}
         <Route path='dashboard' element={<DashboardWrapper />} />
-        <Route path='campaign' element={<CompaignWrapper />} />
-        <Route path='campaign/:id' element={<CampaignDetailsWrapper />} />
+        <Route path='campaigns' element={<CompaignWrapper />} />
+        <Route path='campaign-details/:id' element={<CampaignDetailsWrapper />} />
+        <Route path='campaign/:type' element={<CampaignDetailsWrapper />} />
         <Route path='change-password' element={<ChangePassword />} />
         <Route path='new-campaign' element={<NewCampaign />} />
+        <Route path='edit-campaign/:id' element={<NewCampaign />} />
         <Route path='questionnaire' element={<QuestionnaireWrapper />} />
         {/* Lazy Modules */}
 

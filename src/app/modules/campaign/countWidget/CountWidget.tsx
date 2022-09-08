@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
+import {Link} from 'react-router-dom'
 import './CountWidget.css'
 
 type Props = {
@@ -17,7 +18,9 @@ const CountWidget: React.FC<Props> = ({className}) => {
               <small className='text-white'>Total Users</small>
             </div>
             <div className='d-flex flex-column'>
-              <button className='btn btn-light btn-sm px-3 py-2'>View All</button>
+              <Link to='/campaign/totalUsers' className='btn btn-light btn-sm px-3 py-2'>
+                View All
+              </Link>
             </div>
             {/* end::Text */}
           </div>
@@ -32,7 +35,9 @@ const CountWidget: React.FC<Props> = ({className}) => {
             {/* end::Symbol */}
             {/* begin::Text */}
             <div className='d-flex flex-column'>
-              <button className='btn btn-light btn-sm px-3 py-2'>View All</button>
+              <Link to='/campaign/totalWinners' className='btn btn-light btn-sm px-3 py-2'>
+                View All
+              </Link>
             </div>
             {/* end::Text */}
           </div>
@@ -48,7 +53,9 @@ const CountWidget: React.FC<Props> = ({className}) => {
             {/* end::Symbol */}
             {/* begin::Text */}
             <div className='d-flex flex-column'>
-              <button className='btn btn-light btn-sm px-3 py-2'>View All</button>
+              <Link to='/campaign/totalUserSubmitted' className='btn btn-light btn-sm px-3 py-2'>
+                View All
+              </Link>
             </div>
             {/* end::Text */}
           </div>

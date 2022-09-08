@@ -4,6 +4,7 @@ import {useNavigate, useMatch, generatePath} from 'react-router'
 import {Link} from 'react-router-dom'
 import {KTSVG, toAbsoluteUrl} from '../../../_metronic/helpers'
 import PaginationWrappper from '../../../_metronic/layout/components/pagination/PaginationWrapper'
+import {useAppSelector} from '../../redux/hooks/hooks'
 import './CompaignTable.scss'
 
 type Props = {
@@ -12,6 +13,9 @@ type Props = {
 }
 
 const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
+  const {searchKey} = useAppSelector((state) => state.searchReducer)
+  console.log('🚀 ~ file: CampaignTable.tsx ~ line 17 ~ searchKey', searchKey)
+
   const dummyData = [
     {
       id: 1,
@@ -225,7 +229,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
   const indexOfFirstPost = indexOfLastPost - postsPerPage
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost)
   return (
-    <div className={`${className}`}>
+    <div className={`campaign-table-wrapper ${className}`}>
       <div className='d-flex flex-wrap flex-stack mb-6'>
         <h1 className='my-5'>Campaign Details</h1>
         {showButtons && (
@@ -242,7 +246,8 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
             </div>
 
             <Link to='/new-campaign' className='btn btn-dark btn-sm rounded-pill'>
-              +New Campaign
+              <KTSVG className='svg-icon-sm' path='/media/icons/plus.svg' />
+              New Campaign
             </Link>
           </div>
         )}
@@ -284,9 +289,14 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                     <td className='text-center'>{item.totalAttempts}</td>
                     <td>
                       <div className='d-flex action-btns justify-content-evenly'>
-                        <button className='btn btn-sm btn-outline-dark mr-2'>Edit</button>
+                        <Link
+                          to={`/edit-campaign/${item.id}`}
+                          className='btn btn-sm btn-outline-dark mr-2'
+                        >
+                          Edit
+                        </Link>
 
-                        <Link to={`/campaign/${item.id}`} className='btn btn-sm btn-dark'>
+                        <Link to={`/campaign-details/${item.id}`} className='btn btn-sm btn-dark'>
                           View
                         </Link>
                       </div>

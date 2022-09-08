@@ -1,13 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useCallback, useEffect, useMemo, useState} from 'react'
 import PaginationWrappper from '../../../../_metronic/layout/components/pagination/PaginationWrapper'
+import {useAppSelector} from '../../../redux/hooks/hooks'
 
-type Props = {
-  className?: string
-  showButtons?: boolean
-}
+type Props = {}
 
-const CampaignDetailsTable: React.FC<Props> = ({className, showButtons}) => {
+const CampaignDetailsTable: React.FC<Props> = () => {
+  const {searchKey} = useAppSelector((state) => state.searchReducer)
+  console.log('🚀 ~ file: CampaignDetailsTable.tsx ~ line 13 ~ searchKey', searchKey)
+
   const dummyData = [
     {
       id: 1,

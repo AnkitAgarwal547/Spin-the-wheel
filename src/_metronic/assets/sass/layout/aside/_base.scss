@@ -9,11 +9,15 @@
 	box-shadow: var(--kt-aside-box-shadow);
 	padding: 0;
 
+	.aside-company-name {
+		margin-left: 15px;
+	}
+
 	// Custom button
 	.btn-custom {
 		display: flex;
 		align-items: center;
-		justify-content: center;		
+		justify-content: center;
 		padding-left: 0;
 		padding-right: 0;
 
@@ -21,15 +25,15 @@
 			transition: opacity get($aside-config, transition-speed) ease;
 			display: inline-block;
 			white-space: nowrap;
-			overflow: hidden;		
-			opacity: 1;	
-		}	
+			overflow: hidden;
+			opacity: 1;
+		}
 
 		.btn-icon {
 			display: inline-block;
 			transition: opacity get($aside-config, transition-speed) ease;
-			overflow: hidden;		
-			opacity: 0;	
+			overflow: hidden;
+			opacity: 0;
 			margin: 0;
 			width: 0;
 		}
@@ -56,18 +60,17 @@
 
 		// Custom button
 		.btn-custom {
-			@include button-custom-variant(
-				$color: #B5B5C3, 
-				$icon-color: null, 
-				$border-color: null, 
-				$bg-color: rgba(63, 66, 84, 0.35), 
-				$color-active: #B5B5C3, 
-				$icon-color-active: null, 
-				$border-color-active: null, 
-				$bg-color-active: rgba(63, 66, 84, 0.35)
-			);
+			@include button-custom-variant($color: #B5B5C3,
+				$icon-color: null,
+				$border-color: null,
+				$bg-color: rgba(63, 66, 84, 0.35),
+				$color-active: #B5B5C3,
+				$icon-color-active: null,
+				$border-color-active: null,
+				$bg-color-active: rgba(63, 66, 84, 0.35));
 
-			.btn-icon {				
+			.btn-icon {
+
 				&,
 				i,
 				.svg-icon {
@@ -92,7 +95,6 @@
 		// Logo
 		.aside-logo {
 			display: flex;
-			justify-content: space-between;
 			align-items: center;
 			height: get($header-config, default, height, desktop);
 			padding: 0 get($aside-config, padding-x);
@@ -100,9 +102,9 @@
 
 		// Aside menu
 		.aside-menu {
-			width: get($aside-config, width); 
+			width: get($aside-config, width);
 		}
-		
+
 		// Fixed aside mode
 		.aside-fixed & {
 			position: fixed;
@@ -129,8 +131,12 @@
 				.logo-default {
 					display: inline-block;
 				}
-	
-				.logo-minimize {
+
+				// .logo-minimize {
+				// 	display: none;
+				// }
+
+				.aside-company-name {
 					display: none;
 				}
 			}
@@ -145,32 +151,34 @@
 			// Not hovered mode
 			&:not(.aside-hoverable),
 			&:not(:hover) {
+
 				// Logo
 				.aside-logo {
 					justify-content: center;
 
-					.logo {
+					.aside-company-name {
 						display: none;
 					}
 
 					.logo-default {
 						display: none;
 					}
-		
+
 					.logo-minimize {
 						display: inline-block;
 					}
-				}				
+				}
 
 				// Menu
 				.aside-menu {
+
 					.menu-content,
 					.menu-title {
 						opacity: 0;
 						transition: opacity get($aside-config, transition-speed) ease;
 					}
 
-					.menu-item.show > .menu-sub {
+					.menu-item.show>.menu-sub {
 						height: 0;
 						overflow: hidden;
 						transition: height get($aside-config, transition-speed) ease;
@@ -183,7 +191,7 @@
 						width: 0;
 						opacity: 0;
 						transition: opacity get($aside-config, transition-speed) ease;
-					}	
+					}
 
 					.btn-icon {
 						width: auto;

@@ -1,6 +1,8 @@
-import React, {FC} from 'react'
+import React, {FC, useContext} from 'react'
+import {KTSVG} from '../../../../helpers'
 
 import {useLayout} from '../../../core'
+import {AsideContext} from '../../../MasterLayout'
 import Search from './search/Search'
 import './Topbar.scss'
 
@@ -11,13 +13,26 @@ const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
 
 const Topbar: FC = () => {
   const {config} = useLayout()
+  const user = useContext(AsideContext)
 
   return (
     <nav className='navbar navbar-expand-sm navbar-light bg-light px-2 py-5 topbar'>
       <div className='container-fluid'>
         <div className='collapse navbar-collapse row justify-content-between'>
           <div className='col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3'>
-            <span className='navbar-toggler-icon'></span>
+            <div
+              id='kt_aside_toggle'
+              className='btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle'
+              data-kt-toggle='true'
+              data-kt-toggle-state='active'
+              data-kt-toggle-target='body'
+              data-kt-toggle-name='aside-minimize'
+              onClick={user.minimize}
+            >
+              <span onClick={() => user.minimize()}>
+                <KTSVG path='/media/icons/menu.svg' />
+              </span>
+            </div>
           </div>
           <div className='col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6'>
             <Search />
@@ -25,7 +40,7 @@ const Topbar: FC = () => {
           <div className='col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3 text-right'>
             <div className='text-right d-flex align-items-center justify-content-end'>
               <div className='bell-icon'>
-                <i className='bi bi-bell'></i>
+                <KTSVG path='/media/icons/bell-icon.svg' />
               </div>
               <div>
                 <img

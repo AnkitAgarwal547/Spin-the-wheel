@@ -73,7 +73,7 @@ const MenuInnerWithSub: FC<Props & WithChildren> = ({
         )}
         data-kt-menu-dismiss='true'
       >
-        {children}
+        g{children}
       </div>
     </div>
   )

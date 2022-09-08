@@ -5,10 +5,10 @@ import {Registration} from './components/Registration'
 import {ForgotPassword} from './components/ForgotPassword'
 import {Login} from './components/Login'
 import {toAbsoluteUrl} from '../../../_metronic/helpers'
+import './AuthPage.scss'
 
 const AuthLayout = () => {
   const location = useLocation()
-  console.log('🚀 ~ file: AuthPage.tsx ~ line 11 ~ AuthLayout ~ location', location)
 
   useEffect(() => {
     document.body.classList.add('bg-body')
@@ -21,7 +21,7 @@ const AuthLayout = () => {
     <>
       {location.pathname === '/auth' ? (
         <div className='row p-0 m-0 align-items-center h-100'>
-          <div className='col-xxl-6 col-lg-6 col-md-6 border-end text-center'>
+          <div className='col-xxl-6 col-lg-6 col-md-6  text-center logo-img'>
             <img src='https://live25east.com/wp-content/uploads/2015/10/placeholder-circle-300x300.png' />
           </div>
           <div className='col-xxl-6 col-lg-4 col-md-4'>

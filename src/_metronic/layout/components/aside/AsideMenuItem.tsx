@@ -12,6 +12,7 @@ type Props = {
   fontIcon?: string
   hasBullet?: boolean
   request?: any
+  activeIcon?: any
 }
 
 const AsideMenuItem: FC<Props & WithChildren> = ({
@@ -22,6 +23,7 @@ const AsideMenuItem: FC<Props & WithChildren> = ({
   fontIcon,
   hasBullet = false,
   request,
+  activeIcon,
 }) => {
   const {pathname} = useLocation()
   const isActive = checkIsActive(pathname, to)
@@ -45,12 +47,12 @@ const AsideMenuItem: FC<Props & WithChildren> = ({
             <span className='bullet bullet-dot'></span>
           </span>
         )}
-        {/* {icon && aside.menuIcon === 'svg' && (
+        {icon && aside.menuIcon === 'svg' && (
           <span className='menu-icon'>
-            <KTSVG path={icon} className='svg-icon-2' />
+            {isActive ? <KTSVG path={activeIcon} /> : <KTSVG path={icon} />}
           </span>
-        )} */}
-        {fontIcon && <i className={clsx('fa fs-3 me-5', fontIcon)}></i>}
+        )}
+        {/* {fontIcon && <i className={clsx('fa fs-3 me-5', fontIcon)}></i>} */}
         <span className='menu-title'>{title}</span>
       </Link>
       {children}
