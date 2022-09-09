@@ -25,11 +25,7 @@ const initialValues = {
   password: 'demo',
 }
 
-/*
-  Formik+YUP+Typescript:
-  https://jaredpalmer.com/formik/docs/tutorial#getfieldprops
-  https://medium.com/@maurice.de.beijer/yup-validation-and-typescript-and-formik-6c342578a20e
-*/
+
 
 export function Login() {
   const [loading, setLoading] = useState(false)
@@ -63,30 +59,12 @@ export function Login() {
         noValidate
         id='kt_login_signin_form'
       >
-        {/* begin::Heading */}
         <div className='text-center mb-10'>
           <h1 className='text-dark mb-3'>Welcome</h1>
           <h6 className='text-dark mb-3'>Please Login to Admin Dashboard</h6>
         </div>
 
-        {/* begin::Heading */}
-
-        {/* {formik.status ? (
-        <div className='mb-lg-15 alert alert-danger'>
-          <div className='alert-text font-weight-bold'>{formik.status}</div>
-        </div>
-      ) : (
-        <div className='mb-10 bg-light-info p-8 rounded'>
-          <div className='text-info'>
-            Use account <strong>admin@demo.com</strong> and password <strong>demo</strong> to
-            continue.
-          </div>
-        </div>
-      )} */}
-
-        {/* begin::Form group */}
         <div className='fv-row mb-12'>
-          {/* <label className='form-label fs-6 fw-bolder text-dark'>Email</label> */}
           <input
             placeholder='Enter username or email'
             {...formik.getFieldProps('email')}
@@ -107,17 +85,8 @@ export function Login() {
             </div>
           )}
         </div>
-        {/* end::Form group */}
-
-        {/* begin::Form group */}
         <div className='fv-row mb-4'>
-          <div className='d-flex justify-content-between mt-n5'>
-            {/* <div className='d-flex flex-stack mb-2'> */}
-            {/* begin::Label */}
-            {/* <label className='form-label fw-bolder text-dark fs-6 mb-0'>Password</label> */}
-            {/* end::Label */}
-            {/* </div> */}
-          </div>
+          <div className='d-flex justify-content-between mt-n5'></div>
           <input
             type='password'
             autoComplete='off'
@@ -141,14 +110,9 @@ export function Login() {
             </div>
           )}
         </div>
-        {/* begin::Link */}
         <Link to='/auth/forgot-password' className='text-muted fs-6' style={{marginLeft: '5px'}}>
           Forgot Password ?
         </Link>
-        {/* end::Link */}
-        {/* end::Form group */}
-
-        {/* begin::Action */}
         <div className='text-center mt-10'>
           <button
             type='submit'
@@ -164,45 +128,7 @@ export function Login() {
               </span>
             )}
           </button>
-
-          {/* begin::Separator */}
-          {/* <div className='text-center text-muted text-uppercase fw-bolder mb-5'>or</div> */}
-          {/* end::Separator */}
-
-          {/* begin::Google link */}
-          {/* <a href='#' className='btn btn-flex flex-center btn-light btn-lg w-100 mb-5'>
-          <img
-            alt='Logo'
-            src={toAbsoluteUrl('/media/svg/brand-logos/google-icon.svg')}
-            className='h-20px me-3'
-          />
-          Continue with Google
-        </a> */}
-          {/* end::Google link */}
-
-          {/* begin::Google link */}
-          {/* <a href='#' className='btn btn-flex flex-center btn-light btn-lg w-100 mb-5'>
-          <img
-            alt='Logo'
-            src={toAbsoluteUrl('/media/svg/brand-logos/facebook-4.svg')}
-            className='h-20px me-3'
-          />
-          Continue with Facebook
-        </a> */}
-          {/* end::Google link */}
-
-          {/* begin::Google link */}
-          {/* <a href='#' className='btn btn-flex flex-center btn-light btn-lg w-100'>
-          <img
-            alt='Logo'
-            src={toAbsoluteUrl('/media/svg/brand-logos/apple-black.svg')}
-            className='h-20px me-3'
-          />
-          Continue with Apple
-        </a> */}
-          {/* end::Google link */}
         </div>
-        {/* end::Action */}
       </form>
     </div>
   )

@@ -1,12 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Button, Form} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 import PaginationWrappper from '../../../../_metronic/layout/components/pagination/PaginationWrapper'
 import ContentEditable from 'react-contenteditable'
-
+import {useQuery} from 'react-query'
 import './QuestionnaireTable.scss'
 import {KTSVG} from '../../../../_metronic/helpers'
+import {getRequest, postRequest} from '../../auth/core/_requests'
+import Loader from '../../../shared/Loader'
+import {useAppSelector} from '../../../redux/hooks/hooks'
+
 type Props = {
   className?: string
 }
@@ -34,18 +38,6 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
   //   },
   // ]
 
-  const data = [
-    {
-      id: 1,
-      title: 'Beetlejuice',
-      year: '1988',
-    },
-    {
-      id: 2,
-      title: 'Ghostbusters',
-      year: '1984',
-    },
-  ]
   const dummyData = [
     {
       id: 1,
@@ -143,16 +135,36 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
 
   const [posts, setPosts] = useState(dummyData)
   const [currentPage, setCurrentPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingEdit, setIsLoadingEdit] = useState(false)
   const [postsPerPage, setPostsPerPage] = useState(5)
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
   const currrentQuestionnaireList = posts.slice(indexOfFirstPost, indexOfLastPost)
+  const {searchKey} = useAppSelector((state) => state.searchReducer)
+
+  useEffect(() => {
+    setIsLoading(true)
+    getRequest()
+      .then((resp) => {
+        setIsLoading(false)
+      })
+      .catch(() => {})
+  }, [searchKey])
+
+  const editQuestion = () => {
+    setIsLoadingEdit(true)
+    postRequest({}).then((resp) => {
+      setIsLoadingEdit(false)
+      setSelectedItem(0)
+    })
+  }
 
   return (
     <div className='questionnaire-table'>
       <div className='d-flex flex-wrap flex-stack'>
         <h1 className='mb-0'>Questionnaire</h1>
-        {
+        {!addNewQuestionnaire && (
           <div className='d-flex flex-wrap my-2'>
             <Link
               to=''
@@ -163,7 +175,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
               Add
             </Link>
           </div>
-        }
+        )}
       </div>
       <hr className='my-3' />
 
@@ -219,7 +231,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                     <Button className='edit-questionnaire' variant='' onClick={() => {}}>
                       <KTSVG className='add-btn' path='/media/icons/add_questionnaire.svg' />
                     </Button>
-                    <Button variant=''>
+                    <Button variant='' onClick={() => setAddNewQuestionnaire(false)}>
                       <KTSVG className='svg-icon-2 mr-0' path='/media/icons/delete.svg' />
                     </Button>
                   </div>
@@ -232,64 +244,47 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
         </div>
       )}
 
-      <div className='card-body py-3'>
-        <div className='table-responsive'>
-          <table className='table campaign-table table-row-dashed table-row-gray-300 align-middle gs-0'>
-            <thead className='bg-dark rounded'>
-              <tr className='fw-bold text-muted'>
-                <th className='min-w-50px text-center'>SR NO.</th>
-                <th className='min-w-100px'>QUESTION</th>
-                <th className='min-w-120px'>OPTION 1.</th>
-                <th className='min-w-100px'>OPTION 2.</th>
-                <th className='min-w-100px'>DIFFICULTY LEVEL</th>
-                <th className='w-100px text-center'>ACTION</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currrentQuestionnaireList.map((item, i) => {
-                return (
-                  <tr key={i}>
-                    <td className='p-1 pl-5 text-center'>
-                      <div>{item.id}</div>
-                    </td>
-                    <td>
-                      {item.id === selectedItem ? (
-                        <ContentEditable
-                          className='form-control'
-                          html={item.question}
-                          contentEditable={item.id === selectedItem}
-                          onChange={() => {}}
-                        />
-                      ) : (
-                        item.question
-                      )}
-                    </td>
-                    <td>
-                      {item.id === selectedItem ? (
-                        <div className='d-flex align-items-center'>
+      <div className='questionnaire-table-div py-3'>
+        {isLoading ? (
+          <Loader size='1rem' className='center' />
+        ) : (
+          <div className='table-responsive'>
+            <table className='table campaign-table table-row-dashed table-row-gray-300 align-middle gs-0'>
+              <thead className='bg-dark rounded'>
+                <tr className='fw-bold text-muted'>
+                  <th className='min-w-50px text-center'>SR NO.</th>
+                  <th className='min-w-100px'>QUESTION</th>
+                  <th className='min-w-120px'>OPTION 1.</th>
+                  <th className='min-w-100px'>OPTION 2.</th>
+                  <th className='min-w-100px'>DIFFICULTY LEVEL</th>
+                  <th className='w-100px text-center'>ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currrentQuestionnaireList.map((item, i) => {
+                  return (
+                    <tr key={i}>
+                      <td className='p-1 pl-5 text-center'>
+                        <div>{item.id}</div>
+                      </td>
+                      <td>
+                        {item.id === selectedItem ? (
                           <ContentEditable
                             className='form-control'
-                            html={item.option1}
-                            disabled={false}
+                            html={item.question}
+                            contentEditable={item.id === selectedItem}
                             onChange={() => {}}
                           />
-                          <Form.Check
-                            className='text-center my-auto mx-4 mt-4 '
-                            name='group1'
-                            type='radio'
-                          />
-                        </div>
-                      ) : (
-                        item.option1
-                      )}
-                    </td>
-                    <td>
-                      <div className='d-flex align-items-center'>
+                        ) : (
+                          item.question
+                        )}
+                      </td>
+                      <td>
                         {item.id === selectedItem ? (
                           <div className='d-flex align-items-center'>
                             <ContentEditable
                               className='form-control'
-                              html={item.option2}
+                              html={item.option1}
                               disabled={false}
                               onChange={() => {}}
                             />
@@ -300,75 +295,107 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                             />
                           </div>
                         ) : (
-                          item.option2
+                          item.option1
                         )}
-                      </div>
-                    </td>
-                    <td>
-                      {item.id === selectedItem ? (
-                        <Form.Select aria-label='Default select example'>
-                          <option value='difficult'>Difficult</option>
-                          <option value='medium'>Medium</option>
-                          <option value='easy'>Easy</option>
-                        </Form.Select>
-                      ) : (
-                        item.difficultyLevel
-                      )}
-                    </td>
-
-                    <td>
-                      <div className='d-flex action-btns justify-content-evenly'>
+                      </td>
+                      <td>
+                        <div className='d-flex align-items-center'>
+                          {item.id === selectedItem ? (
+                            <div className='d-flex align-items-center'>
+                              <ContentEditable
+                                className='form-control'
+                                html={item.option2}
+                                disabled={false}
+                                onChange={() => {}}
+                              />
+                              <Form.Check
+                                className='text-center my-auto mx-4 mt-4 '
+                                name='group1'
+                                type='radio'
+                              />
+                            </div>
+                          ) : (
+                            item.option2
+                          )}
+                        </div>
+                      </td>
+                      <td>
                         {item.id === selectedItem ? (
-                          <>
-                            <Button
-                              variant='edit-questionnaire'
-                              onClick={() => {
-                                setSelectedItem(item.id)
-                              }}
-                            >
-                              <KTSVG className='svg-icon-2 mr-0' path='/media/icons/check.svg' />
-                            </Button>
-                            <Button
-                              variant=''
-                              onClick={() => {
-                                setSelectedItem(item.id)
-                              }}
-                            >
-                              <KTSVG className='svg-icon-sm mr-0' path='/media/icons/cancel.svg' />
-                            </Button>
-                          </>
+                          <Form.Select aria-label='Default select example'>
+                            <option value='difficult'>Difficult</option>
+                            <option value='medium'>Medium</option>
+                            <option value='easy'>Easy</option>
+                          </Form.Select>
                         ) : (
-                          <>
-                            <Button
-                              variant=' edit-questionnaire'
-                              onClick={() => {
-                                setSelectedItem(item.id)
-                              }}
-                            >
-                              <KTSVG className='svg-icon-2 mr-0' path='/media/icons/edit.svg' />
-                            </Button>
-                            <Button variant=''>
-                              <KTSVG className='svg-icon-2 mr-0' path='/media/icons/delete.svg' />
-                            </Button>
-                          </>
+                          item.difficultyLevel
                         )}
-                      </div>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-          <PaginationWrappper
-            postsPerPage={5}
-            totalPosts={posts.length}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            data={posts}
-            indexOfLastPost={indexOfLastPost}
-            indexOfFirstPost={indexOfFirstPost}
-          />
-        </div>
+                      </td>
+
+                      <td>
+                        <div className='d-flex action-btns justify-content-evenly'>
+                          {item.id === selectedItem ? (
+                            <>
+                              <Button
+                                variant='edit-questionnaire'
+                                onClick={() => {
+                                  editQuestion()
+                                }}
+                              >
+                                {isLoadingEdit && (
+                                  <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                                )}
+                                {selectedItem && !isLoadingEdit && (
+                                  <KTSVG
+                                    className='svg-icon-2 mr-0'
+                                    path='/media/icons/check.svg'
+                                  />
+                                )}
+                              </Button>
+                              <Button
+                                variant=''
+                                onClick={() => {
+                                  setSelectedItem(0)
+                                }}
+                              >
+                                <KTSVG
+                                  className='svg-icon-sm mr-0'
+                                  path='/media/icons/cancel.svg'
+                                />
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button
+                                variant=' edit-questionnaire'
+                                onClick={() => {
+                                  setSelectedItem(item.id)
+                                }}
+                              >
+                                <KTSVG className='svg-icon-2 mr-0' path='/media/icons/edit.svg' />
+                              </Button>
+                              <Button variant='' onClick={() => {}}>
+                                <KTSVG className='svg-icon-2 mr-0' path='/media/icons/delete.svg' />
+                              </Button>
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+            <PaginationWrappper
+              postsPerPage={5}
+              totalPosts={posts.length}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              data={posts}
+              indexOfLastPost={indexOfLastPost}
+              indexOfFirstPost={indexOfFirstPost}
+            />
+          </div>
+        )}
       </div>
     </div>
   )

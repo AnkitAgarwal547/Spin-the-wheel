@@ -42,4 +42,17 @@ th:last-of-type {
     border: 1px solid !important;
     padding: 5px 10px !important;
   }
+
+  .campaign-table-outer {
+    min-height: 350px;
+    position: relative;
+  }
+}
+
+
+.center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
 }

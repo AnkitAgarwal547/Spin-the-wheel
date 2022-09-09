@@ -1,3 +1,25 @@
+.campaign-details-wrapper {
+    min-height: 500px;
+    position: relative;
+
+    .campaign-details-sub-header {
+        width: fit-content;
+        border-color: #000 !important;
+        border-radius: 5px;
+        text-align: center;
+
+        .value {
+            font-size: 22px;
+            font-weight: 500;
+        }
+
+        .label {
+            margin-bottom: 5px;
+        }
+
+    }
+}
+
 .campaign-details-table {
 
     td {
@@ -11,24 +33,9 @@
 
 
 
-}
-
-.campaign-details-sub-header {
-    width: fit-content;
-    border-color: #000 !important;
-    border-radius: 5px;
-    text-align: center;
-
-    .value {
-        font-size: 22px;
-        font-weight: 500;
-    }
-
-    .label {
-        margin-bottom: 5px;
-    }
 
 }
+
 
 
 .rdt_TableCol:first-child {

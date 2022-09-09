@@ -1,8 +1,8 @@
-import React, {useEffect, useMemo, useState} from 'react'
+import React, {useCallback, useEffect, useMemo, useState} from 'react'
 import {TRIGGER_SEARCH_KEYWORD} from '../../../../../../app/redux/actions/actionTypes'
 import {useAppDispatch, useAppSelector} from '../../../../../../app/redux/hooks/hooks'
 import './Search.scss'
-import debouce from 'lodash.debounce'
+import debounce from 'lodash.debounce'
 import {KTSVG, toAbsoluteUrl} from '../../../../../helpers'
 
 export default function Search() {
@@ -12,28 +12,18 @@ export default function Search() {
   const dispatch = useAppDispatch()
   const handleChange = (e) => {
     setSearchTerm(e.target.value)
-    if (e.currentTarget.value) {
+  }
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
       dispatch({
         type: TRIGGER_SEARCH_KEYWORD,
         searchKey: searchTerm,
       })
-    } else {
-      dispatch({
-        type: TRIGGER_SEARCH_KEYWORD,
-        searchKey: '',
-      })
-    }
-  }
+    }, 400)
 
-  const debouncedResults = useMemo(() => {
-    return debouce(handleChange, 300)
-  }, [])
-
-  useEffect(() => {
-    return () => {
-      debouncedResults.cancel()
-    }
-  })
+    return () => clearTimeout(delayDebounceFn)
+  }, [searchTerm])
 
   return (
     <div className='search-input'>
@@ -49,19 +39,6 @@ export default function Search() {
           onChange={handleChange}
         />
       </div>
-      {/* <div className='input-group rounded-pill input-group-sm'>
-        <span className='input-group-prepend'>
-          <KTSVG path='/media/icons/search.svg' />
-        </span>
-        <input
-          className='form-control rounded-pill'
-          placeholder='Search here'
-          type='search'
-          id='example-search-input'
-          value={searchTerm}
-          onChange={handleChange}
-        />
-      </div> */}
     </div>
   )
 }

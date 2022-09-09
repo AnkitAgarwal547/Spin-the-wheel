@@ -1,14 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useCallback, useEffect, useMemo, useState} from 'react'
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import PaginationWrappper from '../../../../_metronic/layout/components/pagination/PaginationWrapper'
 import {useAppSelector} from '../../../redux/hooks/hooks'
 
-type Props = {}
+type Props = {
+  data?: []
+  ref?: any
+}
 
-const CampaignDetailsTable: React.FC<Props> = () => {
+const CampaignDetailsTable: React.FC<Props> = ({data, ref}) => {
   const {searchKey} = useAppSelector((state) => state.searchReducer)
-  console.log('🚀 ~ file: CampaignDetailsTable.tsx ~ line 13 ~ searchKey', searchKey)
-
   const dummyData = [
     {
       id: 1,
@@ -188,7 +189,10 @@ const CampaignDetailsTable: React.FC<Props> = () => {
     <div className='campaign-details-table'>
       <div className='card-body py-3'>
         <div className='table-responsive'>
-          <table className='table campaign-table table-row-dashed table-row-gray-300 align-middle gs-0'>
+          <table
+            className='table campaign-table table-row-dashed table-row-gray-300 align-middle gs-0'
+            ref={ref}
+          >
             <thead className='bg-dark rounded'>
               <tr className='fw-bold text-muted'>
                 <th className='min-w-100px text-center'> QUESTION ID</th>

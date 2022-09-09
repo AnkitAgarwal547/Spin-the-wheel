@@ -1,10 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useState} from 'react'
+import axios from 'axios'
+import React, {useEffect, useRef, useState} from 'react'
+import {useQuery} from 'react-query'
+import {DownloadTableExcel} from 'react-export-table-to-excel'
 import {useNavigate, useMatch, generatePath} from 'react-router'
 import {Link} from 'react-router-dom'
 import {KTSVG, toAbsoluteUrl} from '../../../_metronic/helpers'
 import PaginationWrappper from '../../../_metronic/layout/components/pagination/PaginationWrapper'
 import {useAppSelector} from '../../redux/hooks/hooks'
+import Loader from '../../shared/Loader'
+import {getRequest} from '../auth/core/_requests'
 import './CompaignTable.scss'
 
 type Props = {
@@ -13,9 +18,6 @@ type Props = {
 }
 
 const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
-  const {searchKey} = useAppSelector((state) => state.searchReducer)
-  console.log('🚀 ~ file: CampaignTable.tsx ~ line 17 ~ searchKey', searchKey)
-
   const dummyData = [
     {
       id: 1,
@@ -129,6 +131,24 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
       totalAttempts: 10,
     },
   ]
+  const {searchKey} = useAppSelector((state) => state.searchReducer)
+  const [posts, setPosts] = useState(dummyData)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [postsPerPage, setPostsPerPage] = useState(5)
+  const indexOfLastPost = currentPage * postsPerPage
+  const indexOfFirstPost = indexOfLastPost - postsPerPage
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost)
+  const tableRef = useRef(null)
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    setIsLoading(true)
+    getRequest()
+      .then((resp) => {
+        setIsLoading(false)
+      })
+      .catch(() => {})
+  }, [searchKey])
 
   const columns = [
     {
@@ -222,12 +242,6 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
     },
   ]
 
-  const [posts, setPosts] = useState(dummyData)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [postsPerPage, setPostsPerPage] = useState(5)
-  const indexOfLastPost = currentPage * postsPerPage
-  const indexOfFirstPost = indexOfLastPost - postsPerPage
-  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost)
   return (
     <div className={`campaign-table-wrapper ${className}`}>
       <div className='d-flex flex-wrap flex-stack mb-6'>
@@ -235,14 +249,13 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
         {showButtons && (
           <div className='d-flex flex-wrap my-2'>
             <div className='me-4'>
-              <a
-                href='#'
-                className='btn btn-outline-dark btn-sm rounded-pill'
-                data-bs-toggle='modal'
-                data-bs-target='#kt_modal_create_project'
+              <DownloadTableExcel
+                filename='users table'
+                sheet='users'
+                currentTableRef={tableRef.current}
               >
-                Export
-              </a>
+                <button className='btn btn-outline-dark btn-sm rounded-pill'>Export</button>
+              </DownloadTableExcel>
             </div>
 
             <Link to='/new-campaign' className='btn btn-dark btn-sm rounded-pill'>
@@ -253,69 +266,76 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
         )}
       </div>
 
-      <div className='card-body py-3'>
-        <div className='table-responsive'>
-          <table className='table campaign-table table-row-dashed table-row-gray-300 align-middle gs-0'>
-            <thead className='bg-dark rounded'>
-              <tr className='fw-bold text-muted'>
-                <th className='min-w-100px text-center'>SR NO.</th>
-                <th className='min-w-100px'>COMPANY NAME</th>
-                <th className='min-w-120px text-center'>COMPAIGN TITLE</th>
-                <th className='min-w-100px text-center'>TYPE</th>
-                <th className='max-w-100px text-center'>URL</th>
-                <th className='min-w-100px text-center'>OR CODE</th>
-                <th className='min-w-100px text-center'>USER CLICKS</th>
-                <th className='min-w-100px text-center'>TOTAL ATTEMPTS</th>
-                <th className='min-w-150px text-center'>ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentPosts.map((item, i) => {
-                return (
-                  <tr key={i}>
-                    <td className='text-center'>{item.id}</td>
-                    <td className='text-start'>{item.companyName}</td>
-                    <td className='text-center'>{item.companyDetails}</td>
-                    <td>{item.type}</td>
-                    <td>
-                      <a className='text-truncate text-dark' href={item.url}>
-                        {item.url}
-                      </a>
-                    </td>
-                    <td className='text-center'>
-                      <img alt='Logo' src={item.qrCode} className='h-50px me-3' />
-                    </td>
-                    <td className='text-center'>{item.userClicks}</td>
-                    <td className='text-center'>{item.totalAttempts}</td>
-                    <td>
-                      <div className='d-flex action-btns justify-content-evenly'>
-                        <Link
-                          to={`/edit-campaign/${item.id}`}
-                          className='btn btn-sm btn-outline-dark mr-2'
-                        >
-                          Edit
-                        </Link>
+      <div className='py-3 campaign-table-outer'>
+        {isLoading ? (
+          <Loader size='1rem' />
+        ) : (
+          <div className='table-responsive'>
+            <table
+              className='table campaign-table table-row-dashed table-row-gray-300 align-middle gs-0'
+              ref={tableRef}
+            >
+              <thead className='bg-dark rounded'>
+                <tr className='fw-bold text-muted'>
+                  <th className='min-w-100px text-center'>SR NO.</th>
+                  <th className='min-w-100px'>COMPANY NAME</th>
+                  <th className='min-w-120px text-center'>COMPAIGN TITLE</th>
+                  <th className='min-w-100px text-center'>TYPE</th>
+                  <th className='max-w-100px text-center'>URL</th>
+                  <th className='min-w-100px text-center'>OR CODE</th>
+                  <th className='min-w-100px text-center'>USER CLICKS</th>
+                  <th className='min-w-100px text-center'>TOTAL ATTEMPTS</th>
+                  <th className='min-w-150px text-center'>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentPosts.map((item, i) => {
+                  return (
+                    <tr key={i}>
+                      <td className='text-center'>{item.id}</td>
+                      <td className='text-start'>{item.companyName}</td>
+                      <td className='text-center'>{item.companyDetails}</td>
+                      <td>{item.type}</td>
+                      <td>
+                        <a className='text-truncate text-dark' href={item.url}>
+                          {item.url}
+                        </a>
+                      </td>
+                      <td className='text-center'>
+                        <img alt='Logo' src={item.qrCode} className='h-50px me-3' />
+                      </td>
+                      <td className='text-center'>{item.userClicks}</td>
+                      <td className='text-center'>{item.totalAttempts}</td>
+                      <td>
+                        <div className='d-flex action-btns justify-content-evenly'>
+                          <Link
+                            to={`/edit-campaign/${item.id}`}
+                            className='btn btn-sm btn-outline-dark mr-2'
+                          >
+                            Edit
+                          </Link>
 
-                        <Link to={`/campaign-details/${item.id}`} className='btn btn-sm btn-dark'>
-                          View
-                        </Link>
-                      </div>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-          <PaginationWrappper
-            postsPerPage={5}
-            totalPosts={posts.length}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            data={posts}
-            indexOfLastPost={indexOfLastPost}
-            indexOfFirstPost={indexOfFirstPost}
-          />
-        </div>
+                          <Link to={`/campaign-details/${item.id}`} className='btn btn-sm btn-dark'>
+                            View
+                          </Link>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+            <PaginationWrappper
+              postsPerPage={5}
+              totalPosts={posts.length}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              data={posts}
+              indexOfLastPost={indexOfLastPost}
+              indexOfFirstPost={indexOfFirstPost}
+            />
+          </div>
+        )}
       </div>
     </div>
   )

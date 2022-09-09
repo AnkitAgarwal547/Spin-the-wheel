@@ -10,6 +10,8 @@ import './NewCampaign.scss'
 import {yupResolver} from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import {toAbsoluteUrl} from '../../../../_metronic/helpers'
+import {postRequest} from '../../../modules/auth/core/_requests'
+import {useQuery} from 'react-query'
 
 type Props = {}
 
@@ -20,6 +22,8 @@ const NewCampaign: React.FC<Props> = () => {
     watch,
     formState: {errors},
   } = useForm()
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const formFields = {
     TYPE: 'type',
@@ -68,8 +72,13 @@ const NewCampaign: React.FC<Props> = () => {
     details: null,
     path: '',
   })
+
   const onSubmit = (data) => {
     console.log('data', data)
+    setIsLoading(true)
+    postRequest(data).then((resp) => {
+      setIsLoading(false)
+    })
   }
 
   return (
@@ -210,28 +219,24 @@ const NewCampaign: React.FC<Props> = () => {
                       <p>Show box</p>
                     )}
                     <Button size='sm' variant='light' className='my-5 claim-prize-btn'>
-                      Claim your Prize
+                      Next
                     </Button>
+                    {banner1.path && (
+                      <img width='100%' height='100%' className='banner-img' src={banner1.path} />
+                    )}
 
-                    <div className='card mb-5 p-0'>
-                      <div className='card-body p-0'>
-                        {banner1.path ? (
-                          <img width='100%' height='100%' src={banner1.path} />
-                        ) : (
-                          'Banner 1.'
-                        )}
+                    {banner2.path && (
+                      <div className='card mb-5 p-0'>
+                        <div className='card-body p-0'>
+                          <img
+                            width='100%'
+                            height='100%'
+                            className='banner-img'
+                            src={banner2.path}
+                          />
+                        </div>
                       </div>
-                    </div>
-
-                    <div className='card mb-5 p-0'>
-                      <div className='card-body p-0'>
-                        {banner1.path ? (
-                          <img width='100%' height='100%' src={banner2.path} />
-                        ) : (
-                          'Banner 2.'
-                        )}
-                      </div>
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -481,9 +486,14 @@ const NewCampaign: React.FC<Props> = () => {
                 Cancel
               </Button>{' '}
             </div>
-            <div className='col-xxl-1 col-xl-1 col-lg-2 col-md-2 col-3'>
-              <Button variant='dark' type='submit' size='sm'>
-                Create
+            <div className='col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-3'>
+              <Button variant='dark' type='submit' size='sm' disabled={isLoading}>
+                <span className='indicator-progress' style={{display: 'block'}}>
+                  Create
+                  {isLoading && (
+                    <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                  )}
+                </span>
               </Button>
             </div>
           </div>

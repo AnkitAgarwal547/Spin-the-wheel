@@ -38,14 +38,13 @@ export default function PaginationWrappper(props: any) {
         disabled={currentPage === pageNumbers.length - 1 || pageNumbers.length === 1}
       />
       {pageNumbers.map((number) => (
-        <li className='page-item' key={number}>
-          <Pagination.Item
-            className={'paget-item ' + (currentPage === number ? 'active' : 'hidden')}
-            onClick={() => paginate(number)}
-          >
-            {number}
-          </Pagination.Item>
-        </li>
+        <Pagination.Item
+          key={number}
+          className={'paget-item ' + (currentPage === number ? 'active' : 'hidden')}
+          onClick={() => paginate(number)}
+        >
+          {number}
+        </Pagination.Item>
       ))}
 
       <Pagination.Next
