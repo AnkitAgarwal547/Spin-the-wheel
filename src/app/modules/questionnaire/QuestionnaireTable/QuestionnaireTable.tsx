@@ -173,12 +173,12 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
           <table className='table campaign-table table-row-dashed table-row-gray-300 align-middle gs-0 mb-0'>
             {/* begin::Table head */}
             <thead className=''>
-              <tr className='fw-bold text-dark'>
+              <tr className='fw-bold text-dark add-question-tr'>
                 <th className='min-w-100px'>QUESTION</th>
                 <th className='min-w-120px'>OPTION 1.</th>
                 <th className='min-w-100px'>OPTION 2.</th>
-                <th className='max-w-100px'>DIFFICULTY LEVEL</th>
-                <th className='min-w-100px text-center'>ACTION</th>
+                <th className='min-w-200px'>DIFFICULTY LEVEL</th>
+                <th className='w-100px text-center'>ACTION</th>
               </tr>
             </thead>
             {/* end::Table head */}
@@ -193,11 +193,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                     <div className='d-flex align-items-center'>
                       <input type='text' className='form-control' />
 
-                      <Form.Check
-                        className='text-center my-auto mx-4 mt-4 '
-                        name='group1'
-                        type='radio'
-                      />
+                      <input className='text-center my-auto mx-4' name='group1' type='radio' />
                     </div>
                   </div>
                 </td>
@@ -206,11 +202,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                     <div className='d-flex align-items-center'>
                       <input type='text' className='form-control' />
 
-                      <Form.Check
-                        className='text-center my-auto mx-4 mt-4 '
-                        name='group1'
-                        type='radio'
-                      />
+                      <input className='text-center my-auto mx-4' name='group1' type='radio' />
                     </div>
                   </div>
                 </td>
@@ -224,11 +216,11 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
 
                 <td>
                   <div className='d-flex action-btns justify-content-evenly'>
-                    <Button variant='outline-dark' onClick={() => {}}>
-                      <i className='bi bi-plus-lg pe-0'></i>
+                    <Button className='edit-questionnaire' variant='' onClick={() => {}}>
+                      <KTSVG className='add-btn' path='/media/icons/add_questionnaire.svg' />
                     </Button>
-                    <Button variant='danger' onClick={() => {}}>
-                      <i className='bi bi-trash3  pe-0'></i>
+                    <Button variant=''>
+                      <KTSVG className='svg-icon-2 mr-0' path='/media/icons/delete.svg' />
                     </Button>
                   </div>
                 </td>
@@ -249,7 +241,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                 <th className='min-w-100px'>QUESTION</th>
                 <th className='min-w-120px'>OPTION 1.</th>
                 <th className='min-w-100px'>OPTION 2.</th>
-                <th className='max-w-100px'>DIFFICULTY LEVEL</th>
+                <th className='min-w-100px'>DIFFICULTY LEVEL</th>
                 <th className='w-100px text-center'>ACTION</th>
               </tr>
             </thead>
@@ -328,16 +320,16 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                       <div className='d-flex action-btns justify-content-evenly'>
                         {item.id === selectedItem ? (
                           <>
-                            {/* <Button
-                              variant='outline-dark'
+                            <Button
+                              variant='edit-questionnaire'
                               onClick={() => {
                                 setSelectedItem(item.id)
                               }}
-                            > */}
-                            <KTSVG className='svg-icon-sm mr-0' path='/media/icons/check.svg' />
-                            {/* </Button> */}
+                            >
+                              <KTSVG className='svg-icon-2 mr-0' path='/media/icons/check.svg' />
+                            </Button>
                             <Button
-                              variant='danger'
+                              variant=''
                               onClick={() => {
                                 setSelectedItem(item.id)
                               }}

@@ -13,42 +13,47 @@ export function AsideMenuMain() {
     <>
       <AsideMenuItem
         to='/dashboard'
-        icon='/media/icons/dashboard/white_dashboard.svg'
+        icon='/media/icons/white_dashboard.png'
         title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
         fontIcon='fa-home'
-        activeIcon='/media/icons/dashboard/black_dashboard.svg'
+        activeIcon='/media/icons/black_dashboard.png'
+        className='svg-icon-2'
       />
 
       <AsideMenuItem
         to='/campaigns'
-        activeIcon='/media/icons/campaign/black_campaigns.svg'
+        activeIcon='/media/icons/black_campaign.png'
         title='Campaign'
         fontIcon='fa-bullhorn'
-        icon='/media/icons/campaign/white_campaigns.svg'
+        icon='/media/icons/white_campaign.png'
+        className='svg-icon-2'
       />
 
       <AsideMenuItem
         to='questionnaire'
-        icon='/media/icons/questionnaire/white_questionnaire.svg'
+        icon='/media/icons/white_questionnaire.png'
         title='Questionnaire'
         fontIcon='fa-file'
-        activeIcon='/media/icons/questionnaire/black_questionnaire.svg'
+        activeIcon='/media/icons/black_questionnaire.png'
+        className='svg-icon-2'
       />
       <AsideMenuItem
         to='/change-password'
-        activeIcon='/media/icons/setting/black_settings.svg'
+        activeIcon='/media/icons/black_settings.png'
         title='Settings'
         fontIcon='fa-cog'
-        icon='/media/icons/setting/white_settings.svg'
+        icon='/media/icons/white_setting.png'
+        className='svg-icon-2'
       />
 
       <AsideMenuItem
-        icon='/media/icons/logout/white_logout.svg'
+        icon='/media/icons/white_logout.png'
         to=''
         title='Sign Out'
         fontIcon='bi-box-arrow-right'
         request={logout}
-        activeIcon='/media/icons/setting/black_logout.svg'
+        activeIcon='/media/icons/black_logout.png'
+        className='svg-icon-2'
       />
     </>
   )

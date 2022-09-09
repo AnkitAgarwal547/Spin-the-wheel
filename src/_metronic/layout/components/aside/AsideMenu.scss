@@ -1,22 +1,5 @@
 #kt_aside {
-    .svg-icon svg {
-        height: 20px;
-        width: 20px;
-        fill: #f5f8fa;
 
-
-    }
-
-    // .active {
-    //     .svg-icon svg {
-    //         fill: #1e1e2d;
-    //     }
-
-    //     path {
-    //         fill: #1e1e2d;
-
-    //     }
-    // }
 
     .menu {
         margin-top: 10px;
@@ -80,27 +63,9 @@
         width: 2.5rem;
     }
 
-    // .menu-item:hover .active::after {
-    //     background-color: transparent;
-    // }
-
-    // .menu-item:hover .active::before {
-    //     background-color: transparent;
-    // }
-
-    // .menu-item:hover {
-    //     background-color: gray;
-
-    //     .menu-title {
-    //         color: #1e1e2d;
-    //     }
-
-
-
-    //     .menu-link {
-    //         background-color: gray;
-    //     }
-    // }
+    .menu-title {
+        color: #f5f8fa;
+    }
 
 
 }

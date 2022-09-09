@@ -2,7 +2,7 @@ import {FC} from 'react'
 import clsx from 'clsx'
 import {Link} from 'react-router-dom'
 import {useLocation} from 'react-router'
-import {checkIsActive, KTSVG, WithChildren} from '../../../helpers'
+import {checkIsActive, KTSVG, toAbsoluteUrl, WithChildren} from '../../../helpers'
 import {useLayout} from '../../core'
 
 type Props = {
@@ -13,6 +13,7 @@ type Props = {
   hasBullet?: boolean
   request?: any
   activeIcon?: any
+  className?: string
 }
 
 const AsideMenuItem: FC<Props & WithChildren> = ({
@@ -24,6 +25,7 @@ const AsideMenuItem: FC<Props & WithChildren> = ({
   hasBullet = false,
   request,
   activeIcon,
+  className,
 }) => {
   const {pathname} = useLocation()
   const isActive = checkIsActive(pathname, to)
@@ -49,11 +51,17 @@ const AsideMenuItem: FC<Props & WithChildren> = ({
         )}
         {icon && aside.menuIcon === 'svg' && (
           <span className='menu-icon'>
-            {isActive ? <KTSVG path={activeIcon} /> : <KTSVG path={icon} />}
+            {isActive ? (
+              // <KTSVG path={activeIcon} className={className} />
+              <img src={toAbsoluteUrl(activeIcon)} height='20px' alt={title} />
+            ) : (
+              // <KTSVG path={icon} className={className} />
+              <img src={toAbsoluteUrl(icon)} height='20px' alt={title} />
+            )}
           </span>
         )}
         {/* {fontIcon && <i className={clsx('fa fs-3 me-5', fontIcon)}></i>} */}
-        <span className='menu-title'>{title}</span>
+        <span className='menu-title pt-1'>{title}</span>
       </Link>
       {children}
     </div>

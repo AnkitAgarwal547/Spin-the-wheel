@@ -5,7 +5,6 @@ import './FileUpload.scss'
 
 export default function FileUpload({setFileData, fileData}) {
   const inputRef = useRef<HTMLInputElement>(null)
-  var reader = new FileReader()
 
   const handleClick = () => {
     if (inputRef.current) {
@@ -15,15 +14,16 @@ export default function FileUpload({setFileData, fileData}) {
 
   const handleFileChange = (event: any) => {
     const fileObj = event.target.files && event.target.files[0]
-    setFileData(event.target.files[0])
+    setFileData({details: event.target.files[0], path: URL.createObjectURL(event.target.files[0])})
     if (!fileObj) {
       return
     }
+
     event.target.value = null
   }
 
   const removeFile = () => {
-    setFileData(null)
+    setFileData({details: null, path: ''})
   }
 
   return (
@@ -44,7 +44,7 @@ export default function FileUpload({setFileData, fileData}) {
         </Button>
       </div>
 
-      {fileData && (
+      {fileData?.details && (
         <div className='card border py-2 px-0 mt-2'>
           <div className='d-flex justify-content-around align-items-center'>
             <img
@@ -53,7 +53,7 @@ export default function FileUpload({setFileData, fileData}) {
               alt='logo'
             />
             <div className='file-name'>
-              <small>{fileData?.name}</small>
+              <small>{fileData?.details?.name}</small>
             </div>
             <div>
               <i

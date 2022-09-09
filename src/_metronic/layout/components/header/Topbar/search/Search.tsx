@@ -3,7 +3,7 @@ import {TRIGGER_SEARCH_KEYWORD} from '../../../../../../app/redux/actions/action
 import {useAppDispatch, useAppSelector} from '../../../../../../app/redux/hooks/hooks'
 import './Search.scss'
 import debouce from 'lodash.debounce'
-import {KTSVG} from '../../../../../helpers'
+import {KTSVG, toAbsoluteUrl} from '../../../../../helpers'
 
 export default function Search() {
   const {searchKey} = useAppSelector((state) => state.searchReducer)
@@ -37,7 +37,19 @@ export default function Search() {
 
   return (
     <div className='search-input'>
-      <div className='input-group rounded-pill input-group-sm'>
+      <div className='form-group has-search'>
+        <span className='form-control-feedback'>
+          <img src={toAbsoluteUrl('/media/icons/search.png')} height='12px' alt='Search' />
+        </span>
+        <input
+          type='text'
+          className='form-control rounded-pill'
+          placeholder='Search here'
+          value={searchTerm}
+          onChange={handleChange}
+        />
+      </div>
+      {/* <div className='input-group rounded-pill input-group-sm'>
         <span className='input-group-prepend'>
           <KTSVG path='/media/icons/search.svg' />
         </span>
@@ -49,7 +61,7 @@ export default function Search() {
           value={searchTerm}
           onChange={handleChange}
         />
-      </div>
+      </div> */}
     </div>
   )
 }
