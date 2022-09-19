@@ -6,6 +6,7 @@ import {LayoutProvider, LayoutSplashScreen} from '../_metronic/layout/core'
 import {MasterInit} from '../_metronic/layout/MasterInit'
 import {AuthInit} from './modules/auth'
 import {injectStyle} from 'react-toastify/dist/inject-style'
+import 'react-datepicker/dist/react-datepicker.css'
 
 const App = () => {
   injectStyle()

@@ -1,9 +1,9 @@
 :root {
   --wheel-font: 'Lato', 'Quicksand', sans-serif;
-  --wheel-size: 174px;
+  --wheel-size: 200px;
   --wheel-slice-spacing: 50px;
   --wheel-border-size: 3px;
-  --wheel-color: #da3768;
+  --wheel-color: #DD3468;
   --neutral-color: white;
   --PI: 3.14159265358979;
   --nb-item: 0;
@@ -16,44 +16,56 @@
 
 /* Conteneur de la roue = cercle rose extérieur */
 .wheel-container {
-  display: block;
-  position: relative;
-  box-sizing: content-box;
-  width: calc(var(--wheel-size) + 2 * var(--wheel-border-size));
-  height: calc(var(--wheel-size) + 2 * var(--wheel-border-size));
-  padding: 1px;
-  margin: auto;
-  background-color: var(--neutral-color);
-  border: solid var(--wheel-color) 2px;
-  border-radius: 50%;
-  user-select: none;
+    display: block;
+    position: relative;
+    box-sizing: content-box;
+    width: calc(var(--wheel-size) + 2 * var(--wheel-border-size));
+    height: calc(var(--wheel-size) + 2 * var(--wheel-border-size));
+    padding: 3px;
+    margin: auto;
+    background-color: var(--neutral-color);
+    border: solid var(--wheel-color) 2px;
+    border-radius: 50%;
+    user-select: none;
 }
 
 /* Triangle de sélection = 1 rose +  1 blanc */
 .wheel-container::before,
 .wheel-container::after {
-  content: '';
-  display: block;
-  position: absolute;
-  height: 0;
-  width: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-  border: solid transparent 10px;
-  border-left-width: 0;
+content: '';
+    display: block;
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    border: solid transparent 15px;
+    border-left-width: 0;
 }
 
 .wheel-container::before {
-right: -3px;
-    border-right-color: #404040;
+right: -2px;
+    border-right-color:var(--neutral-color);
+
+}
+
+.light{
+  width: 230px;
+    height: 230px;
+    position: absolute;
+    top: -8px;
+    left: -5%;
 }
 
 .wheel-container::after {
-  right: -1px;
-  border-right-color: var(--neutral-color);
-  border: solid transparent 8px;
+    right: -4px;
+    border-right-color: var(--neutral-color);
+}
 
+.wheel-container::before {
+    right: -1px;
+    border-right-color: var(--wheel-color);
 }
 
 /* Roue */
@@ -81,7 +93,7 @@ right: -3px;
 }
 
 /* Centre de la roue = rond blanc au centre */
-.wheel::after {
+.wheel-center {
   display: block;
   position: absolute;
   content: '';
@@ -111,7 +123,7 @@ right: -3px;
   /* texte */
   color: var(--neutral-color);
   text-align: right;
-  padding: 0 30px 0 60px;
+  padding: 0 30px 0 52px;
   font-family: var(--wheel-font);
 }
 
@@ -137,7 +149,7 @@ right: -3px;
     mais globalement ca marche a peu près bien
     TODO: A étudier
   */
-  --slice-max-width: calc(var(--PI) *260px +260px / 2);
+  --slice-max-width: calc(var(--PI) *290px +290px / 2);
   --slice-width: calc((var(--slice-max-width) / var(--nb-item)) - var(--wheel-slice-spacing));
   border: solid transparent calc(var(--slice-width) / 2);
   border-left: solid transparent 0;
@@ -146,9 +158,37 @@ right: -3px;
 }
 
 .wheel-text{
-    transform: translate(-35%,-50%) rotate(90deg);
+    transform: translate(-25%,-50%) rotate(90deg);
     position: absolute;
     text-align: center;
-    width: 80%;
+    width: 78%;
     height: 25px;
 }
+
+
+.cracker{
+  position: absolute;
+  /* display: none; */
+  transform: translate(-50%,-50%);
+  top: 53%;
+  left: 50%;
+}
+
+
+.lamp{
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 50%;
+  width: 45px;
+}
+
+
+.wheel-crackers{
+transform: translate(-100%, -50%);
+    position: absolute;
+  top: 25%;
+  bottom: 10%;
+}
+
+

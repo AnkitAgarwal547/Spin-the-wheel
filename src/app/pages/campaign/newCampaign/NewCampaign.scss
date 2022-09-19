@@ -4,14 +4,27 @@
             #404040 10px,
             #696969 10px,
             #696969 15px);
+    background-size: 100% 100%;
 
-    min-height: 500px;
-    width: 330px;
+    min-height: 570px;
+    max-width: 550px;
+    max-height: fit-content;
+    min-width: 100%;
 
     .logo {
-        height: 50px;
-        width: 50px;
+        height: 35px;
+        width: 35px;
         border-radius: 50%;
+        margin-top: 50px;
+    }
+
+    .type-of-campaign {
+        margin-top: 15px;
+        margin-bottom: 35px;
+        font-family: 'Dancing Script',
+            cursive;
+        font-size: 20px;
+        font-weight: 700;
     }
 
     .card {
@@ -25,11 +38,11 @@
     }
 
     .claim-prize-btn {
-        width: 100%;
+        width: 200px;
         font-size: 11px;
         color: #404040;
         font-weight: bold;
-        border-radius: 10px;
+        border-radius: 20px;
 
     }
 
@@ -70,5 +83,22 @@
 
     .banner-img {
         height: 40px;
+        margin: 20px;
+        background-size: 100% 100%;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
     }
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
 }

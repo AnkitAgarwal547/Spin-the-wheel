@@ -17,3 +17,16 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.file-thumbnail {
+    height: 20px;
+    min-width: 20px;
+    width: 20px;
+    background-size: 100% 100%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+}
+
+.error-border {
+    border-color: #f1416c !important;
+}

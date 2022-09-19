@@ -3,13 +3,24 @@ import React, {useEffect, useState} from 'react'
 import {Button, Form} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 import PaginationWrappper from '../../../../_metronic/layout/components/pagination/PaginationWrapper'
-import ContentEditable from 'react-contenteditable'
+import {ToastContainer, toast} from 'react-toastify'
 import {useQuery} from 'react-query'
 import './QuestionnaireTable.scss'
 import {KTSVG} from '../../../../_metronic/helpers'
-import {getRequest, postRequest} from '../../auth/core/_requests'
+import {
+  deleteQuestionnaire,
+  getQuestionnaire,
+  getRequest,
+  postQuestionnaire,
+  postRequest,
+  putQuestionnaire,
+} from '../../auth/core/_requests'
 import Loader from '../../../shared/Loader'
 import {useAppSelector} from '../../../redux/hooks/hooks'
+import {Formik, useFormik} from 'formik'
+import * as Yup from 'yup'
+import clsx from 'clsx'
+import {ToastMessage} from '../../../shared/ToastMessage'
 
 type Props = {
   className?: string
@@ -17,6 +28,7 @@ type Props = {
 
 const QuestionnaireTable: React.FC<Props> = ({}) => {
   const [selectedItem, setSelectedItem] = useState(0)
+  const [selectedItemToDelete, setSelectedToDelete] = useState(0)
   const [addNewQuestionnaire, setAddNewQuestionnaire] = useState(false)
   // const columns = [
   //   {
@@ -133,31 +145,264 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
     },
   ]
 
-  const [posts, setPosts] = useState(dummyData)
+  const [posts, setPosts] = useState<any[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const [isLoadingEdit, setIsLoadingEdit] = useState(false)
-  const [postsPerPage, setPostsPerPage] = useState(5)
+  const [isLoadingAdd, setIsLoadingAdd] = useState(false)
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false)
+  const [postsPerPage, setPostsPerPage] = useState(10)
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
   const currrentQuestionnaireList = posts.slice(indexOfFirstPost, indexOfLastPost)
   const {searchKey} = useAppSelector((state) => state.searchReducer)
+  const loginSchema = Yup.object().shape({
+    question: Yup.string().required('Question is required'),
+    type: Yup.string().required('Type is required'),
+    option1: Yup.string().required('Option1 is required'),
+    option2: Yup.string().required('Option2 is required'),
+    answer1: Yup.boolean(),
+    answer2: Yup.boolean(),
+  })
+
+  const initialValues = {
+    question: '',
+    type: '',
+    option1: '',
+    option2: '',
+    answer1: false,
+    answer2: true,
+  }
+
+  const patchQuestionnaire = (item) => {
+    setSelectedItem(item._id)
+    setAddNewQuestionnaire(false)
+    console.log(
+      '🚀 ~ file: QuestionnaireTable.tsx ~ line 175 ~ constpatchQuestionnaire ~ item',
+      item
+    )
+
+    const fields = ['question', 'option1', 'option2', 'answer1', 'answer2', 'type']
+
+    fields.forEach((field) => {
+      if (field === 'question' || field === 'type') {
+        formik.setFieldValue(field, item[field], false)
+      }
+      if (field === 'option1') {
+        formik.setFieldValue(field, item['options'][0], false)
+      }
+      if (field === 'option2') {
+        formik.setFieldValue(field, item['options'][1], false)
+      }
+      if (field === 'answer1') {
+        if (item.answer === '1') {
+          formik.setFieldValue(field, true, false)
+        } else {
+          formik.setFieldValue(field, false, false)
+        }
+      }
+      if (field === 'answer2') {
+        if (item.answer === '2') {
+          formik.setFieldValue(field, true, false)
+        } else {
+          formik.setFieldValue(field, false, false)
+        }
+      }
+    })
+  }
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: loginSchema,
+    onSubmit: async (values, {setStatus, setSubmitting}) => {
+      console.log('🚀 ~ file: QuestionnaireTable.tsx ~ line 174 ~ onSubmit: ~ values', values)
+      const payload: any = {
+        question: values.question,
+        options: [values.option1, values.option2],
+        type: values.type,
+        answer: values.answer1 ? '1' : '2',
+      }
+      if (selectedItem) {
+        setIsLoadingEdit(true)
+        payload.status = 'ACTIVE'
+        putQuestionnaire(selectedItem, payload)
+          .then((resp) => {
+            setIsLoadingEdit(false)
+            getQuestionnaireList()
+            ToastMessage('Question updated successfully!', 'success')
+            formik.resetForm()
+            setSelectedItem(0)
+          })
+
+          .catch((err) => {
+            setIsLoadingEdit(false)
+            ToastMessage('Something went wrong!', 'error')
+          })
+      } else {
+        setIsLoadingAdd(true)
+
+        postQuestionnaire(payload)
+          .then((resp) => {
+            setIsLoadingAdd(false)
+            getQuestionnaireList()
+            ToastMessage('Question added successfully!', 'success')
+            // setAddNewQuestionnaire(false)
+            formik.resetForm()
+          })
+
+          .catch((err) => {
+            setIsLoadingAdd(false)
+            ToastMessage('Something went wrong!', 'error')
+          })
+      }
+    },
+  })
 
   useEffect(() => {
-    setIsLoading(true)
-    getRequest()
-      .then((resp) => {
-        setIsLoading(false)
-      })
-      .catch(() => {})
+    getQuestionnaireList()
   }, [searchKey])
 
-  const editQuestion = () => {
-    setIsLoadingEdit(true)
-    postRequest({}).then((resp) => {
-      setIsLoadingEdit(false)
-      setSelectedItem(0)
-    })
+  const getQuestionnaireList = () => {
+    setIsLoading(true)
+    getQuestionnaire()
+      .then((resp) => {
+        setPosts(resp.data.data)
+        setIsLoading(false)
+      })
+      .catch(() => {
+        setIsLoading(false)
+        ToastMessage('Something went wrong!', 'error')
+      })
+  }
+
+  const deleteQuestion = (id) => {
+    setIsLoadingDelete(true)
+    setSelectedToDelete(id)
+    deleteQuestionnaire(id)
+      .then((resp) => {
+        setIsLoadingDelete(false)
+        setSelectedToDelete(0)
+        ToastMessage('Question deleted successfully!', 'success')
+        getQuestionnaireList()
+      })
+      .catch(() => {
+        setIsLoadingDelete(false)
+        ToastMessage('Something went wrong!', 'error')
+      })
+  }
+
+  const questionFormControl = () => {
+    return (
+      <input
+        type='text'
+        {...formik.getFieldProps('question')}
+        className={clsx(
+          'form-control ',
+          {'is-invalid': formik.touched.question && formik.errors.question},
+          {
+            'is-valid': formik.touched.question && !formik.errors.question,
+          }
+        )}
+      />
+    )
+  }
+
+  const option1FormControl = () => {
+    return (
+      <div className='d-flex align-items-center'>
+        <div className='d-flex align-items-center'>
+          <input
+            type='text'
+            {...formik.getFieldProps('option1')}
+            className={clsx(
+              'form-control ',
+              {'is-invalid': formik.touched.option1 && formik.errors.option1},
+              {
+                'is-valid': formik.touched.option1 && !formik.errors.option1,
+              }
+            )}
+          />
+
+          <input
+            {...formik.getFieldProps('answer1')}
+            type='radio'
+            className={clsx(
+              'ftext-center my-auto mx-4 ',
+              {'is-invalid': formik.touched.answer1 && formik.errors.answer1},
+              {
+                'is-valid': formik.touched.answer1 && !formik.errors.answer1,
+              }
+            )}
+            checked={formik.values.answer1}
+            onChange={(e) => {
+              console.log(e.target.checked)
+              formik.setFieldValue('answer1', e.target.checked)
+              formik.setFieldValue('answer2', !e.target.checked)
+            }}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  const option2FormControl = () => {
+    return (
+      <div className='d-flex align-items-center'>
+        <div className='d-flex align-items-center'>
+          <input
+            type='text'
+            {...formik.getFieldProps('option2')}
+            className={clsx(
+              'form-control ',
+              {'is-invalid': formik.touched.option2 && formik.errors.option2},
+              {
+                'is-valid': formik.touched.option2 && !formik.errors.option2,
+              }
+            )}
+          />
+          <input
+            {...formik.getFieldProps('answer2')}
+            type='radio'
+            className={clsx(
+              'text-center my-auto mx-4 ',
+              {'is-invalid': formik.touched.answer2 && formik.errors.answer2},
+              {
+                'is-valid': formik.touched.answer2 && !formik.errors.answer2,
+              }
+            )}
+            checked={formik.values.answer2}
+            onChange={(e) => {
+              console.log(e.target.checked)
+              formik.setFieldValue('answer2', e.target.checked)
+              formik.setFieldValue('answer1', !e.target.checked)
+            }}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  const difficultyLevelFormControl = () => {
+    return (
+      <Form.Select
+        aria-label='Default select example'
+        {...formik.getFieldProps('type')}
+        className={clsx(
+          'form-control ',
+          {'is-invalid': formik.touched.type && formik.errors.type},
+          {
+            'is-valid': formik.touched.type && !formik.errors.type,
+          }
+        )}
+      >
+        <option value='' disabled selected>
+          Choose
+        </option>
+        <option value='DIFFICULT'>Difficult</option>
+        <option value='MODERATE'>Moderate</option>
+        <option value='EASY'>Easy</option>
+      </Form.Select>
+    )
   }
 
   return (
@@ -169,7 +414,11 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
             <Link
               to=''
               className='btn btn-dark btn-sm rounded-pill'
-              onClick={() => setAddNewQuestionnaire(true)}
+              onClick={() => {
+                setAddNewQuestionnaire(true)
+                setSelectedItem(0)
+                formik.resetForm()
+              }}
             >
               <KTSVG className='add-btn' path='/media/icons/plus.svg' />
               Add
@@ -181,66 +430,50 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
 
       {addNewQuestionnaire && (
         <div className='table-responsive add-new-questionnaire-header px-5 pb-1 rounded mb-5'>
-          {/* begin::Table */}
-          <table className='table campaign-table table-row-dashed table-row-gray-300 align-middle gs-0 mb-0'>
-            {/* begin::Table head */}
-            <thead className=''>
-              <tr className='fw-bold text-dark add-question-tr'>
-                <th className='min-w-100px'>QUESTION</th>
-                <th className='min-w-120px'>OPTION 1.</th>
-                <th className='min-w-100px'>OPTION 2.</th>
-                <th className='min-w-200px'>DIFFICULTY LEVEL</th>
-                <th className='w-100px text-center'>ACTION</th>
-              </tr>
-            </thead>
-            {/* end::Table head */}
-            {/* begin::Table body */}
-            <tbody>
-              <tr>
-                <td>
-                  <input type='text' className='form-control' />
-                </td>
-                <td>
-                  <div className='d-flex align-items-center'>
-                    <div className='d-flex align-items-center'>
-                      <input type='text' className='form-control' />
+          <form className='form w-100' noValidate onSubmit={formik.handleSubmit}>
+            <table className='table add-new-questionnaire-table table-row-dashed table-row-gray-300 align-middle gs-0 mb-0'>
+              <thead className=''>
+                <tr className='fw-bold text-dark add-question-tr'>
+                  <th className='min-w-100px'>QUESTION</th>
+                  <th className='min-w-120px'>OPTION 1.</th>
+                  <th className='min-w-100px'>OPTION 2.</th>
+                  <th className='min-w-200px'>DIFFICULTY LEVEL</th>
+                  <th className='w-100px text-center'>ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{questionFormControl()}</td>
+                  <td>{option1FormControl()}</td>
+                  <td>{option2FormControl()}</td>
+                  <td>{difficultyLevelFormControl()}</td>
 
-                      <input className='text-center my-auto mx-4' name='group1' type='radio' />
+                  <td>
+                    <div className='d-flex action-btns justify-content-evenly'>
+                      <button type='submit' className='btn edit-questionnaire'>
+                        {isLoadingAdd ? (
+                          <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                        ) : (
+                          <KTSVG
+                            className='svg-icon-2 mr-0'
+                            path='/media/icons/add_questionnaire.svg'
+                          />
+                        )}
+                      </button>
+
+                      <button
+                        type='button'
+                        onClick={() => setAddNewQuestionnaire(false)}
+                        className='btn edit-questionnaire'
+                      >
+                        <KTSVG className='svg-icon-2 mr-0' path='/media/icons/delete.svg' />
+                      </button>
                     </div>
-                  </div>
-                </td>
-                <td>
-                  <div className='d-flex align-items-center'>
-                    <div className='d-flex align-items-center'>
-                      <input type='text' className='form-control' />
-
-                      <input className='text-center my-auto mx-4' name='group1' type='radio' />
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <Form.Select aria-label='Default select example'>
-                    <option value='difficult'>Difficult</option>
-                    <option value='medium'>Medium</option>
-                    <option value='easy'>Easy</option>
-                  </Form.Select>
-                </td>
-
-                <td>
-                  <div className='d-flex action-btns justify-content-evenly'>
-                    <Button className='edit-questionnaire' variant='' onClick={() => {}}>
-                      <KTSVG className='add-btn' path='/media/icons/add_questionnaire.svg' />
-                    </Button>
-                    <Button variant='' onClick={() => setAddNewQuestionnaire(false)}>
-                      <KTSVG className='svg-icon-2 mr-0' path='/media/icons/delete.svg' />
-                    </Button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-            {/* end::Table body */}
-          </table>
-          {/* end::Table */}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
         </div>
       )}
 
@@ -249,153 +482,137 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
           <Loader size='1rem' className='center' />
         ) : (
           <div className='table-responsive'>
-            <table className='table campaign-table table-row-dashed table-row-gray-300 align-middle gs-0'>
-              <thead className='bg-dark rounded'>
-                <tr className='fw-bold text-muted'>
-                  <th className='min-w-50px text-center'>SR NO.</th>
-                  <th className='min-w-100px'>QUESTION</th>
-                  <th className='min-w-120px'>OPTION 1.</th>
-                  <th className='min-w-100px'>OPTION 2.</th>
-                  <th className='min-w-100px'>DIFFICULTY LEVEL</th>
-                  <th className='w-100px text-center'>ACTION</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currrentQuestionnaireList.map((item, i) => {
-                  return (
-                    <tr key={i}>
-                      <td className='p-1 pl-5 text-center'>
-                        <div>{item.id}</div>
-                      </td>
-                      <td>
-                        {item.id === selectedItem ? (
-                          <ContentEditable
-                            className='form-control'
-                            html={item.question}
-                            contentEditable={item.id === selectedItem}
-                            onChange={() => {}}
-                          />
-                        ) : (
-                          item.question
-                        )}
-                      </td>
-                      <td>
-                        {item.id === selectedItem ? (
-                          <div className='d-flex align-items-center'>
-                            <ContentEditable
-                              className='form-control'
-                              html={item.option1}
-                              disabled={false}
-                              onChange={() => {}}
-                            />
-                            <Form.Check
-                              className='text-center my-auto mx-4 mt-4 '
-                              name='group1'
-                              type='radio'
-                            />
-                          </div>
-                        ) : (
-                          item.option1
-                        )}
-                      </td>
-                      <td>
-                        <div className='d-flex align-items-center'>
-                          {item.id === selectedItem ? (
-                            <div className='d-flex align-items-center'>
-                              <ContentEditable
-                                className='form-control'
-                                html={item.option2}
-                                disabled={false}
-                                onChange={() => {}}
-                              />
-                              <Form.Check
-                                className='text-center my-auto mx-4 mt-4 '
-                                name='group1'
-                                type='radio'
-                              />
-                            </div>
-                          ) : (
-                            item.option2
-                          )}
-                        </div>
-                      </td>
-                      <td>
-                        {item.id === selectedItem ? (
-                          <Form.Select aria-label='Default select example'>
-                            <option value='difficult'>Difficult</option>
-                            <option value='medium'>Medium</option>
-                            <option value='easy'>Easy</option>
-                          </Form.Select>
-                        ) : (
-                          item.difficultyLevel
-                        )}
-                      </td>
+            <form className='form w-100' noValidate onSubmit={formik.handleSubmit}>
+              <table className='table questionnaire-table table-row-dashed table-row-gray-300 align-middle gs-0'>
+                <thead className='bg-dark rounded'>
+                  <tr className='fw-bold text-muted'>
+                    <th className='w-100px text-center'>SR NO.</th>
+                    <th className='min-w-100px'>QUESTION</th>
+                    <th className='min-w-120px'>OPTION 1.</th>
+                    <th className='min-w-120px'>OPTION 2.</th>
+                    <th className='max-w-60px'>DIFFICULTY LEVEL</th>
+                    <th className='w-100px text-center'>ACTION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currrentQuestionnaireList.length > 0 ? (
+                    currrentQuestionnaireList.map((item, i) => {
+                      return (
+                        <tr key={i}>
+                          <td className='p-1 pl-5 text-center'>
+                            <div>{(currentPage - 1) * postsPerPage + i + 1}</div>
+                          </td>
+                          <td>
+                            {item._id === selectedItem ? questionFormControl() : item.question}
+                          </td>
+                          <td>
+                            {item._id === selectedItem ? (
+                              option1FormControl()
+                            ) : (
+                              <span className={clsx({'text-success': item?.answer === '1'})}>
+                                {item?.options[0]}
+                              </span>
+                            )}
+                          </td>
+                          <td>
+                            {item._id === selectedItem ? (
+                              option2FormControl()
+                            ) : (
+                              <span className={clsx({'text-success': item?.answer === '2'})}>
+                                {item.options[1]}
+                              </span>
+                            )}
+                          </td>
+                          <td>
+                            {item._id === selectedItem ? difficultyLevelFormControl() : item.type}
+                          </td>
 
-                      <td>
-                        <div className='d-flex action-btns justify-content-evenly'>
-                          {item.id === selectedItem ? (
-                            <>
-                              <Button
-                                variant='edit-questionnaire'
-                                onClick={() => {
-                                  editQuestion()
-                                }}
-                              >
-                                {isLoadingEdit && (
-                                  <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
-                                )}
-                                {selectedItem && !isLoadingEdit && (
-                                  <KTSVG
-                                    className='svg-icon-2 mr-0'
-                                    path='/media/icons/check.svg'
-                                  />
-                                )}
-                              </Button>
-                              <Button
-                                variant=''
-                                onClick={() => {
-                                  setSelectedItem(0)
-                                }}
-                              >
-                                <KTSVG
-                                  className='svg-icon-sm mr-0'
-                                  path='/media/icons/cancel.svg'
-                                />
-                              </Button>
-                            </>
-                          ) : (
-                            <>
-                              <Button
-                                variant=' edit-questionnaire'
-                                onClick={() => {
-                                  setSelectedItem(item.id)
-                                }}
-                              >
-                                <KTSVG className='svg-icon-2 mr-0' path='/media/icons/edit.svg' />
-                              </Button>
-                              <Button variant='' onClick={() => {}}>
-                                <KTSVG className='svg-icon-2 mr-0' path='/media/icons/delete.svg' />
-                              </Button>
-                            </>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-            <PaginationWrappper
-              postsPerPage={5}
-              totalPosts={posts.length}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              data={posts}
-              indexOfLastPost={indexOfLastPost}
-              indexOfFirstPost={indexOfFirstPost}
-            />
+                          <td>
+                            <div className='d-flex action-btns justify-content-evenly'>
+                              {item._id === selectedItem ? (
+                                <>
+                                  <button type='submit' className='btn edit-questionnaire'>
+                                    {isLoadingEdit && (
+                                      <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                                    )}
+                                    {selectedItem && !isLoadingEdit && (
+                                      <KTSVG
+                                        className='svg-icon-2 mr-0'
+                                        path='/media/icons/check.svg'
+                                      />
+                                    )}
+                                  </button>
+                                  <Button
+                                    variant=''
+                                    className='btn edit-questionnaire'
+                                    onClick={() => {
+                                      setSelectedItem(0)
+                                    }}
+                                  >
+                                    <KTSVG
+                                      className='svg-icon-sm mr-0'
+                                      path='/media/icons/cancel.svg'
+                                    />
+                                  </Button>
+                                </>
+                              ) : (
+                                <>
+                                  <Button
+                                    variant=''
+                                    className='btn edit-questionnaire'
+                                    onClick={() => {
+                                      patchQuestionnaire(item)
+                                    }}
+                                  >
+                                    <KTSVG
+                                      className='svg-icon-2 mr-0'
+                                      path='/media/icons/edit.svg'
+                                    />
+                                  </Button>
+                                  <button
+                                    type='button'
+                                    className='btn edit-questionnaire'
+                                    onClick={() => {
+                                      deleteQuestion(item._id)
+                                    }}
+                                  >
+                                    {isLoadingDelete && selectedItemToDelete === item._id ? (
+                                      <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                                    ) : (
+                                      <KTSVG
+                                        className='svg-icon-2 mr-0'
+                                        path='/media/icons/delete.svg'
+                                      />
+                                    )}
+                                  </button>
+                                </>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    })
+                  ) : (
+                    <div className='center no-data'>No data</div>
+                  )}
+                </tbody>
+              </table>
+            </form>
+            {posts.length > postsPerPage && (
+              <PaginationWrappper
+                postsPerPage={postsPerPage}
+                totalPosts={posts.length}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                data={posts}
+                indexOfLastPost={indexOfLastPost}
+                indexOfFirstPost={indexOfFirstPost}
+              />
+            )}
           </div>
         )}
+
+        <ToastContainer />
       </div>
     </div>
   )

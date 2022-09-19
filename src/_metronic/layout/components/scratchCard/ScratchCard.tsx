@@ -1,19 +1,28 @@
-import React from 'react'
+import React, {useEffect, useRef} from 'react'
 import './ScratchCard.scss'
 import ScratchCard from 'react-scratchcard-v2'
 
-export default function ScratchCardWrapper() {
+export default function ScratchCardWrapper({image}) {
+  console.log('🚀 ~ file: ScratchCard.tsx ~ line 6 ~ ScratchCardWrapper ~ image', image)
+  const ref = useRef<ScratchCard>(null)
+
+  useEffect(() => {
+    ref.current && ref.current.reset()
+    console.log('🚀 ~ file: ScratchCard.tsx ~ line 11 ~ useEffect ~ ref.current', ref.current)
+  }, [image])
+
   const settings = {
     width: 120,
     height: 120,
-    image:
-      'data:image/jpeg;base64,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',
     finishPercent: 90,
     onComplete: () => console.log('The card is now clear!'),
   }
+
   return (
     <div>
-      <ScratchCard {...settings}>Congratulations! You WON!</ScratchCard>
+      <ScratchCard {...settings} image={image} ref={ref}>
+        Congratulations! You WON!
+      </ScratchCard>
     </div>
   )
 }

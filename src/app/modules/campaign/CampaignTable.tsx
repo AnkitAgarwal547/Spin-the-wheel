@@ -9,12 +9,18 @@ import {KTSVG, toAbsoluteUrl} from '../../../_metronic/helpers'
 import PaginationWrappper from '../../../_metronic/layout/components/pagination/PaginationWrapper'
 import {useAppSelector} from '../../redux/hooks/hooks'
 import Loader from '../../shared/Loader'
-import {getRequest} from '../auth/core/_requests'
+import {deleteCampaignRequest, getCampaigns, getRequest} from '../auth/core/_requests'
 import './CompaignTable.scss'
 
 type Props = {
   className: string
   showButtons: boolean
+}
+
+export const typeOfCampaigns = {
+  SPIN_THE_WHEEL: 'SPIN_THE_WHEEL',
+  CHOOSE_THE_BOX: 'CHOOSE_THE_BOX',
+  SCRATCH_THE_CARD: 'SCRATCH_THE_CARD',
 }
 
 const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
@@ -132,23 +138,18 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
     },
   ]
   const {searchKey} = useAppSelector((state) => state.searchReducer)
-  const [posts, setPosts] = useState(dummyData)
+  const [posts, setPosts] = useState<any[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage, setPostsPerPage] = useState(5)
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
-  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost)
   const tableRef = useRef(null)
   const [isLoading, setIsLoading] = useState(false)
+  const currentCampaignsList = posts.slice(indexOfFirstPost, indexOfLastPost)
 
   useEffect(() => {
-    setIsLoading(true)
-    getRequest()
-      .then((resp) => {
-        setIsLoading(false)
-      })
-      .catch(() => {})
-  }, [searchKey])
+    getCampaignList()
+  }, [])
 
   const columns = [
     {
@@ -242,6 +243,47 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
     },
   ]
 
+  const getCampaignList = () => {
+    setIsLoading(true)
+    getCampaigns()
+      .then((resp) => {
+        console.log('🚀 ~ file: CampaignTable.tsx ~ line 244 ~ .then ~ resp', resp)
+        setIsLoading(false)
+        setPosts(resp.data.data)
+      })
+      .catch(() => {
+        setIsLoading(false)
+      })
+  }
+
+  const typeOfCampaign = (type) => {
+    let label = ''
+    switch (type) {
+      case typeOfCampaigns.SPIN_THE_WHEEL:
+        label = 'Spin The Wheel'
+        break
+
+      case typeOfCampaigns.SCRATCH_THE_CARD:
+        label = 'Scratch the Card'
+        break
+
+      case typeOfCampaigns.CHOOSE_THE_BOX:
+        label = 'Choose the Box'
+        break
+
+      default:
+        break
+    }
+
+    return label
+  }
+
+  const deleteCampaign = (id) => {
+    deleteCampaignRequest(id).then((resp) => {
+      getCampaignList()
+    })
+  }
+
   return (
     <div className={`campaign-table-wrapper ${className}`}>
       <div className='d-flex flex-wrap flex-stack mb-6'>
@@ -272,7 +314,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
         ) : (
           <div className='table-responsive'>
             <table
-              className='table campaign-table table-row-dashed table-row-gray-300 align-middle gs-0'
+              className='table campaign-table table-row-dashed table-responsive table-row-gray-300 align-middle gs-0'
               ref={tableRef}
             >
               <thead className='bg-dark rounded'>
@@ -281,7 +323,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                   <th className='min-w-100px'>COMPANY NAME</th>
                   <th className='min-w-120px text-center'>COMPAIGN TITLE</th>
                   <th className='min-w-100px text-center'>TYPE</th>
-                  <th className='max-w-100px text-center'>URL</th>
+                  <th className='w-10 text-center'>URL</th>
                   <th className='min-w-100px text-center'>OR CODE</th>
                   <th className='min-w-100px text-center'>USER CLICKS</th>
                   <th className='min-w-100px text-center'>TOTAL ATTEMPTS</th>
@@ -289,51 +331,72 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                 </tr>
               </thead>
               <tbody>
-                {currentPosts.map((item, i) => {
-                  return (
-                    <tr key={i}>
-                      <td className='text-center'>{item.id}</td>
-                      <td className='text-start'>{item.companyName}</td>
-                      <td className='text-center'>{item.companyDetails}</td>
-                      <td>{item.type}</td>
-                      <td>
-                        <a className='text-truncate text-dark' href={item.url}>
-                          {item.url}
-                        </a>
-                      </td>
-                      <td className='text-center'>
-                        <img alt='Logo' src={item.qrCode} className='h-50px me-3' />
-                      </td>
-                      <td className='text-center'>{item.userClicks}</td>
-                      <td className='text-center'>{item.totalAttempts}</td>
-                      <td>
-                        <div className='d-flex action-btns justify-content-evenly'>
-                          <Link
-                            to={`/edit-campaign/${item.id}`}
-                            className='btn btn-sm btn-outline-dark mr-2'
-                          >
-                            Edit
-                          </Link>
+                {currentCampaignsList.length > 0 ? (
+                  currentCampaignsList.map((item, i) => {
+                    return (
+                      <tr key={i}>
+                        <td className='text-center'>{(currentPage - 1) * postsPerPage + i + 1}</td>
+                        <td className='text-start'>{item.company_name}</td>
+                        <td className='text-center'>{item.title}</td>
+                        <td>{typeOfCampaign(item.type)}</td>
+                        <td>
+                          <div style={{width: '100px'}} className='text-truncate'>
+                            <a className='text-truncate text-dark' href={item.logo_url}>
+                              {item.logo_url}
+                            </a>
+                          </div>
+                        </td>
+                        <td className='text-center'>
+                          <div className='qr-code'> {item.qrcode}</div>
 
-                          <Link to={`/campaign-details/${item.id}`} className='btn btn-sm btn-dark'>
-                            View
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })}
+                          {/* <img alt='QR Code' src={item.qrcode} className='h-50px me-3' /> */}
+                        </td>
+                        <td className='text-center'>{item.click_count}</td>
+                        <td className='text-center'>{item.attempt_count}</td>
+                        <td>
+                          <div className='d-flex action-btns justify-content-evenly'>
+                            <Link
+                              to={`/edit-campaign/${item._id}`}
+                              className='btn btn-sm btn-outline-dark mr-2'
+                            >
+                              Edit
+                            </Link>
+
+                            <Link
+                              to={`/campaign-details/${item._id}`}
+                              className='btn btn-sm btn-dark'
+                            >
+                              View
+                            </Link>
+                            {/* <button
+                              type='button'
+                              className='btn edit-questionnaire'
+                              onClick={() => deleteCampaign(item._id)}
+                            >
+                              <KTSVG className='svg-icon-2 mr-0' path='/media/icons/delete.svg' />
+                            </button> */}
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  })
+                ) : (
+                  <div className='center no-data'>No data</div>
+                )}
               </tbody>
             </table>
-            <PaginationWrappper
-              postsPerPage={5}
-              totalPosts={posts.length}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              data={posts}
-              indexOfLastPost={indexOfLastPost}
-              indexOfFirstPost={indexOfFirstPost}
-            />
+
+            {posts.length > postsPerPage && (
+              <PaginationWrappper
+                postsPerPage={5}
+                totalPosts={posts.length}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                data={posts}
+                indexOfLastPost={indexOfLastPost}
+                indexOfFirstPost={indexOfFirstPost}
+              />
+            )}
           </div>
         )}
       </div>

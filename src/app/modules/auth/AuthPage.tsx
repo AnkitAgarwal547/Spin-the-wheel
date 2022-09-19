@@ -19,7 +19,7 @@ const AuthLayout = () => {
 
   return (
     <>
-      {location.pathname === '/auth' ? (
+      {location.pathname === '/auth/login' ? (
         <div className='row p-0 m-0 align-items-center h-100'>
           <div className='col-xxl-6 col-lg-6 col-md-6  text-center logo-img'>
             <img src='https://live25east.com/wp-content/uploads/2015/10/placeholder-circle-300x300.png' />
@@ -69,7 +69,6 @@ const AuthPage = () => (
   <Routes>
     <Route element={<AuthLayout />}>
       <Route path='login' element={<Login />} />
-      <Route path='registration' element={<Registration />} />
       <Route path='forgot-password' element={<ForgotPassword />} />
       <Route index element={<Login />} />
     </Route>

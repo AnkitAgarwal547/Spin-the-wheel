@@ -47,18 +47,27 @@ export default class Wheel extends Component<any, any> {
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
   }
   render() {
-    const {selectedItem} = this.state
-    const {items} = this.props
+    const {textColor, backgroundColor, selectedItem, items, type} = this.props
 
     const wheelVars = {
       '--nb-item': items.length,
       '--selected-item': selectedItem,
+      backgroundColor: backgroundColor,
     }
 
     const itemStyle = {}
     const spinning = selectedItem !== null ? 'spinning' : ''
     const run = selectedItem !== null ? true : false
     const style = {'--item-nb': 10} as React.CSSProperties
+
+    const crackers = [
+      'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/rocket_blue.png',
+      'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker1.png',
+      'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker2.png',
+      'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker3.png',
+      'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/rocket_red.png',
+      'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker4.png',
+    ]
 
     return (
       <div
@@ -78,7 +87,8 @@ export default class Wheel extends Component<any, any> {
           <div
             className={`wheel ${spinning}`}
             style={wheelVars as React.CSSProperties}
-            onClick={this.selectItem}
+
+            // onClick={this.selectItem}
           >
             {items.map((item: any, index: any) => (
               <div
@@ -86,10 +96,45 @@ export default class Wheel extends Component<any, any> {
                 key={index}
                 style={{'--item-nb': index} as React.CSSProperties}
               >
-                <div className='wheel-text'>{item}</div>
+                <div className='wheel-text'>
+                  <div
+                    style={{
+                      color: textColor,
+                    }}
+                  >
+                    {item}
+                  </div>
+                </div>
+                {type === 'TEMPLATE_2' && (
+                  <img
+                    className='wheel-crackers'
+                    style={{paddingRight: index === 0 ? '10px' : ''}}
+                    src={crackers[index]}
+                  />
+                )}
               </div>
             ))}
           </div>
+          {type === 'TEMPLATE_3' && (
+            <img
+              className='light'
+              src='https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/light.png'
+            />
+          )}
+
+          {type === 'TEMPLATE_1' ? (
+            <div className='wheel-center' />
+          ) : type === 'TEMPLATE_3' ? (
+            <img
+              className='cracker'
+              src='https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker.png'
+            />
+          ) : (
+            <img
+              className='lamp'
+              src='https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/lamp.png'
+            />
+          )}
         </div>
       </div>
     )

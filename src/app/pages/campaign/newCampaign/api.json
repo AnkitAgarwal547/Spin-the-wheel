@@ -1,0 +1,1765 @@
+{
+	"info": {
+		"_postman_id": "2a76b717-d34d-4eff-8160-da4d78dfd516",
+		"name": "SpinTheWheel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19890874"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"email\":\"admin@gmail.com\",\n\"password\": \"test@123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.fedicoms.net/admin/login",
+							"protocol": "https",
+							"host": [
+								"api",
+								"fedicoms",
+								"net"
+							],
+							"path": [
+								"admin",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\"email\":\"admin@gmail.com\",\n\"password\": \"test@123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.fedicoms.net/admin/login",
+									"protocol": "https",
+									"host": [
+										"api",
+										"fedicoms",
+										"net"
+									],
+									"path": [
+										"admin",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "vary",
+									"value": "origin,accept-encoding"
+								},
+								{
+									"key": "access-control-allow-credentials",
+									"value": "true"
+								},
+								{
+									"key": "access-control-expose-headers",
+									"value": "WWW-Authenticate,Server-Authorization"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Sep 2022 17:56:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 1,\n    \"message_background\": \"#60DE55\",\n    \"message_foreground\": \"#ffffff\",\n    \"message_time\": 3,\n    \"message\": \"Success\",\n    \"data\": {\n        \"_id\": \"631e17768bbef590a26031f2\",\n        \"full_name\": \"Admin\",\n        \"email\": \"admin@gmail.com\",\n        \"password\": \"ceb6c970658f31504a901b89dcd3e461\",\n        \"country_code\": \"+91\",\n        \"mobile_no\": \"8454049404\",\n        \"pic\": \"https://miro.medium.com/fit/c/176/176/2*eYtsDEKhg95M141fczbylA.jpeg\",\n        \"birth_date\": null,\n        \"current_city\": null,\n        \"hometown\": null,\n        \"gender\": null,\n        \"tz\": null,\n        \"otp_verified\": 1,\n        \"last_login\": \"2022-09-11T17:54:25.743Z\",\n        \"status\": \"ACTIVE\",\n        \"created_at\": \"\",\n        \"modified_at\": \"\",\n        \"created_by\": \"\",\n        \"modified_by\": null,\n        \"roles\": [\n            {\n                \"_id\": \"631e18f68bbef590a2616e79\",\n                \"name\": \"Admin\"\n            }\n        ],\n        \"permissions\": [\n            \"631e1b488bbef590a2633ac2\"\n        ],\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxNzo1NDoyNS43NDNaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTE5MDAzLCJleHAiOjE2NjM1MjM4MDN9.2X6dRC3ovhAOEur1nmi6A57lJ6BYv0bqvMHiFb_a-wk\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"old_password\":\"test@123\",\n\"new_password\": \"test@123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.fedicoms.net/admin/change-password",
+							"protocol": "https",
+							"host": [
+								"api",
+								"fedicoms",
+								"net"
+							],
+							"path": [
+								"admin",
+								"change-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Change Password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\"old_password\":\"test@123\",\n\"new_password\": \"test@123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.fedicoms.net/admin/change-password",
+									"protocol": "https",
+									"host": [
+										"api",
+										"fedicoms",
+										"net"
+									],
+									"path": [
+										"admin",
+										"change-password"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "141"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Sep 2022 20:20:06 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "18aaf9ca-37f6-4e6f-877f-3c71d101868d"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "YT9mPES7BcwFY5g="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-631e42f4-48e942eb31e8876c64c978ae;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 2fb9bc1cd7b9b99ee1d8d63cef8fdba6.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "BOM78-P5"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "-UmcLL2rkYG368uyM2nk3XIaD1wqomu5ULzNMYJBNVqCDl4m4PMRVw=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 1,\n    \"message_background\": \"#60DE55\",\n    \"message_foreground\": \"#ffffff\",\n    \"message_time\": 3,\n    \"message\": \"Password updated successfully\",\n    \"data\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "Question - ADD",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"question\": \"lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum \",\n    \"type\": \"MODERATE\",\n    \"options\": [\n        \"England\",\n        \"India\"\n    ],\n    \"answer\": \"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.fedicoms.net/admin/questions",
+							"protocol": "https",
+							"host": [
+								"api",
+								"fedicoms",
+								"net"
+							],
+							"path": [
+								"admin",
+								"questions"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Question - ADD",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"question\": \"lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum \",\n    \"type\": \"MODERATE\",\n    \"options\": [\n        \"England\",\n        \"India\"\n    ],\n    \"answer\": \"1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.fedicoms.net/admin/questions",
+									"protocol": "https",
+									"host": [
+										"api",
+										"fedicoms",
+										"net"
+									],
+									"path": [
+										"admin",
+										"questions"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "150"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Sep 2022 20:13:38 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "2fae41b8-17bf-4a7a-83d5-dc6383e7b549"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "YT8pnHMGBcwFqZg="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-631e4170-6ee65d2b5d3085e62c6dd118;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 2fb9bc1cd7b9b99ee1d8d63cef8fdba6.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "BOM78-P5"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "xVr0Y-4a01-6TyXRNtGN13xHwZdhYwv2ZcZifw2it8fCHC6loboIKA=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 1,\n    \"message_background\": \"#60DE55\",\n    \"message_foreground\": \"#ffffff\",\n    \"message_time\": 3,\n    \"message\": \"Success\",\n    \"data\": {\n        \"id\": \"631e417272623b326c69c0cb\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Question - GET",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.fedicoms.net/admin/questions",
+							"protocol": "https",
+							"host": [
+								"api",
+								"fedicoms",
+								"net"
+							],
+							"path": [
+								"admin",
+								"questions"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Question - GET",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.fedicoms.net/admin/questions",
+									"protocol": "https",
+									"host": [
+										"api",
+										"fedicoms",
+										"net"
+									],
+									"path": [
+										"admin",
+										"questions"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "706"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Sep 2022 20:16:24 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "e9b5f75d-5244-412e-bb8a-a7565c8ff51d"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "YT9DrGWrhcwFkiA="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-631e4217-30228d234d2b58e51f1b4768;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 2fb9bc1cd7b9b99ee1d8d63cef8fdba6.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "BOM78-P5"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "gqbkggPxSzRvjYQC4wAXlUQVLdQze6iNzy5MI1dtqAuxns_GB7T7NA=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 1,\n    \"message_background\": \"#60DE55\",\n    \"message_foreground\": \"#ffffff\",\n    \"message_time\": 3,\n    \"message\": \"Success\",\n    \"data\": [\n        {\n            \"_id\": \"631e3a012e35f11c0a4e0703\",\n            \"question\": \"Who won the 2019 Cricket World Cup?\",\n            \"type\": \"MODERATE\",\n            \"options\": [\n                \"England\",\n                \"India\"\n            ],\n            \"answer\": \"1\",\n            \"status\": \"ACTIVE\",\n            \"created_at\": \"2022-09-11T19:41:53.923Z\",\n            \"modified_at\": \"2022-09-11T19:41:53.923Z\",\n            \"created_by\": \"631e17768bbef590a26031f2\",\n            \"modified_by\": null\n        },\n        {\n            \"_id\": \"631e32cb2e35f11c0a4e0701\",\n            \"question\": \"How many letters in ORANGE word\",\n            \"type\": \"EASY\",\n            \"options\": [\n                \"4\",\n                \"6\"\n            ],\n            \"answer\": \"2\",\n            \"created_at\": \"2022-09-11T19:11:07.601Z\",\n            \"modified_at\": \"2022-09-11T19:11:07.603Z\",\n            \"created_by\": \"631e17768bbef590a26031f2\",\n            \"modified_by\": null,\n            \"status\": \"ACTIVE\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Question - EDIT",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"question\": \"lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum \",\n    \"type\": \"EASY\",\n    \"status\": \"ACTIVE\",\n    \"options\": [\n        \"England\",\n        \"India\"\n    ],\n    \"answer\": \"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.fedicoms.net/admin/questions/631e417272623b326c69c0cb",
+							"protocol": "https",
+							"host": [
+								"api",
+								"fedicoms",
+								"net"
+							],
+							"path": [
+								"admin",
+								"questions",
+								"631e417272623b326c69c0cb"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Question - EDIT",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"question\": \"lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum \",\n    \"type\": \"EASY\",\n    \"status\": \"ACTIVE\",\n    \"options\": [\n        \"England\",\n        \"India\"\n    ],\n    \"answer\": \"1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.fedicoms.net/admin/questions/631e417272623b326c69c0cb",
+									"protocol": "https",
+									"host": [
+										"api",
+										"fedicoms",
+										"net"
+									],
+									"path": [
+										"admin",
+										"questions",
+										"631e417272623b326c69c0cb"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "119"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Sep 2022 20:14:55 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "60ae712a-5228-4318-ae8d-ed266e66fbdd"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "YT81vETlBcwFqoQ="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-631e41be-6b5e0f7a1c43b4a62ed52c9c;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 2fb9bc1cd7b9b99ee1d8d63cef8fdba6.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "BOM78-P5"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "l2CKLdTJ9R9Z8wotltdrk4VtR62FuVxcdBSdWnj2ESEihVagTzDOHg=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 1,\n    \"message_background\": \"#60DE55\",\n    \"message_foreground\": \"#ffffff\",\n    \"message_time\": 3,\n    \"message\": \"Success\",\n    \"data\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "Question - DEL",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.fedicoms.net/admin/questions/631e417272623b326c69c0cb",
+							"protocol": "https",
+							"host": [
+								"api",
+								"fedicoms",
+								"net"
+							],
+							"path": [
+								"admin",
+								"questions",
+								"631e417272623b326c69c0cb"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Question - DEL",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.fedicoms.net/admin/questions/631e417272623b326c69c0cb",
+									"protocol": "https",
+									"host": [
+										"api",
+										"fedicoms",
+										"net"
+									],
+									"path": [
+										"admin",
+										"questions",
+										"631e417272623b326c69c0cb"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "119"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Sep 2022 20:15:39 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "ba092533-ee1c-4dff-bfc5-a2b7e372363a"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "YT88pH_fBcwFZEA="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-631e41ea-3304a7153376d51970f90ddf;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 2fb9bc1cd7b9b99ee1d8d63cef8fdba6.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "BOM78-P5"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "r_WmFHlw80edaKUFORvI4wnMHjY1pHr7lAJLtL5RqbWTQxEFwYCWmw=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 1,\n    \"message_background\": \"#60DE55\",\n    \"message_foreground\": \"#ffffff\",\n    \"message_time\": 3,\n    \"message\": \"Success\",\n    \"data\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "Campaign - ADD",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"company_name\": \"XYX Tech\",\n    \"title\": \"XYZ Campaign\",\n    \"difficulty\": \"EASY\",\n    \"type\": \"SPIN_THE_WHEEL\",\n    \"template\": \"TEMPLATE_1\",\n    \"start_date\": \"2022-09-20\",\n    \"end_date\": \"2022-12-30\",\n    \"logo_url\": \"logourl\",\n    \"banner1_url\": \"banner1url\",\n    \"banner2_url\": \"banner2url\",\n    \"backcolor\": \"#454545\",\n    \"forecolor\": \"#111111\",\n    \"tnc\": \"tnc text\",\n    \"maxplay_peruser_perday\": 10,\n    \"winning_values\": [\n        {\n            \"label\": \"Better luck next time\",\n            \"max_perday\": 1000\n        },\n        {\n            \"label\": \"Get 20% off\",\n            \"max_perday\": 50\n        },\n        {\n            \"label\": \"Get 10% off\",\n            \"max_perday\": 80\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.fedicoms.net/admin/campaigns",
+							"protocol": "https",
+							"host": [
+								"api",
+								"fedicoms",
+								"net"
+							],
+							"path": [
+								"admin",
+								"campaigns"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Campaign - ADD",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"company_name\": \"XYX Tech\",\n    \"title\": \"XYZ Campaign\",\n    \"difficulty\": \"EASY\",\n    \"type\": \"SPIN_THE_WHEEL\",\n    \"template\": \"TEMPLATE_1\",\n    \"start_date\": \"2022-09-20\",\n    \"end_date\": \"2022-12-30\",\n    \"logo_url\": \"logourl\",\n    \"banner1_url\": \"banner1url\",\n    \"banner2_url\": \"banner2url\",\n    \"backcolor\": \"#454545\",\n    \"forecolor\": \"#111111\",\n    \"tnc\": \"tnc text\",\n    \"maxplay_peruser_perday\": 10,\n    \"winning_values\": [\n        {\n            \"label\": \"Better luck next time\",\n            \"max_perday\": 1000\n        },\n        {\n            \"label\": \"Get 20% off\",\n            \"max_perday\": 50\n        },\n        {\n            \"label\": \"Get 10% off\",\n            \"max_perday\": 80\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.fedicoms.net/admin/campaigns",
+									"protocol": "https",
+									"host": [
+										"api",
+										"fedicoms",
+										"net"
+									],
+									"path": [
+										"admin",
+										"campaigns"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "150"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Sep 2022 14:40:44 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "02a6f778-4de9-4232-af07-5bbba8bdc9c4"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "YdEsqH4ChcwFtoA="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-6321e7ea-698a13f14cbfc7d2538461fd;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 4ef5d7ca8285f9dc233fb99237faeb22.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "BOM78-P5"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "CHjVFSrb7Ub1iAl0kc2m6FCiOO4GFu9QuyEaAyiObMkQ2SC9ihXqJg=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 1,\n    \"message_background\": \"#60DE55\",\n    \"message_foreground\": \"#ffffff\",\n    \"message_time\": 3,\n    \"message\": \"Success\",\n    \"data\": {\n        \"id\": \"6321e7ec8540d5bd5608abd5\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Campaign - EDIT",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"company_name\": \"XYX Tech\",\n    \"title\": \"XYZ Campaign\",\n    \"difficulty\": \"EASY\",\n    \"type\": \"SPIN_THE_WHEEL\",\n    \"template\": \"TEMPLATE_1\",\n    \"start_date\": \"2022-09-18\",\n    \"end_date\": \"2022-12-30\",\n    \"logo_url\": \"logourl\",\n    \"banner1_url\": \"banner1url\",\n    \"banner2_url\": \"banner2url\",\n    \"backcolor\": \"#454545\",\n    \"forecolor\": \"#111111\",\n    \"tnc\": \"tnc text\",\n    \"maxplay_peruser_perday\": 10,\n    \"winning_values\": [\n        {\n            \"label\": \"Better luck next time\",\n            \"max_perday\": 1000\n        },\n        {\n            \"label\": \"Get 20% off\",\n            \"max_perday\": 50\n        },\n        {\n            \"label\": \"Get 10% off\",\n            \"max_perday\": 70\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.fedicoms.net/admin/campaigns/6321e435a9bfa14cf88c83b7",
+							"protocol": "https",
+							"host": [
+								"api",
+								"fedicoms",
+								"net"
+							],
+							"path": [
+								"admin",
+								"campaigns",
+								"6321e435a9bfa14cf88c83b7"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Campaign - EDIT",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"company_name\": \"XYX Tech\",\n    \"title\": \"XYZ Campaign\",\n    \"difficulty\": \"EASY\",\n    \"type\": \"SPIN_THE_WHEEL\",\n    \"template\": \"TEMPLATE_1\",\n    \"start_date\": \"2022-09-18\",\n    \"end_date\": \"2022-12-30\",\n    \"logo_url\": \"logourl\",\n    \"banner1_url\": \"banner1url\",\n    \"banner2_url\": \"banner2url\",\n    \"backcolor\": \"#454545\",\n    \"forecolor\": \"#111111\",\n    \"tnc\": \"tnc text\",\n    \"maxplay_peruser_perday\": 10,\n    \"winning_values\": [\n        {\n            \"label\": \"Better luck next time\",\n            \"max_perday\": 1000\n        },\n        {\n            \"label\": \"Get 20% off\",\n            \"max_perday\": 50\n        },\n        {\n            \"label\": \"Get 10% off\",\n            \"max_perday\": 70\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.fedicoms.net/admin/campaigns/6321e435a9bfa14cf88c83b7",
+									"protocol": "https",
+									"host": [
+										"api",
+										"fedicoms",
+										"net"
+									],
+									"path": [
+										"admin",
+										"campaigns",
+										"6321e435a9bfa14cf88c83b7"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "119"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Sep 2022 14:43:17 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "cd86cba3-5c4d-450b-b392-38d989bd7393"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "YdFEjHo6BcwFlyg="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-6321e883-16d447f20e26b86228b0cce7;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 4ef5d7ca8285f9dc233fb99237faeb22.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "BOM78-P5"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "ZJXYJp_foSYVoS5tTVYMSCK5jPNQeq5JEk4w8T3eXsnbd5DIhUdoLw=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 1,\n    \"message_background\": \"#60DE55\",\n    \"message_foreground\": \"#ffffff\",\n    \"message_time\": 3,\n    \"message\": \"Success\",\n    \"data\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "Campagin - GET",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.fedicoms.net/admin/campaigns",
+							"protocol": "https",
+							"host": [
+								"api",
+								"fedicoms",
+								"net"
+							],
+							"path": [
+								"admin",
+								"campaigns"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Campagin - GET",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.fedicoms.net/admin/campaigns",
+									"protocol": "https",
+									"host": [
+										"api",
+										"fedicoms",
+										"net"
+									],
+									"path": [
+										"admin",
+										"campaigns"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "7220"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Sep 2022 14:41:17 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "c9a94cb2-fe78-4342-a99a-e890023297cc"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "YdEx4F9dBcwFokA="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-6321e80b-18b7ae3053a8008f7d2d5918;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 4ef5d7ca8285f9dc233fb99237faeb22.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "BOM78-P5"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "CV-ctPTDFvpvvha0LknHiJnLoA7LyASTCCsXChwKG1XJ3SYaLmXJOw=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 1,\n    \"message_background\": \"#60DE55\",\n    \"message_foreground\": \"#ffffff\",\n    \"message_time\": 3,\n    \"message\": \"Success\",\n    \"data\": [\n        {\n            \"_id\": \"6321e7ec8540d5bd5608abd5\",\n            \"company_name\": \"XYX Tech\",\n            \"title\": \"XYZ Campaign\",\n            \"type\": \"SPIN_THE_WHEEL\",\n            \"start_date\": \"2022-09-20T00:00:00.000Z\",\n            \"end_date\": \"2022-12-30T00:00:00.000Z\",\n            \"difficulty\": \"EASY\",\n            \"logo_url\": \"logourl\",\n            \"banner1_url\": \"banner1url\",\n            \"banner2_url\": \"banner2url\",\n            \"backcolor\": \"#454545\",\n            \"forecolor\": \"#111111\",\n            \"tnc\": \"tnc text\",\n            \"qrcode\": \"                                     \\n                                     \\n    █▀▀▀▀▀█ █▀▀▀  ███▄▄ █ █▀▀▀▀▀█    \\n    █ ███ █ ▀▀ ▀█▀▄█▀ ▄▀  █ ███ █    \\n    █ ▀▀▀ █ ▄▀▄ ▀▄▄▀█ █ █ █ ▀▀▀ █    \\n    ▀▀▀▀▀▀▀ █ █▄█▄▀▄▀ █▄▀ ▀▀▀▀▀▀▀    \\n    ▄▄▀██ ▀ ▀ ▀█ ▄▀██ █ ▄█▀▀▄▄▀█▀    \\n    █ ▄▀  ▀▀ █▀ ▄ ▀█ ▄ ▄▄▄▄▀▄ ▀▀█    \\n    ▄█  ▄ ▀▄▄▀ ▄█ ▄▄█▄█ █  █▄ ▀      \\n    ▄█▄▀▄█▀▀ ▀ ▀█ █▀▄ ▄▄▀▀▄▀▄█  ▄    \\n    ▄▀    ▀ ▀ ▄▀ ▀▄█▄█▄▄ █▀▄▄▄ █▄    \\n    █ ██▄▀▀  █ █▄█  ▄▄ ▄▄▄▄▀▄▄▀▀     \\n    ▀ ▀  ▀▀ █▄█ ▄█ ▀ █  █▀▀▀█  █     \\n    █▀▀▀▀▀█  ▀▄  ▄ █▀▀  █ ▀ ██ ▄▄    \\n    █ ███ █ █ █ ▀█ █▄▄ ███▀██  ▄     \\n    █ ▀▀▀ █ ▀█▀ ▀ ▀ ▄ ▄▄  ▀▀▀█▀▀     \\n    ▀▀▀▀▀▀▀  ▀▀▀▀▀ ▀     ▀▀▀▀▀ ▀     \\n                                     \\n                                     \",\n            \"template\": \"TEMPLATE_1\",\n            \"maxplay_peruser_perday\": 10,\n            \"winning_values\": [\n                {\n                    \"label\": \"Better luck next time\",\n                    \"max_perday\": 1000,\n                    \"key\": \"betterlucknexttime\",\n                    \"day_count\": 0\n                },\n                {\n                    \"label\": \"Get 20% off\",\n                    \"max_perday\": 50,\n                    \"key\": \"get20off\",\n                    \"day_count\": 0\n                },\n                {\n                    \"label\": \"Get 10% off\",\n                    \"max_perday\": 80,\n                    \"key\": \"get10off\",\n                    \"day_count\": 0\n                }\n            ],\n            \"attempt_count\": 0,\n            \"click_count\": 0,\n            \"winner_count\": 0,\n            \"submitteddetail_count\": 0,\n            \"bumper_winner_id\": 0,\n            \"bumper_winner_name\": null,\n            \"avg_shortest_time\": 0,\n            \"status\": \"ACTIVE\",\n            \"created_at\": \"2022-09-14T14:40:44.663Z\",\n            \"modified_at\": \"2022-09-14T14:40:44.665Z\",\n            \"created_by\": \"631e17768bbef590a26031f2\",\n            \"modified_by\": null\n        },\n        {\n            \"_id\": \"6321e435a9bfa14cf88c83b7\",\n            \"company_name\": \"ABC Tech 2\",\n            \"title\": \"Campaign Name edited\",\n            \"type\": \"SPIN_THE_WHEEL\",\n            \"start_date\": \"2022-09-20T00:00:00.000Z\",\n            \"end_date\": \"2022-12-30T00:00:00.000Z\",\n            \"difficulty\": \"EASY\",\n            \"logo_url\": \"logourl\",\n            \"banner1_url\": \"banner1url\",\n            \"banner2_url\": \"banner2url\",\n            \"backcolor\": \"#454545\",\n            \"forecolor\": \"#111111\",\n            \"tnc\": \"tnc text 2\",\n            \"qrcode\": \"                                     \\n                                     \\n    █▀▀▀▀▀█ ▀ ▀▄▄▄▀█▄█  ▄ █▀▀▀▀▀█    \\n    █ ███ █ ▀█ ▀▄▄██▀▄▀▀▄ █ ███ █    \\n    █ ▀▀▀ █ ▀█▀█▄███▄ █▀  █ ▀▀▀ █    \\n    ▀▀▀▀▀▀▀ █▄█ ▀▄▀ ▀ █▄█ ▀▀▀▀▀▀▀    \\n    ▄ ▄▄▄█▀▄  ▄█▀▀███ █▄▄ █ ▀ █ █    \\n    █ ▄ ▄ ▀▀  █▀ ▀ ▄█ █▄▄█▄▀▄█▀██    \\n    ▀▀▄▄▄▀▀ ▄█▀█▀▀▄▀▄ ▄▀ ████▀▀▄▀    \\n    ▀▄▀▄▀█▀▀ █▄▀▀   ▄█▄██  ▀▄█▄█     \\n    ▄▀▀ ▀▄▀▄█ █  ▀▄▄ ██▄▀█▄ ▀▄ ▀▄    \\n    █▀▄▄▀▄▀██▄▄▄▀█▀█▄█ █ ██ ▄▀ █▀    \\n    ▀ ▀▀▀▀▀ ▄▀ ▀▄ █▀▄▄▄▄█▀▀▀█▀██▄    \\n    █▀▀▀▀▀█ ▄▄▀█ █▀▀██▀ █ ▀ ██ ▀▄    \\n    █ ███ █  █ █▄▀ ▀ █▄▀██▀███▀ ▀    \\n    █ ▀▀▀ █  █▀ ▄ ▄ █▀▀▀▄ ▄▀▀▄██▄    \\n    ▀▀▀▀▀▀▀    ▀▀ ▀  ▀▀ ▀ ▀▀▀ ▀▀     \\n                                     \\n                                     \",\n            \"template\": \"TEMPLATE_2\",\n            \"maxplay_peruser_perday\": 5,\n            \"winning_values\": [\n                {\n                    \"label\": \"Better luck next time\",\n                    \"max_perday\": 100,\n                    \"key\": \"betterlucknexttime\",\n                    \"day_count\": 0\n                },\n                {\n                    \"label\": \"Get 20% off\",\n                    \"max_perday\": 60,\n                    \"key\": \"get20off\",\n                    \"day_count\": 0\n                },\n                {\n                    \"label\": \"Get 10% off\",\n                    \"max_perday\": 90,\n                    \"key\": \"get10off\",\n                    \"day_count\": 0\n                }\n            ],\n            \"attempt_count\": 0,\n            \"click_count\": 0,\n            \"winner_count\": 0,\n            \"submitteddetail_count\": 0,\n            \"bumper_winner_id\": 0,\n            \"bumper_winner_name\": null,\n            \"avg_shortest_time\": 0,\n            \"status\": \"ACTIVE\",\n            \"created_at\": \"2022-09-14T14:24:53.692Z\",\n            \"modified_at\": \"2022-09-14T14:35:37.006Z\",\n            \"created_by\": \"631e17768bbef590a26031f2\",\n            \"modified_by\": \"631e17768bbef590a26031f2\"\n        },\n        {\n            \"_id\": \"6321dabf87280378e1db8542\",\n            \"company_name\": \"ABC Tech 2\",\n            \"title\": \"Campaign Name edited\",\n            \"type\": \"SPIN_THE_WHEEL\",\n            \"start_date\": \"2022-09-20T00:00:00.000Z\",\n            \"end_date\": \"2022-12-30T00:00:00.000Z\",\n            \"difficulty\": \"EASY\",\n            \"logo_url\": \"logourl\",\n            \"banner1_url\": \"banner1url\",\n            \"banner2_url\": \"banner2url\",\n            \"backcolor\": \"#454545\",\n            \"forecolor\": \"#111111\",\n            \"tnc\": \"tnc text 2\",\n            \"qrcode\": \"                                     \\n                                     \\n    █▀▀▀▀▀█ █  ▀█ ▄▄█▀▀▄▀ █▀▀▀▀▀█    \\n    █ ███ █ ▀ ▄ ▄█▀▄▀▀██▀ █ ███ █    \\n    █ ▀▀▀ █ ▄▀ ▄▀██▄  █▄  █ ▀▀▀ █    \\n    ▀▀▀▀▀▀▀ █ ▀ ▀▄█▄█ ▀▄█ ▀▀▀▀▀▀▀    \\n      ███▄▀ ▀ ██▄███▀ ▀  █▀▀▄ ▀█▀    \\n     ███ ▄▀▀ █ ██ ▀ ▄█▄  ▄▄▀█ ▀▀█    \\n    ▀▀▄ ▀▀▀█▀█ ▀█▀ ▄▄▄ ▄▀█▄▀█▀▀▄     \\n    ▄▀▄ █▀▀▄█▀▀█ ██▀█▀█▄ █▀▄▄█ █▄    \\n    ▄█▄█ ▀▀█ ▄▀ █▀ █▄ ▀ ▀█ ▀▄  █▄    \\n    █ ██▄▄▀▀▀▄▀▀ █▀▀██▄▄▀▄▄ ▄ █▀     \\n    ▀   ▀ ▀▀█▄▀▀ █ █▄▀▀▀█▀▀▀█▀ ▀▄    \\n    █▀▀▀▀▀█   ▄▀█  █▄ ▄ █ ▀ █▄ ▄▄    \\n    █ ███ █ █ █ ▄▄  ▀▄▀▄▀▀▀▀█ ▄▄▀    \\n    █ ▀▀▀ █ ▀▄▀█ ▀▀▀ █▄ ▄██▀▀ ▄▀     \\n    ▀▀▀▀▀▀▀       ▀ ▀ ▀ ▀  ▀▀▀▀▀     \\n                                     \\n                                     \",\n            \"template\": \"TEMPLATE_2\",\n            \"maxplay_peruser_perday\": 5,\n            \"winning_values\": [\n                {\n                    \"label\": \"Better luck next time\",\n                    \"max_perday\": 1000,\n                    \"key\": \"betterlucknexttime\",\n                    \"day_count\": 0\n                },\n                {\n                    \"label\": \"Get 20% off\",\n                    \"max_perday\": 60,\n                    \"key\": \"get20off\",\n                    \"day_count\": 0\n                },\n                {\n                    \"label\": \"Get 10% off\",\n                    \"max_perday\": 90,\n                    \"key\": \"get10off\",\n                    \"day_count\": 0\n                }\n            ],\n            \"attempt_count\": 0,\n            \"click_count\": 0,\n            \"winner_count\": 0,\n            \"submitteddetail_count\": 0,\n            \"bumper_winner_id\": 0,\n            \"bumper_winner_name\": null,\n            \"avg_shortest_time\": 0,\n            \"status\": \"ACTIVE\",\n            \"created_at\": \"2022-09-14T13:44:31.537Z\",\n            \"modified_at\": \"2022-09-14T14:24:14.656Z\",\n            \"created_by\": \"631e17768bbef590a26031f2\",\n            \"modified_by\": \"631e17768bbef590a26031f2\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Campaign- DEL",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.fedicoms.net/admin/campaigns/6321e7ec8540d5bd5608abd5",
+							"protocol": "https",
+							"host": [
+								"api",
+								"fedicoms",
+								"net"
+							],
+							"path": [
+								"admin",
+								"campaigns",
+								"6321e7ec8540d5bd5608abd5"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Campaign- DEL",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODoyMjozMi45OTJaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTI3MTAxLCJleHAiOjE2NjM1MzE5MDF9.uCiwf2ThQ1EqLNGuL68VodIWGV1DxfyF9gKBEgTTGYk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.fedicoms.net/admin/campaigns/6321e7ec8540d5bd5608abd5",
+									"protocol": "https",
+									"host": [
+										"api",
+										"fedicoms",
+										"net"
+									],
+									"path": [
+										"admin",
+										"campaigns",
+										"6321e7ec8540d5bd5608abd5"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "119"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Sep 2022 14:45:26 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "1cf6eb97-63f0-46e8-8287-0d8f542e3042"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "YdFZFGfUBcwFV8Q="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-6321e906-4903e5dd1afcd44217a04982;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 4ef5d7ca8285f9dc233fb99237faeb22.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "BOM78-P5"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "B0ZNm1avbtTYk_KH9MjOexe9Kna7FH22wXTR8hicgLiV2PjCsKHeLw=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 1,\n    \"message_background\": \"#60DE55\",\n    \"message_foreground\": \"#ffffff\",\n    \"message_time\": 3,\n    \"message\": \"Success\",\n    \"data\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "Upload-S3UPLOADURL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODowNTo1OC41NjFaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTIwNTUzLCJleHAiOjE2NjM1MjUzNTN9.zUodM2UOTgAXI2FfyVnn6ictN5o4MTNsDu_Wog5cmYs",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"usecase\": \"CAMPAIGN_IMAGES\",\n \"file_ext\": \"jpeg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.fedicoms.net/admin/upload",
+							"protocol": "https",
+							"host": [
+								"api",
+								"fedicoms",
+								"net"
+							],
+							"path": [
+								"admin",
+								"upload"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Upload-S3UPLOADURL",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzFlMTc3NjhiYmVmNTkwYTI2MDMxZjIiLCJmdWxsX25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiJjZWI2Yzk3MDY1OGYzMTUwNGE5MDFiODlkY2QzZTQ2MSIsImNvdW50cnlfY29kZSI6Iis5MSIsIm1vYmlsZV9ubyI6Ijg0NTQwNDk0MDQiLCJwaWMiOiJodHRwczovL21pcm8ubWVkaXVtLmNvbS9maXQvYy8xNzYvMTc2LzIqZVl0c0RFS2hnOTVNMTQxZmN6YnlsQS5qcGVnIiwiYmlydGhfZGF0ZSI6bnVsbCwiY3VycmVudF9jaXR5IjpudWxsLCJob21ldG93biI6bnVsbCwiZ2VuZGVyIjpudWxsLCJ0eiI6bnVsbCwib3RwX3ZlcmlmaWVkIjoxLCJsYXN0X2xvZ2luIjoiMjAyMi0wOS0xMVQxODowNTo1OC41NjFaIiwic3RhdHVzIjoiQUNUSVZFIiwiY3JlYXRlZF9hdCI6IiIsIm1vZGlmaWVkX2F0IjoiIiwiY3JlYXRlZF9ieSI6IiIsIm1vZGlmaWVkX2J5IjpudWxsLCJyb2xlcyI6W3siX2lkIjoiNjMxZTE4ZjY4YmJlZjU5MGEyNjE2ZTc5IiwibmFtZSI6IkFkbWluIn1dLCJwZXJtaXNzaW9ucyI6WyI2MzFlMWI0ODhiYmVmNTkwYTI2MzNhYzIiXSwiaWF0IjoxNjYyOTIwNTUzLCJleHAiOjE2NjM1MjUzNTN9.zUodM2UOTgAXI2FfyVnn6ictN5o4MTNsDu_Wog5cmYs",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n \"usecase\": \"CAMPAIGN_IMAGES\",\n \"file_ext\": \"jpeg\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.fedicoms.net/admin/upload",
+									"protocol": "https",
+									"host": [
+										"api",
+										"fedicoms",
+										"net"
+									],
+									"path": [
+										"admin",
+										"upload"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1541"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 11 Sep 2022 18:23:26 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "28abf643-e26d-4d7b-83ff-41b696370639"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "YTsgoHndBcwFSCg="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-631e279d-5d23ce667c0d96ab123942bd;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 204734520f5130526e378b271a301fda.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "BOM78-P5"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "SI55y8WZ5gsoaDEItDoUxEZTOv6tL44n3yHzQSvAV0qPGI_GdNow6A=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 1,\n    \"message_background\": \"#60DE55\",\n    \"message_foreground\": \"#ffffff\",\n    \"message_time\": 3,\n    \"message\": \"Success\",\n    \"data\": {\n        \"aws_signed_url\": \"https://s3.ap-south-1.amazonaws.com/fedicoms.net/campaignimgages/26cf9c75-9504-49be-9eb1-4f27662879e5.jpeg?Content-Type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAY6S7TI7QZ24CO3YB%2F20220911%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20220911T182326Z&X-Amz-Expires=600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCmFwLXNvdXRoLTEiRzBFAiAXzDWi%2BcT4j80dat%2FtFBEE27PfpTPL8cACcul2wbfy9gIhAPGDEMCa3W2XHBQ705txzjWJCsMd%2Bfqvt9n%2FeLfJ9vuUKpQDCHwQABoMNjE1NDU0NTU4MTc3IgyWGWJz8d140d%2B50Bgq8QL1f42NoggbdG17LkNY4ZhgsPTIVrQBL50nea8ey2%2BvwRc%2BB7lwfh42pzKP6s7JpbrN6lmp7VghwwgtEyUn2zgvK3FIzxov%2FLJLhj5ksQNJ%2BAEsHs%2F4BbaUrvTECBY0bfL3kAK3mtLMQC6arGSUbc8Uzf6Hn1v%2F1OkrVjPCTI0FjkoTWCMcvB0Ti5YfNnZMVVTwbJJe8u5Z8l%2FqDtB0vXHeER5aN3azXIf10vMKE1Sdd4iAODXSsM%2BMVFej0byxnOeu%2FdfUszCXKYkAEjNWtNbGt%2BO6PCIuw5V0T721SWl45uTBtwDIgSx9nIXd0btOh9PedWFTxRBgtXashk3mAB9rXJjxSicKq1bnxQm0cAkmccao6KmnTzXopd7w6l52azZY%2FOB9ot%2BOxyRPUrlQf8mt2k2P8b0YgttVXI409BkgG%2Fxru%2F23U11P3BF93%2B9kFleGoMvU3Hz27zTWEe5akHeKUBlvCvT%2FB2YBxGFQcm9k4pEwnc%2F4mAY6nQFGO1Ayw3EbeHjNoF3UZC1v2wMpFO5T5TRels3oU1UcN6mDOQyqg9LDKUOm6RAY%2Bk%2BsI1VR0X9137L8fCcQXNoC0cPvURJJGTnDcEjus0hNKQl6miAgquTdkJOVet9uHq5eMjNYaIAD2nYVZe%2Fdpzxhe%2FDNNrO8nEMXIt30AVKZ3VaXmPuHRsI5EtqPE9Xu8NZTaWpI0ss%2BG5GQk6h6&X-Amz-Signature=67d70fc22a8545a9f1ebfc070f411e2707e8392c438089a54b1e16fff2d55319&X-Amz-SignedHeaders=host\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "SMS - RML2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "key=AAAAcgU0_-4:APA91bHJGo8NOJ2OJlR0JQ8Tq408a6MMvKfRy5ihqUMmvG4oaPA_IZ5EN3TpGFropThVDrhrwwgvecQWEi6wJLRO3ZO2UO1oevOMyNaeI6pb_bDJoSM9dvJuoBGkus7nclNzoZmvEc33"
+					},
+					{
+						"key": "X-Phone-Manufacturer",
+						"type": "text",
+						"value": "",
+						"disabled": true
+					},
+					{
+						"key": "X-Os-Version",
+						"type": "text",
+						"value": "v12.00.00",
+						"disabled": true
+					},
+					{
+						"key": "X-App-Version",
+						"type": "text",
+						"value": "1.0.0",
+						"disabled": true
+					},
+					{
+						"key": "X-Device-Id",
+						"type": "text",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n \"priority\":\"HIGH\",\n  \"data\":{\n   \n  },\n  \"to\":\"VALID_FCM_TOKENS\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sms.r2win.com/api/push?accesskey=9B4vlFq195DJRfPIbq6fUPtfgtl7nA&to=8454049404&text=Dear user, Please use 083838 OTP to participate in the Contest. Good Luck ! Fedicoms Pvt Ltd&from=FEDCOM&tid=1007655603315296255",
+					"protocol": "https",
+					"host": [
+						"sms",
+						"r2win",
+						"com"
+					],
+					"path": [
+						"api",
+						"push"
+					],
+					"query": [
+						{
+							"key": "accesskey",
+							"value": "9B4vlFq195DJRfPIbq6fUPtfgtl7nA"
+						},
+						{
+							"key": "to",
+							"value": "8454049404"
+						},
+						{
+							"key": "text",
+							"value": "Dear user, Please use 083838 OTP to participate in the Contest. Good Luck ! Fedicoms Pvt Ltd"
+						},
+						{
+							"key": "from",
+							"value": "FEDCOM"
+						},
+						{
+							"key": "tid",
+							"value": "1007655603315296255"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "SMS - RML2",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "key=AAAAcgU0_-4:APA91bHJGo8NOJ2OJlR0JQ8Tq408a6MMvKfRy5ihqUMmvG4oaPA_IZ5EN3TpGFropThVDrhrwwgvecQWEi6wJLRO3ZO2UO1oevOMyNaeI6pb_bDJoSM9dvJuoBGkus7nclNzoZmvEc33"
+							},
+							{
+								"key": "X-Phone-Manufacturer",
+								"type": "text",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "X-Os-Version",
+								"type": "text",
+								"value": "v12.00.00",
+								"disabled": true
+							},
+							{
+								"key": "X-App-Version",
+								"type": "text",
+								"value": "1.0.0",
+								"disabled": true
+							},
+							{
+								"key": "X-Device-Id",
+								"type": "text",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n \"priority\":\"HIGH\",\n  \"data\":{\n   \n  },\n  \"to\":\"VALID_FCM_TOKENS\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://sms.r2win.com/api/push?accesskey=9B4vlFq195DJRfPIbq6fUPtfgtl7nA&to=8454049404&text=Dear user, Please use 083838 OTP to participate in the Contest. Good Luck ! Fedicoms Pvt Ltd&from=FEDCOM&tid=1007655603315296255",
+							"protocol": "https",
+							"host": [
+								"sms",
+								"r2win",
+								"com"
+							],
+							"path": [
+								"api",
+								"push"
+							],
+							"query": [
+								{
+									"key": "accesskey",
+									"value": "9B4vlFq195DJRfPIbq6fUPtfgtl7nA"
+								},
+								{
+									"key": "to",
+									"value": "8454049404"
+								},
+								{
+									"key": "text",
+									"value": "Dear user, Please use 083838 OTP to participate in the Contest. Good Luck ! Fedicoms Pvt Ltd"
+								},
+								{
+									"key": "from",
+									"value": "FEDCOM"
+								},
+								{
+									"key": "tid",
+									"value": "1007655603315296255"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 09 Sep 2022 06:14:33 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Apache"
+						},
+						{
+							"key": "Upgrade",
+							"value": "h2,h2c"
+						},
+						{
+							"key": "Connection",
+							"value": "Upgrade, Keep-Alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=500"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": [\n        {\n            \"918454049404\": \"3199197\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "https://s3.ap-south-1.amazonaws.com/fedicoms.net/campaignimgages/26cf9c75-9504-49be-9eb1-4f27662879e5.jpeg?Content-Type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAY6S7TI7QZ24CO3YB%2F20220911%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-D",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/home/sarang/Downloads/62b095ad-a243-479f-89e0-700c1427e120.jpeg"
+					}
+				},
+				"url": {
+					"raw": "https://s3.ap-south-1.amazonaws.com/fedicoms.net/campaignimgages/26cf9c75-9504-49be-9eb1-4f27662879e5.jpeg?Content-Type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAY6S7TI7QZ24CO3YB%2F20220911%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20220911T182326Z&X-Amz-Expires=600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCmFwLXNvdXRoLTEiRzBFAiAXzDWi%2BcT4j80dat%2FtFBEE27PfpTPL8cACcul2wbfy9gIhAPGDEMCa3W2XHBQ705txzjWJCsMd%2Bfqvt9n%2FeLfJ9vuUKpQDCHwQABoMNjE1NDU0NTU4MTc3IgyWGWJz8d140d%2B50Bgq8QL1f42NoggbdG17LkNY4ZhgsPTIVrQBL50nea8ey2%2BvwRc%2BB7lwfh42pzKP6s7JpbrN6lmp7VghwwgtEyUn2zgvK3FIzxov%2FLJLhj5ksQNJ%2BAEsHs%2F4BbaUrvTECBY0bfL3kAK3mtLMQC6arGSUbc8Uzf6Hn1v%2F1OkrVjPCTI0FjkoTWCMcvB0Ti5YfNnZMVVTwbJJe8u5Z8l%2FqDtB0vXHeER5aN3azXIf10vMKE1Sdd4iAODXSsM%2BMVFej0byxnOeu%2FdfUszCXKYkAEjNWtNbGt%2BO6PCIuw5V0T721SWl45uTBtwDIgSx9nIXd0btOh9PedWFTxRBgtXashk3mAB9rXJjxSicKq1bnxQm0cAkmccao6KmnTzXopd7w6l52azZY%2FOB9ot%2BOxyRPUrlQf8mt2k2P8b0YgttVXI409BkgG%2Fxru%2F23U11P3BF93%2B9kFleGoMvU3Hz27zTWEe5akHeKUBlvCvT%2FB2YBxGFQcm9k4pEwnc%2F4mAY6nQFGO1Ayw3EbeHjNoF3UZC1v2wMpFO5T5TRels3oU1UcN6mDOQyqg9LDKUOm6RAY%2Bk%2BsI1VR0X9137L8fCcQXNoC0cPvURJJGTnDcEjus0hNKQl6miAgquTdkJOVet9uHq5eMjNYaIAD2nYVZe%2Fdpzxhe%2FDNNrO8nEMXIt30AVKZ3VaXmPuHRsI5EtqPE9Xu8NZTaWpI0ss%2BG5GQk6h6&X-Amz-Signature=67d70fc22a8545a9f1ebfc070f411e2707e8392c438089a54b1e16fff2d55319&X-Amz-SignedHeaders=host",
+					"protocol": "https",
+					"host": [
+						"s3",
+						"ap-south-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"fedicoms.net",
+						"campaignimgages",
+						"26cf9c75-9504-49be-9eb1-4f27662879e5.jpeg"
+					],
+					"query": [
+						{
+							"key": "Content-Type",
+							"value": "image%2Fjpeg"
+						},
+						{
+							"key": "X-Amz-Algorithm",
+							"value": "AWS4-HMAC-SHA256"
+						},
+						{
+							"key": "X-Amz-Credential",
+							"value": "ASIAY6S7TI7QZ24CO3YB%2F20220911%2Fap-south-1%2Fs3%2Faws4_request"
+						},
+						{
+							"key": "X-Amz-Date",
+							"value": "20220911T182326Z"
+						},
+						{
+							"key": "X-Amz-Expires",
+							"value": "600"
+						},
+						{
+							"key": "X-Amz-Security-Token",
+							"value": "IQoJb3JpZ2luX2VjEOL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCmFwLXNvdXRoLTEiRzBFAiAXzDWi%2BcT4j80dat%2FtFBEE27PfpTPL8cACcul2wbfy9gIhAPGDEMCa3W2XHBQ705txzjWJCsMd%2Bfqvt9n%2FeLfJ9vuUKpQDCHwQABoMNjE1NDU0NTU4MTc3IgyWGWJz8d140d%2B50Bgq8QL1f42NoggbdG17LkNY4ZhgsPTIVrQBL50nea8ey2%2BvwRc%2BB7lwfh42pzKP6s7JpbrN6lmp7VghwwgtEyUn2zgvK3FIzxov%2FLJLhj5ksQNJ%2BAEsHs%2F4BbaUrvTECBY0bfL3kAK3mtLMQC6arGSUbc8Uzf6Hn1v%2F1OkrVjPCTI0FjkoTWCMcvB0Ti5YfNnZMVVTwbJJe8u5Z8l%2FqDtB0vXHeER5aN3azXIf10vMKE1Sdd4iAODXSsM%2BMVFej0byxnOeu%2FdfUszCXKYkAEjNWtNbGt%2BO6PCIuw5V0T721SWl45uTBtwDIgSx9nIXd0btOh9PedWFTxRBgtXashk3mAB9rXJjxSicKq1bnxQm0cAkmccao6KmnTzXopd7w6l52azZY%2FOB9ot%2BOxyRPUrlQf8mt2k2P8b0YgttVXI409BkgG%2Fxru%2F23U11P3BF93%2B9kFleGoMvU3Hz27zTWEe5akHeKUBlvCvT%2FB2YBxGFQcm9k4pEwnc%2F4mAY6nQFGO1Ayw3EbeHjNoF3UZC1v2wMpFO5T5TRels3oU1UcN6mDOQyqg9LDKUOm6RAY%2Bk%2BsI1VR0X9137L8fCcQXNoC0cPvURJJGTnDcEjus0hNKQl6miAgquTdkJOVet9uHq5eMjNYaIAD2nYVZe%2Fdpzxhe%2FDNNrO8nEMXIt30AVKZ3VaXmPuHRsI5EtqPE9Xu8NZTaWpI0ss%2BG5GQk6h6"
+						},
+						{
+							"key": "X-Amz-Signature",
+							"value": "67d70fc22a8545a9f1ebfc070f411e2707e8392c438089a54b1e16fff2d55319"
+						},
+						{
+							"key": "X-Amz-SignedHeaders",
+							"value": "host"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "https://s3.ap-south-1.amazonaws.com/fedicoms.net/campaignimgages/26cf9c75-9504-49be-9eb1-4f27662879e5.jpeg?Content-Type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAY6S7TI7QZ24CO3YB%2F20220911%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-D",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/home/sarang/Downloads/62b095ad-a243-479f-89e0-700c1427e120.jpeg"
+							}
+						},
+						"url": {
+							"raw": "https://s3.ap-south-1.amazonaws.com/fedicoms.net/campaignimgages/26cf9c75-9504-49be-9eb1-4f27662879e5.jpeg?Content-Type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAY6S7TI7QZ24CO3YB%2F20220911%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20220911T182326Z&X-Amz-Expires=600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCmFwLXNvdXRoLTEiRzBFAiAXzDWi%2BcT4j80dat%2FtFBEE27PfpTPL8cACcul2wbfy9gIhAPGDEMCa3W2XHBQ705txzjWJCsMd%2Bfqvt9n%2FeLfJ9vuUKpQDCHwQABoMNjE1NDU0NTU4MTc3IgyWGWJz8d140d%2B50Bgq8QL1f42NoggbdG17LkNY4ZhgsPTIVrQBL50nea8ey2%2BvwRc%2BB7lwfh42pzKP6s7JpbrN6lmp7VghwwgtEyUn2zgvK3FIzxov%2FLJLhj5ksQNJ%2BAEsHs%2F4BbaUrvTECBY0bfL3kAK3mtLMQC6arGSUbc8Uzf6Hn1v%2F1OkrVjPCTI0FjkoTWCMcvB0Ti5YfNnZMVVTwbJJe8u5Z8l%2FqDtB0vXHeER5aN3azXIf10vMKE1Sdd4iAODXSsM%2BMVFej0byxnOeu%2FdfUszCXKYkAEjNWtNbGt%2BO6PCIuw5V0T721SWl45uTBtwDIgSx9nIXd0btOh9PedWFTxRBgtXashk3mAB9rXJjxSicKq1bnxQm0cAkmccao6KmnTzXopd7w6l52azZY%2FOB9ot%2BOxyRPUrlQf8mt2k2P8b0YgttVXI409BkgG%2Fxru%2F23U11P3BF93%2B9kFleGoMvU3Hz27zTWEe5akHeKUBlvCvT%2FB2YBxGFQcm9k4pEwnc%2F4mAY6nQFGO1Ayw3EbeHjNoF3UZC1v2wMpFO5T5TRels3oU1UcN6mDOQyqg9LDKUOm6RAY%2Bk%2BsI1VR0X9137L8fCcQXNoC0cPvURJJGTnDcEjus0hNKQl6miAgquTdkJOVet9uHq5eMjNYaIAD2nYVZe%2Fdpzxhe%2FDNNrO8nEMXIt30AVKZ3VaXmPuHRsI5EtqPE9Xu8NZTaWpI0ss%2BG5GQk6h6&X-Amz-Signature=67d70fc22a8545a9f1ebfc070f411e2707e8392c438089a54b1e16fff2d55319&X-Amz-SignedHeaders=host",
+							"protocol": "https",
+							"host": [
+								"s3",
+								"ap-south-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"fedicoms.net",
+								"campaignimgages",
+								"26cf9c75-9504-49be-9eb1-4f27662879e5.jpeg"
+							],
+							"query": [
+								{
+									"key": "Content-Type",
+									"value": "image%2Fjpeg"
+								},
+								{
+									"key": "X-Amz-Algorithm",
+									"value": "AWS4-HMAC-SHA256"
+								},
+								{
+									"key": "X-Amz-Credential",
+									"value": "ASIAY6S7TI7QZ24CO3YB%2F20220911%2Fap-south-1%2Fs3%2Faws4_request"
+								},
+								{
+									"key": "X-Amz-Date",
+									"value": "20220911T182326Z"
+								},
+								{
+									"key": "X-Amz-Expires",
+									"value": "600"
+								},
+								{
+									"key": "X-Amz-Security-Token",
+									"value": "IQoJb3JpZ2luX2VjEOL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCmFwLXNvdXRoLTEiRzBFAiAXzDWi%2BcT4j80dat%2FtFBEE27PfpTPL8cACcul2wbfy9gIhAPGDEMCa3W2XHBQ705txzjWJCsMd%2Bfqvt9n%2FeLfJ9vuUKpQDCHwQABoMNjE1NDU0NTU4MTc3IgyWGWJz8d140d%2B50Bgq8QL1f42NoggbdG17LkNY4ZhgsPTIVrQBL50nea8ey2%2BvwRc%2BB7lwfh42pzKP6s7JpbrN6lmp7VghwwgtEyUn2zgvK3FIzxov%2FLJLhj5ksQNJ%2BAEsHs%2F4BbaUrvTECBY0bfL3kAK3mtLMQC6arGSUbc8Uzf6Hn1v%2F1OkrVjPCTI0FjkoTWCMcvB0Ti5YfNnZMVVTwbJJe8u5Z8l%2FqDtB0vXHeER5aN3azXIf10vMKE1Sdd4iAODXSsM%2BMVFej0byxnOeu%2FdfUszCXKYkAEjNWtNbGt%2BO6PCIuw5V0T721SWl45uTBtwDIgSx9nIXd0btOh9PedWFTxRBgtXashk3mAB9rXJjxSicKq1bnxQm0cAkmccao6KmnTzXopd7w6l52azZY%2FOB9ot%2BOxyRPUrlQf8mt2k2P8b0YgttVXI409BkgG%2Fxru%2F23U11P3BF93%2B9kFleGoMvU3Hz27zTWEe5akHeKUBlvCvT%2FB2YBxGFQcm9k4pEwnc%2F4mAY6nQFGO1Ayw3EbeHjNoF3UZC1v2wMpFO5T5TRels3oU1UcN6mDOQyqg9LDKUOm6RAY%2Bk%2BsI1VR0X9137L8fCcQXNoC0cPvURJJGTnDcEjus0hNKQl6miAgquTdkJOVet9uHq5eMjNYaIAD2nYVZe%2Fdpzxhe%2FDNNrO8nEMXIt30AVKZ3VaXmPuHRsI5EtqPE9Xu8NZTaWpI0ss%2BG5GQk6h6"
+								},
+								{
+									"key": "X-Amz-Signature",
+									"value": "67d70fc22a8545a9f1ebfc070f411e2707e8392c438089a54b1e16fff2d55319"
+								},
+								{
+									"key": "X-Amz-SignedHeaders",
+									"value": "host"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "x-amz-id-2",
+							"value": "qvjILPiP3f6PLxzCPxodjuW+0SjFw7/Npo2yzKPk2ALGR3SkSlIhWCvXfo+cizEop/E7kAIG72U="
+						},
+						{
+							"key": "x-amz-request-id",
+							"value": "QECTRX7ZNFA386Q4"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 11 Sep 2022 18:24:27 GMT"
+						},
+						{
+							"key": "ETag",
+							"value": "\"b59643423c2267933cdd49fc34ebd36a\""
+						},
+						{
+							"key": "Server",
+							"value": "AmazonS3"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		}
+	]
+}

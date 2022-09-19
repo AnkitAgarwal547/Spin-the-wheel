@@ -11,13 +11,12 @@ import {
 import {LayoutSplashScreen} from '../../../../_metronic/layout/core'
 import {AuthModel, UserModel} from './_models'
 import * as authHelper from './AuthHelpers'
-import {getUserByToken} from './_requests'
+import {getUserByToken, removeToken, setToken} from './_requests'
 import {WithChildren} from '../../../../_metronic/helpers'
-import useAuthHook from '../../../hooks/useAuthHooks'
 
 type AuthContextProps = {
-  auth: AuthModel | undefined
-  saveAuth: (auth: AuthModel | undefined) => void
+  auth: undefined
+  saveAuth: (auth) => void
   currentUser: UserModel | undefined
   setCurrentUser: Dispatch<SetStateAction<UserModel | undefined>>
   logout: () => void
@@ -38,13 +37,10 @@ const useAuth = () => {
 }
 
 const AuthProvider: FC<WithChildren> = ({children}) => {
-  const [auth, setAuth] = useState<AuthModel | undefined>(authHelper.getAuth())
+  const [auth, setAuth] = useState(authHelper.getAuth())
   const [currentUser, setCurrentUser] = useState<UserModel | undefined>()
-  const [login] = useAuthHook()
 
-  const saveAuth = (auth: AuthModel | undefined) => {
-    console.log('🚀 ~ file: Auth.tsx ~ line 47 ~ saveAuth ~ auth', auth)
-
+  const saveAuth = (auth: undefined) => {
     setAuth(auth)
     if (auth) {
       authHelper.setAuth(auth)
@@ -56,6 +52,7 @@ const AuthProvider: FC<WithChildren> = ({children}) => {
   const logout = () => {
     saveAuth(undefined)
     setCurrentUser(undefined)
+    removeToken()
   }
 
   return (
@@ -71,14 +68,15 @@ const AuthInit: FC<WithChildren> = ({children}) => {
   const [showSplashScreen, setShowSplashScreen] = useState(true)
   // We should request user by authToken (IN OUR EXAMPLE IT'S API_TOKEN) before rendering the application
   useEffect(() => {
-    const requestUser = async (apiToken: string) => {
+    const requestUser = async () => {
       try {
-        if (!didRequest.current) {
-          const {data} = await getUserByToken(apiToken)
-          if (data) {
-            setCurrentUser(data)
-          }
-        }
+        // if (!didRequest.current) {
+        //   const {data} = await getUserByToken(apiToken)
+        //   if (data) {
+        //     setCurrentUser(data)
+        console.log('🚀 ~ file: Auth.tsx ~ line 85 ~ requestUser ~ didRequest', didRequest)
+        //   }
+        // }
       } catch (error) {
         console.error(error)
         if (!didRequest.current) {
@@ -91,8 +89,10 @@ const AuthInit: FC<WithChildren> = ({children}) => {
       return () => (didRequest.current = true)
     }
 
-    if (auth && auth.api_token) {
-      requestUser(auth.api_token)
+    if (auth) {
+      didRequest.current = true
+      setCurrentUser(auth)
+      requestUser()
     } else {
       logout()
       setShowSplashScreen(false)

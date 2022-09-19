@@ -1,6 +1,15 @@
 export interface AuthModel {
-  api_token: string
-  refreshToken?: string
+  // api_token: string
+  // refreshToken?: string
+  // data: LoginResponse
+
+}
+
+
+export interface LoginResponse {
+  code: number
+  data: object
+  message: string
 }
 
 export interface UserAddressModel {
