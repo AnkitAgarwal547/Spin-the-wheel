@@ -1,12 +1,15 @@
 import React, {useState} from 'react'
 import * as Yup from 'yup'
 import clsx from 'clsx'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {useFormik} from 'formik'
 import {requestPassword} from '../core/_requests'
+import {ToastMessage} from '../../../shared/ToastMessage'
+import {ToastContainer} from 'react-toastify'
 
 const initialValues = {
-  email: 'admin@demo.com',
+  email: '',
+  new_password: '',
 }
 
 const forgotPasswordSchema = Yup.object().shape({
@@ -15,30 +18,38 @@ const forgotPasswordSchema = Yup.object().shape({
     .min(3, 'Minimum 3 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('Email is required'),
+  new_password: Yup.string()
+    .min(3, 'Minimum 3 symbols')
+    .max(50, 'Maximum 50 symbols')
+    .required('Password is required'),
 })
 
 export function ForgotPassword() {
   const [loading, setLoading] = useState(false)
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
+  const navigate = useNavigate()
   const formik = useFormik({
     initialValues,
     validationSchema: forgotPasswordSchema,
     onSubmit: (values, {setStatus, setSubmitting}) => {
       setLoading(true)
       setHasErrors(undefined)
-      setTimeout(() => {
-        requestPassword(values.email)
-          .then(({data: {result}}) => {
-            setHasErrors(false)
-            setLoading(false)
-          })
-          .catch(() => {
-            setHasErrors(true)
-            setLoading(false)
-            setSubmitting(false)
-            setStatus('The login detail is incorrect')
-          })
-      }, 1000)
+      requestPassword(values.email, values.new_password)
+        .then((resp) => {
+          setLoading(false)
+          ToastMessage('Password updated successfully', 'success')
+          navigate('/auth/login')
+        })
+        .catch((error) => {
+          setLoading(false)
+          setSubmitting(false)
+          setStatus('The login detail is incorrect')
+          if (error.response.data.message) {
+            ToastMessage(error.response.data.message, 'error')
+          } else {
+            ToastMessage('Something went wrong!', 'error')
+          }
+        })
     },
   })
 
@@ -78,7 +89,6 @@ export function ForgotPassword() {
 
         {/* begin::Form group */}
         <div className='fv-row mb-10'>
-          <label className='form-label fw-bolder text-gray-900 fs-6'>Email</label>
           <input
             type='email'
             placeholder=''
@@ -100,33 +110,58 @@ export function ForgotPassword() {
             </div>
           )}
         </div>
+        <div className='fv-row mb-10'>
+          <input
+            type='password'
+            placeholder=''
+            autoComplete='off'
+            {...formik.getFieldProps('new_password')}
+            className={clsx(
+              'form-control form-control-lg form-control-solid',
+              {'is-invalid': formik.touched.new_password && formik.errors.new_password},
+              {
+                'is-valid': formik.touched.new_password && !formik.errors.new_password,
+              }
+            )}
+          />
+          {formik.touched.new_password && formik.errors.new_password && (
+            <div className='fv-plugins-message-container'>
+              <div className='fv-help-block'>
+                <span role='alert'>{formik.errors.new_password}</span>
+              </div>
+            </div>
+          )}
+        </div>
         {/* end::Form group */}
+        <ToastContainer />
 
         {/* begin::Form group */}
         <div className='d-flex flex-wrap justify-content-center pb-lg-0'>
           <button
             type='submit'
             id='kt_password_reset_submit'
-            className='btn btn-lg btn-dark fw-bolder me-4'
+            className='btn btn-sm btn-dark me-4'
+            disabled={loading || !formik.isValid}
           >
-            <span className='indicator-label'>Submit</span>
-            {loading && (
-              <span className='indicator-progress'>
-                Please wait...
-                <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
-              </span>
-            )}
+            <div className='d-flex'>
+              <span className='indicator-label'>Submit </span>
+              {loading && (
+                <span className='indicator-progress' style={{display: 'block'}}>
+                  <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                </span>
+              )}
+            </div>
           </button>
           <Link to='/auth/login'>
             <button
               type='button'
               id='kt_login_password_reset_form_cancel_button'
-              className='btn btn-lg fw-bolder'
+              className='btn btn-outline-dark btn-sm'
               disabled={formik.isSubmitting || !formik.isValid}
             >
               Cancel
             </button>
-          </Link>{' '}
+          </Link>
         </div>
         {/* end::Form group */}
       </form>

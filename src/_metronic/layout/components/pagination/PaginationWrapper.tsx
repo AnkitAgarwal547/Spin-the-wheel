@@ -32,11 +32,9 @@ export default function PaginationWrappper(props: any) {
   }
 
   return (
-    <Pagination className='justify-content-end' size='sm'>
-      <Pagination.Prev
-        onClick={() => handleClickPrevious()}
-        disabled={currentPage === pageNumbers.length - 1 || pageNumbers.length === 1}
-      />
+    <Pagination className='justify-content-end mb-10' size='sm'>
+      <Pagination.Prev onClick={() => handleClickPrevious()} disabled={currentPage === 1} />
+
       {pageNumbers.map((number) => (
         <Pagination.Item
           key={number}
@@ -48,7 +46,7 @@ export default function PaginationWrappper(props: any) {
       ))}
 
       <Pagination.Next
-        disabled={currentPage !== pageNumbers.length - 1 || pageNumbers.length === 1}
+        disabled={currentPage === pageNumbers.length}
         onClick={() => handleClickNext()}
       />
     </Pagination>

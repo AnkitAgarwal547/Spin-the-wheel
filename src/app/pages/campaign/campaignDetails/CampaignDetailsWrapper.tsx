@@ -1,9 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useEffect, useRef, useState} from 'react'
-import {Button} from 'react-bootstrap'
-import {useQuery} from 'react-query'
-import {DownloadTableExcel} from 'react-export-table-to-excel'
-import {useLocation, useParams} from 'react-router'
+import {CSVLink} from 'react-csv'
+import {useParams} from 'react-router'
 import {getRequest} from '../../../modules/auth/core/_requests'
 import Loader from '../../../shared/Loader'
 import {CampaignDetailsTable} from './CampaignDetailsTable'
@@ -23,15 +21,6 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
   const [isLoadingDetails, setIsLoadingDetails] = useState(false)
   const {searchKey} = useAppSelector((state) => state.searchReducer)
 
-  const {
-    status,
-    data,
-    error,
-    refetch,
-    isLoading: isLoadingGenerateBumpurWinner,
-  } = useQuery('', getRequest, {
-    enabled: false,
-  })
   useEffect(() => {
     setIsLoadingDetails(true)
     getRequest()
@@ -91,13 +80,14 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
                   </button>
                 </div>
                 <div className='d-flex flex-wrap my-2'>
-                  <DownloadTableExcel
-                    filename='users table'
-                    sheet='users'
-                    currentTableRef={tableRef.current}
+                  <CSVLink
+                    data={[]}
+                    className='btn btn-outline-dark btn-sm rounded-pill'
+                    filename={'Campaigns.csv'}
+                    target='_blank'
                   >
-                    <button className='btn btn-dark btn-sm rounded-pill'>Export</button>
-                  </DownloadTableExcel>
+                    Export
+                  </CSVLink>
                 </div>
               </div>
               <div>

@@ -37,12 +37,9 @@ export default function FileUpload({
         fetch(result as string)
           .then((res) => res.blob())
           .then((blob) => {
-            // console.log('here is your binary: ', blob)
             setBinaryData(blob)
             getUploadUrl(payload).then((response) => {
-              console.log('🚀 ~ file: FileUpload.tsx ~ line 32 ~ getUploadUrl ~ response', response)
               uploadFile(response.data.data.aws_signed_url, blob).then((resp) => {
-                console.log('🚀 ~ file: FileUpload.tsx ~ line 60 ~ uploadFile ~ resp', resp)
                 setFieldValue(response.data.data.aws_signed_url.split('?')[0])
               })
             })

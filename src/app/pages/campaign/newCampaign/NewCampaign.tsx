@@ -13,6 +13,7 @@ import {
   getUploadUrl,
   postCampaign,
   postRequest,
+  putCampaign,
   uploadFile,
 } from '../../../modules/auth/core/_requests'
 import {Field, FieldArray, Formik, useFormik, useFormikContext} from 'formik'
@@ -25,11 +26,19 @@ import {typeOfCampaigns} from '../../../modules/campaign/CampaignTable'
 import {ToastContainer} from 'react-toastify'
 import moment from 'moment'
 import axios from 'axios'
+import {useLocation, useNavigate, useParams} from 'react-router'
+import {Link} from 'react-router-dom'
 
 type Props = {}
 
 const NewCampaign: React.FC<Props> = () => {
   const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
+  const {id} = useParams()
+  console.log('🚀 ~ file: NewCampaign.tsx ~ line 36 ~ id', id)
+
+  const location = useLocation()
+  console.log('🚀 ~ file: NewCampaign.tsx ~ line 35 ~ location', location)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [campaignBackground, setCampaignBackground] = useState({
     details: {name: ''},
@@ -42,37 +51,6 @@ const NewCampaign: React.FC<Props> = () => {
   const [banner1Binary, setBanner1Binary] = useState('')
   const [banner2Binary, setBanner2Binary] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
-
-  //   {
-  //   "company_name": "XYX Tech",
-  //   "title": "XYZ Campaign",
-  //   "difficulty": "EASY",
-  //   "type": "SPIN_THE_WHEEL",
-  //   "template": "TEMPLATE_1",
-  //   "start_date": "2022-09-20",
-  //   "end_date": "2022-12-30",
-  //   "logo_url": "logourl",
-  //   "banner1_url": "banner1url",
-  //   "banner2_url": "banner2url",
-  //   "backcolor": "#454545",
-  //   "forecolor": "#111111",
-  //   "tnc": "tnctext",
-  //   "maxplay_peruser_perday": 10,
-  //   "winning_values": [
-  //     {
-  //       "label": "Better luck next time",
-  //       "max_perday": 1000
-  //     },
-  //     {
-  //       "label": "Get 20% off",
-  //       "max_perday": 50
-  //     },
-  //     {
-  //       "label": "Get 10% off",
-  //       "max_perday": 80\n
-  //     }
-  //   ]
-  // }
 
   const formFields = {
     TYPE: 'type',
@@ -87,10 +65,8 @@ const NewCampaign: React.FC<Props> = () => {
     BANNER2: 'banner2_url',
     BACKGROUND_IMAGE: 'backimg',
     FOREGROUND_COLOR: 'foreground_color',
-    TEMPLATE_ID: '',
-    ATTEMPT_COUNT: '',
-    CLICK_COUNT: '',
-    WHEEL_BACKGROUNDCOLOR: 'wheel_color',
+    _ID: '_id',
+    WHEEL_BACKGROUNDCOLOR: 'prop_color',
     MAX_PLAY_USER: 'maxplay_peruser_perday',
     TEMPLATE_TYPE: 'template',
     TERMS: 'tnc',
@@ -178,26 +154,6 @@ const NewCampaign: React.FC<Props> = () => {
     ),
   })
 
-  // const validationSchema = Yup.object().shape({
-  //   [formFields.COMPANY_NAME]: Yup.string().required(),
-  //   [formFields.DIFFICULTY]: Yup.string().required(),
-  //   [formFields.START_DATE]: Yup.string().required(),
-  //   [formFields.END_DATE]: Yup.string().required(),
-  //   [formFields.TITLE]: Yup.string().required(),
-  //   [formFields.BUMPER_PRIZE]: Yup.string().required(),
-  //   [formFields.TYPE]: Yup.string().required(),
-  //   [formFields.TERMS]: Yup.string().required(),
-  //   [formFields.MAX_PLAY_USER]: Yup.number().required(),
-  //   [formFields.TEMPLATE_TYPE]: Yup.string().required(),
-  //   [formFields.FONT_COLOR]: Yup.string(),
-  //   [formFields.WINNING_VALUES]: Yup.array().of(
-  //     Yup.object().shape({
-  //       [formFields.MAX_PERDAY]: Yup.number().required(),
-  //       [formFields.LABEL]: Yup.string().required(),
-  //     })
-  //   ),
-  // })
-
   const getThemeStyle = (type) => {
     let backgroundImage = ''
     let scratchCardImage = ''
@@ -240,36 +196,6 @@ const NewCampaign: React.FC<Props> = () => {
     }
     return {backgroundImage, color, scratchCardImage, buttonBackgroundColor, pickTheBox}
   }
-
-  const [campaign, setTypeOfCampaign] = useState('wheel')
-  // const formik = useFormik({
-  //   initialValues,
-  //   validationSchema: schema,
-  //   onSubmit: async (values, {setStatus, setSubmitting}) => {
-  //     console.log('🚀 ~ file: NewCampaign.tsx ~ line 70 ~ onSubmit: ~ values', values)
-  //     try {
-  //       // const {data: auth} = await login(values.email, values.password)
-  //       // if (JSON.stringify(auth.data) === '{}') {
-  //       //   saveAuth(undefined)
-  //       //   setStatus('The login detail is incorrect')
-  //       //   setSubmitting(false)
-  //       //   setLoading(false)
-  //       //   ToastMessage(auth?.message, 'success')
-  //       // } else {
-  //       //   saveAuth(auth.data)
-  //       //   setToken(auth.data.token)
-  //       //   ToastMessage('Login successful!', 'error')
-  //       //   setCurrentUser(auth.data)
-  //       // }
-  //     } catch (error: any) {
-  //       // saveAuth(undefined)
-  //       // setStatus('The login detail is incorrect')
-  //       // setSubmitting(false)
-  //       // setLoading(false)
-  //       ToastMessage('Something went wrong!', 'error')
-  //     }
-  //   },
-  // })
 
   const initialValueOfImages = {
     details: null,
@@ -366,9 +292,44 @@ const NewCampaign: React.FC<Props> = () => {
     event.target.value = null
   }
 
+  const patchForm = () => {
+    let obj: any = location.state
+    let winningValues = obj[formFields.WINNING_VALUES]
+    winningValues.map((item) => {
+      delete item.day_count
+      delete item.key
+      return item
+    })
+    console.log(
+      '🚀 ~ file: NewCampaign.tsx ~ line 303 ~ winningValues.map ~ winningValues',
+      winningValues
+    )
+    let newObj = {
+      [formFields.COMPANY_NAME]: obj[formFields.COMPANY_NAME],
+      [formFields.DIFFICULTY]: obj[formFields.DIFFICULTY],
+      [formFields.START_DATE]: new Date(obj.start_date),
+      [formFields.END_DATE]: new Date(obj.end_date),
+      [formFields.TITLE]: obj[formFields.TITLE],
+      [formFields.TYPE]: obj[formFields.TYPE],
+      [formFields.MAX_PLAY_USER]: obj[formFields.MAX_PLAY_USER],
+      [formFields.TEMPLATE_TYPE]: obj[formFields.TEMPLATE_TYPE],
+      [formFields.TERMS]: obj[formFields.TERMS],
+      [formFields.FONT_COLOR]: obj[formFields.FONT_COLOR],
+      [formFields.LOGO]: obj[formFields.LOGO],
+      [formFields.WINNING_VALUES]: winningValues,
+      [formFields.BANNER1]: obj[formFields.BANNER1],
+      [formFields.BANNER2]: obj[formFields.BANNER2],
+      [formFields.BACKGROUND_IMAGE]: obj[formFields.BACKGROUND_IMAGE],
+      [formFields.WHEEL_BACKGROUNDCOLOR]: obj[formFields.WHEEL_BACKGROUNDCOLOR],
+    }
+
+    console.log('🚀 ~ file: NewCampaign.tsx ~ line 343 ~ patchForm ~ obj', newObj)
+    return newObj
+  }
+
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={location.state ? patchForm() : initialValues}
       validationSchema={validationSchema}
       onSubmit={async (values, {setSubmitting, resetForm}) => {
         setIsSubmitted(true)
@@ -388,31 +349,62 @@ const NewCampaign: React.FC<Props> = () => {
                 ? (payload['backimg'] = getThemeStyle(values.template).backgroundImage)
                 : (payload['backimg'] = await getImageUrl(campaignBackground, campaignBgBinary)),
               logoOfCampaign.path &&
+                logoBinary &&
                 (payload['logo_url'] = await getImageUrl(logoOfCampaign, logoBinary)),
-              banner1.path
-                ? (payload['banner1_url'] = await getImageUrl(banner1, banner1Binary))
-                : (payload['banner1_url'] = ''),
-              banner2.path
-                ? (payload['banner2_url'] = await getImageUrl(banner2, banner2Binary))
-                : (payload['banner2_url'] = ''),
+              banner1.path &&
+                banner1Binary &&
+                (payload['banner1_url'] = await getImageUrl(banner1, banner1Binary)),
+              banner2.path &&
+                banner2Binary &&
+                (payload['banner2_url'] = await getImageUrl(banner2, banner2Binary)),
             ])
             .then(
               axios.spread((firstResponse, secondResponse, thirdResponse, forthResponse) => {
-                postCampaign(payload)
-                  .then((resp) => {
-                    if (resp) {
-                      ToastMessage('Campaign created successfully', 'success')
+                if (id) {
+                  console.log('🚀 ~ file: NewCampaign.tsx ~ line 401 ~ axios.spread ~ id', id)
+                  putCampaign(payload, id)
+                    .then((resp) => {
+                      if (resp) {
+                        ToastMessage('Campaign updated successfully', 'success')
+                        setIsLoading(false)
+                        resetForm()
+                        resetImages()
+                        setIsSubmitted(false)
+                        navigate('/campaigns')
+                      }
+                    })
+                    .catch((error) => {
+                      console.log(error.response.data.message)
+                      if (error?.response?.data?.message) {
+                        ToastMessage(error?.response?.data?.message, 'error')
+                      } else {
+                        ToastMessage('Something went wrong!', 'error')
+                      }
                       setIsLoading(false)
-                      resetForm()
-                      resetImages()
                       setIsSubmitted(false)
-                    }
-                  })
-                  .catch((err) => {
-                    ToastMessage('Something went wrong!', 'error')
-                    setIsLoading(false)
-                    setIsSubmitted(false)
-                  })
+                    })
+                } else {
+                  postCampaign(payload)
+                    .then((resp) => {
+                      if (resp) {
+                        ToastMessage('Campaign updated successfully', 'success')
+                        setIsLoading(false)
+                        resetForm()
+                        resetImages()
+                        setIsSubmitted(false)
+                        navigate('/campaigns')
+                      }
+                    })
+                    .catch((error) => {
+                      if (error?.response?.data?.message) {
+                        ToastMessage(error?.response?.data?.message, 'error')
+                      } else {
+                        ToastMessage('Something went wrong!', 'error')
+                      }
+                      setIsLoading(false)
+                      setIsSubmitted(false)
+                    })
+                }
               })
             )
             .catch((error) => {
@@ -421,22 +413,6 @@ const NewCampaign: React.FC<Props> = () => {
               setIsSubmitted(false)
             })
         }
-        // if (!campaignBackground.path) {
-        //   payload['backimg'] = getThemeStyle(values.template).backgroundImage
-        // } else {
-        //   payload['backimg'] = await getImageUrl(campaignBackground, campaignBgBinary)
-        // }
-
-        // // if (logoOfCampaign.path) {
-        // //   payload['logo_url'] = await getImageUrl(logoOfCampaign, logoBinary)
-        // // }
-        // // if (banner1.path) {
-        // //   payload['banner1_url'] = await getImageUrl(banner1, banner1Binary)
-        // // }
-
-        // // if (banner2.path) {
-        // //   payload['banner2_url'] = await getImageUrl(banner2, banner2Binary)
-        // // }
       }}
     >
       {({values, errors, touched, handleChange, setFieldValue, handleSubmit, isSubmitting}) => {
@@ -460,7 +436,6 @@ const NewCampaign: React.FC<Props> = () => {
                         name={formFields.COMPANY_NAME}
                         value={values[formFields.COMPANY_NAME]}
                         onChange={handleChange}
-                        // {...formik.getFieldProps(formFields.COMPANY_NAME)}
                         className={clsx(
                           'form-control ',
                           {'is-invalid': touched.company_name && errors.company_name},
@@ -638,15 +613,20 @@ const NewCampaign: React.FC<Props> = () => {
                         className='campaign-outer-div text-center'
                         style={{
                           backgroundImage: `url(${
-                            values.template && !campaignBackground.path
+                            values.template && !campaignBackground.path && !values.backimg
                               ? getThemeStyle(values.template).backgroundImage
+                              : values.backimg
+                              ? values.backimg
                               : campaignBackground.path
                           })`,
                         }}
                       >
                         <div>
-                          {logoOfCampaign.path ? (
-                            <img className='logo' src={logoOfCampaign.path} />
+                          {logoOfCampaign.path || values.logo_url ? (
+                            <img
+                              className='logo'
+                              src={values.logo_url ? values.logo_url : logoOfCampaign.path}
+                            />
                           ) : (
                             <img
                               className='logo'
@@ -682,7 +662,7 @@ const NewCampaign: React.FC<Props> = () => {
                               textColor={values.forecolor}
                               items={getWinningValuesLabel(values.winning_values)}
                               type={values.template}
-                              backgroundColor={values.wheel_color}
+                              backgroundColor={values.prop_color}
                             />
                           </p>
                         ) : (
@@ -704,14 +684,22 @@ const NewCampaign: React.FC<Props> = () => {
                         {banner1.path && (
                           <div
                             className='banner-img'
-                            style={{backgroundImage: `url(${banner1.path})`}}
+                            style={{
+                              backgroundImage: `url(${
+                                values.banner1_url ? values.banner1_url : banner1.path
+                              })`,
+                            }}
                           />
                         )}
 
                         {banner2.path && (
                           <div
                             className='banner-img'
-                            style={{backgroundImage: `url(${banner2.path})`}}
+                            style={{
+                              backgroundImage: `url(${
+                                values.banner2_url ? values.banner2_url : banner2.path
+                              })`,
+                            }}
                           />
                         )}
                       </div>
@@ -739,7 +727,7 @@ const NewCampaign: React.FC<Props> = () => {
                         <FileUpload
                           fileData={banner1}
                           setFileData={setBanner1}
-                          showError={isSubmitted && !banner1.path}
+                          showError={false}
                           setBinaryData={setBanner1Binary}
                           setFieldValue={(file) => {
                             setFieldValue(formFields.BANNER1, file)
@@ -754,7 +742,7 @@ const NewCampaign: React.FC<Props> = () => {
                         <FileUpload
                           fileData={banner2}
                           setFileData={setBanner2}
-                          showError={isSubmitted && !banner2.path}
+                          showError={false}
                           setBinaryData={setBanner2Binary}
                           setFieldValue={(file) => {
                             setFieldValue(formFields.BANNER2, file)
@@ -940,9 +928,9 @@ const NewCampaign: React.FC<Props> = () => {
                 </div>
                 <div className='row my-10'>
                   <div className='col-xxl-1 col-xl-2 col-lg-2 col-md-2 col-3'>
-                    <Button type='button' variant='outline-dark' size='sm'>
+                    <Link to='/campaigns' type='button' className='btn btn-sm btn-outline-dark'>
                       Cancel
-                    </Button>
+                    </Link>
                   </div>
                   <div className='col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-3'>
                     <Button
@@ -957,7 +945,8 @@ const NewCampaign: React.FC<Props> = () => {
                       className='mb-10'
                     >
                       <span className='indicator-progress' style={{display: 'block'}}>
-                        Create
+                        {id ? 'Edit' : 'Create'}
+
                         {isLoading && (
                           <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
                         )}

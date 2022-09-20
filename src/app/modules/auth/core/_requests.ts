@@ -44,9 +44,10 @@ export function register(
 }
 
 // Server should return object => { result: boolean } (Is Email in DB)
-export function requestPassword(email: string) {
-  return axios.post<{ result: boolean }>(REQUEST_PASSWORD_URL, {
+export function requestPassword(email: string, new_password: string) {
+  return axios.post(REQUEST_PASSWORD_URL, {
     email,
+    new_password
   })
 }
 
@@ -79,7 +80,6 @@ export async function getRequest() {
 }
 
 export function changePassword(payload) {
-
   return axios.post(CHANGE_PASSWORD_URL, payload, header)
 }
 
@@ -100,9 +100,11 @@ export async function postQuestionnaire(payload) {
 }
 
 
-export async function deleteQuestionnaire(id) {
-  return axios.delete(QUESTIONNAIRE_URL + '/' + id, header)
+export async function putCampaign(payload, id) {
+  return axios.put(GET_CAMPAIGNS + '/' + id, payload, header)
 }
+
+
 
 export async function getCampaigns() {
   return axios.get(GET_CAMPAIGNS, header)
@@ -111,6 +113,10 @@ export async function getCampaigns() {
 
 export async function postCampaign(payload) {
   return axios.post(GET_CAMPAIGNS, payload, header)
+}
+
+export async function deleteQuestionnaire(id) {
+  return axios.delete(GET_CAMPAIGNS + '/' + id, header)
 }
 
 export async function deleteCampaignRequest(id) {

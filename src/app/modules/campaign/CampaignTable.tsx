@@ -1,9 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import axios from 'axios'
 import React, {useEffect, useRef, useState} from 'react'
-import {useQuery} from 'react-query'
-import {DownloadTableExcel} from 'react-export-table-to-excel'
-import {useNavigate, useMatch, generatePath} from 'react-router'
+import {CSVLink} from 'react-csv'
 import {Link} from 'react-router-dom'
 import {KTSVG, toAbsoluteUrl} from '../../../_metronic/helpers'
 import PaginationWrappper from '../../../_metronic/layout/components/pagination/PaginationWrapper'
@@ -11,6 +8,7 @@ import {useAppSelector} from '../../redux/hooks/hooks'
 import Loader from '../../shared/Loader'
 import {deleteCampaignRequest, getCampaigns, getRequest} from '../auth/core/_requests'
 import './CompaignTable.scss'
+import {useAuth} from '../auth'
 
 type Props = {
   className: string
@@ -24,131 +22,21 @@ export const typeOfCampaigns = {
 }
 
 const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
-  const dummyData = [
-    {
-      id: 1,
-      companyName: 'Lorem Ipsum',
-      companyDetails: 'Tata aig speen the wheel',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-      userClicks: 100,
-      totalAttempts: 10,
-    },
-    {
-      id: 2,
-      companyName: 'Lorem Ipsum',
-      companyDetails: 'Tata aig speen the wheel',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-      userClicks: 100,
-      totalAttempts: 10,
-    },
-    {
-      id: 3,
-      companyName: 'Lorem Ipsum',
-      companyDetails: 'Tata aig speen the wheel',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-      userClicks: 10,
-      totalAttempts: 10,
-    },
-    {
-      id: 4,
-      companyName: 'Lorem Ipsum',
-      companyDetails: 'Tata aig speen the wheel',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-      userClicks: 100,
-      totalAttempts: 10,
-    },
-    {
-      id: 5,
-      companyName: 'Lorem Ipsum',
-      companyDetails: 'Tata aig speen the wheel',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-      userClicks: 100,
-      totalAttempts: 10,
-    },
-
-    {
-      id: 5,
-      companyName: 'Lorem Ipsum',
-      companyDetails: 'Tata aig speen the wheel',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-      userClicks: 100,
-      totalAttempts: 10,
-    },
-    {
-      id: 5,
-      companyName: 'Lorem Ipsum',
-      companyDetails: 'Tata aig speen the wheel',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-      userClicks: 100,
-      totalAttempts: 10,
-    },
-    {
-      id: 5,
-      companyName: 'Lorem Ipsum',
-      companyDetails: 'Tata aig speen the wheel',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-      userClicks: 100,
-      totalAttempts: 10,
-    },
-    {
-      id: 5,
-      companyName: 'Lorem Ipsum',
-      companyDetails: 'Tata aig speen the wheel',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-      userClicks: 100,
-      totalAttempts: 10,
-    },
-    {
-      id: 5,
-      companyName: 'Lorem Ipsum',
-      companyDetails: 'Tata aig speen the wheel',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-      userClicks: 100,
-      totalAttempts: 10,
-    },
-  ]
   const {searchKey} = useAppSelector((state) => state.searchReducer)
-  const [posts, setPosts] = useState<any[]>([])
+  const [campaigns, setCampaigns] = useState<any[]>([])
   const [currentPage, setCurrentPage] = useState(1)
-  const [postsPerPage, setPostsPerPage] = useState(5)
-  const indexOfLastPost = currentPage * postsPerPage
-  const indexOfFirstPost = indexOfLastPost - postsPerPage
-  const tableRef = useRef(null)
+  const [campaignsPerPage, setCampaignsPerPage] = useState(5)
+  const indexOfLastCampaign = currentPage * campaignsPerPage
+  const indexOfFirstCampaign = indexOfLastCampaign - campaignsPerPage
   const [isLoading, setIsLoading] = useState(false)
-  const currentCampaignsList = posts.slice(indexOfFirstPost, indexOfLastPost)
+  const currentCampaignsList = campaigns.slice(indexOfFirstCampaign, indexOfLastCampaign)
+  const {currentUser} = useAuth()
+  const [error, setError] = useState(false)
 
   useEffect(() => {
-    getCampaignList()
+    if (currentUser) {
+      getCampaignList()
+    }
   }, [])
 
   const columns = [
@@ -249,10 +137,11 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
       .then((resp) => {
         console.log('🚀 ~ file: CampaignTable.tsx ~ line 244 ~ .then ~ resp', resp)
         setIsLoading(false)
-        setPosts(resp.data.data)
+        setCampaigns(resp.data.data)
       })
       .catch(() => {
         setIsLoading(false)
+        setError(true)
       })
   }
 
@@ -291,13 +180,14 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
         {showButtons && (
           <div className='d-flex flex-wrap my-2'>
             <div className='me-4'>
-              <DownloadTableExcel
-                filename='users table'
-                sheet='users'
-                currentTableRef={tableRef.current}
+              <CSVLink
+                data={campaigns}
+                className='btn btn-outline-dark btn-sm rounded-pill'
+                filename={'Campaigns.csv'}
+                target='_blank'
               >
-                <button className='btn btn-outline-dark btn-sm rounded-pill'>Export</button>
-              </DownloadTableExcel>
+                Export
+              </CSVLink>
             </div>
 
             <Link to='/new-campaign' className='btn btn-dark btn-sm rounded-pill'>
@@ -313,10 +203,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
           <Loader size='1rem' />
         ) : (
           <div className='table-responsive'>
-            <table
-              className='table campaign-table table-row-dashed table-responsive table-row-gray-300 align-middle gs-0'
-              ref={tableRef}
-            >
+            <table className='table campaign-table table-row-dashed table-responsive table-row-gray-300 align-middle gs-0'>
               <thead className='bg-dark rounded'>
                 <tr className='fw-bold text-muted'>
                   <th className='min-w-100px text-center'>SR NO.</th>
@@ -331,11 +218,13 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                 </tr>
               </thead>
               <tbody>
-                {currentCampaignsList.length > 0 ? (
+                {currentCampaignsList.length > 0 && !error ? (
                   currentCampaignsList.map((item, i) => {
                     return (
                       <tr key={i}>
-                        <td className='text-center'>{(currentPage - 1) * postsPerPage + i + 1}</td>
+                        <td className='text-center'>
+                          {(currentPage - 1) * campaignsPerPage + i + 1}
+                        </td>
                         <td className='text-start'>{item.company_name}</td>
                         <td className='text-center'>{item.title}</td>
                         <td>{typeOfCampaign(item.type)}</td>
@@ -347,9 +236,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                           </div>
                         </td>
                         <td className='text-center'>
-                          <div className='qr-code'> {item.qrcode}</div>
-
-                          {/* <img alt='QR Code' src={item.qrcode} className='h-50px me-3' /> */}
+                          <img alt='QR Code' src={item.qrcode} className='h-50px' />
                         </td>
                         <td className='text-center'>{item.click_count}</td>
                         <td className='text-center'>{item.attempt_count}</td>
@@ -357,6 +244,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                           <div className='d-flex action-btns justify-content-evenly'>
                             <Link
                               to={`/edit-campaign/${item._id}`}
+                              state={item}
                               className='btn btn-sm btn-outline-dark mr-2'
                             >
                               Edit
@@ -383,18 +271,20 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                 ) : (
                   <div className='center no-data'>No data</div>
                 )}
+
+                {error && <div className='center no-data'>Unable to fetch data</div>}
               </tbody>
             </table>
 
-            {posts.length > postsPerPage && (
+            {campaigns?.length > campaignsPerPage && (
               <PaginationWrappper
                 postsPerPage={5}
-                totalPosts={posts.length}
+                totalPosts={campaigns.length}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
-                data={posts}
-                indexOfLastPost={indexOfLastPost}
-                indexOfFirstPost={indexOfFirstPost}
+                data={campaigns}
+                indexOfLastPost={indexOfLastCampaign}
+                indexOfFirstPost={indexOfFirstCampaign}
               />
             )}
           </div>

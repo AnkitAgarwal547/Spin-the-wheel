@@ -156,6 +156,8 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
   const indexOfFirstPost = indexOfLastPost - postsPerPage
   const currrentQuestionnaireList = posts.slice(indexOfFirstPost, indexOfLastPost)
   const {searchKey} = useAppSelector((state) => state.searchReducer)
+  const [error, setError] = useState(false)
+
   const loginSchema = Yup.object().shape({
     question: Yup.string().required('Question is required'),
     type: Yup.string().required('Type is required'),
@@ -272,6 +274,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
       .catch(() => {
         setIsLoading(false)
         ToastMessage('Something went wrong!', 'error')
+        setError(true)
       })
   }
 
@@ -495,7 +498,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {currrentQuestionnaireList.length > 0 ? (
+                  {currrentQuestionnaireList.length > 0 && !error ? (
                     currrentQuestionnaireList.map((item, i) => {
                       return (
                         <tr key={i}>
@@ -595,6 +598,8 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                   ) : (
                     <div className='center no-data'>No data</div>
                   )}
+
+                  {!error && <div className='center no-data'>Unable to fetch data</div>}
                 </tbody>
               </table>
             </form>

@@ -53,6 +53,7 @@ export default class Wheel extends Component<any, any> {
       '--nb-item': items.length,
       '--selected-item': selectedItem,
       backgroundColor: backgroundColor,
+      borderColor: backgroundColor,
     }
 
     const itemStyle = {}
@@ -83,7 +84,7 @@ export default class Wheel extends Component<any, any> {
             <ConfettiExplosion duration={5000} particleCount={200} />
           </Delayed>
         )} */}
-        <div className='wheel-container'>
+        <div className='wheel-container' style={{borderColor: backgroundColor}}>
           <div
             className={`wheel ${spinning}`}
             style={wheelVars as React.CSSProperties}

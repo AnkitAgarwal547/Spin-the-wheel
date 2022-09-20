@@ -3,7 +3,7 @@
   --wheel-size: 200px;
   --wheel-slice-spacing: 50px;
   --wheel-border-size: 3px;
-  --wheel-color: #DD3468;
+  --wheel-color: #da3768;
   --neutral-color: white;
   --PI: 3.14159265358979;
   --nb-item: 0;
@@ -46,7 +46,7 @@ content: '';
 
 .wheel-container::before {
 right: -2px;
-    border-right-color:var(--neutral-color);
+    border-right-color:inherit;
 
 }
 
@@ -63,10 +63,7 @@ right: -2px;
     border-right-color: var(--neutral-color);
 }
 
-.wheel-container::before {
-    right: -1px;
-    border-right-color: var(--wheel-color);
-}
+
 
 /* Roue */
 .wheel {
@@ -149,12 +146,13 @@ right: -2px;
     mais globalement ca marche a peu près bien
     TODO: A étudier
   */
-  --slice-max-width: calc(var(--PI) *290px +290px / 2);
-  --slice-width: calc((var(--slice-max-width) / var(--nb-item)) - var(--wheel-slice-spacing));
-  border: solid transparent calc(var(--slice-width) / 2);
-  border-left: solid transparent 0;
-  /* profondeur du triangle = du centre de la roue à la bordure = 300px / 2 */
-  border-right: solid var(--neutral-color) calc(var(--wheel-size) / 2);
+
+
+      --slice-max-width: calc(var(--PI) * 250px + 200px / 2);
+    --slice-width: calc((var(--slice-max-width) / var(--nb-item)) - var(--wheel-slice-spacing));
+    border: solid transparent calc(var(--slice-width) / 2);
+    border-left: solid transparent 0;
+    border-right: solid var(--neutral-color) calc(var(--wheel-size) / 2);
 }
 
 .wheel-text{
