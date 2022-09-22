@@ -27,7 +27,6 @@ const MasterLayout = () => {
   const asideRef = useRef() as React.MutableRefObject<HTMLInputElement>
 
   const minimize = () => {
-    console.log('dajsgh')
     asideRef.current?.classList.add('animating')
     setTimeout(() => {
       asideRef.current?.classList.remove('animating')

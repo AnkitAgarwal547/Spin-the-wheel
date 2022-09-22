@@ -35,10 +35,7 @@ const NewCampaign: React.FC<Props> = () => {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const {id} = useParams()
-  console.log('🚀 ~ file: NewCampaign.tsx ~ line 36 ~ id', id)
-
   const location = useLocation()
-  console.log('🚀 ~ file: NewCampaign.tsx ~ line 35 ~ location', location)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [campaignBackground, setCampaignBackground] = useState({
     details: {name: ''},
@@ -112,7 +109,7 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.END_DATE]: new Date().setDate(new Date().getDate() + 1),
     [formFields.TITLE]: '',
     [formFields.TYPE]: typeOfCampaigns.SPIN_THE_WHEEL,
-    [formFields.MAX_PLAY_USER]: '',
+    [formFields.MAX_PLAY_USER]: null,
     [formFields.TEMPLATE_TYPE]: 'TEMPLATE_1',
     [formFields.TERMS]: '',
     [formFields.FONT_COLOR]: '#000000',
@@ -124,26 +121,15 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.COMPANY_NAME]: Yup.string().required(),
     [formFields.DIFFICULTY]: Yup.string().required(),
     [formFields.START_DATE]: yup.string().required(),
-    [formFields.END_DATE]: Yup.string(),
+    [formFields.END_DATE]: Yup.string().required(),
     [formFields.LOGO]: Yup.string().required(),
     [formFields.BANNER1]: Yup.string(),
     [formFields.BANNER2]: Yup.string(),
     [formFields.WHEEL_BACKGROUNDCOLOR]: Yup.string(),
-    // .when('start_date', (startDate, schema) => {
-    //   if (startDate) {
-    //     const dayAfter = new Date(startDate.getTime() + 86400000)
-
-    //     return schema.requit(dayAfter, 'End date has to be after than start date')
-    //   }
-
-    //   return schema
-    // })
-    // .required(),
     [formFields.TITLE]: Yup.string().required(),
-    // [formFields.BUMPER_PRIZE]: Yup.string().required(),
     [formFields.TYPE]: Yup.string().required(),
     [formFields.TERMS]: Yup.string().required(),
-    [formFields.MAX_PLAY_USER]: Yup.number().required(),
+    [formFields.MAX_PLAY_USER]: Yup.string().required(),
     [formFields.TEMPLATE_TYPE]: Yup.string().required(),
     [formFields.FONT_COLOR]: Yup.string(),
     [formFields.WINNING_VALUES]: Yup.array().of(
@@ -300,10 +286,7 @@ const NewCampaign: React.FC<Props> = () => {
       delete item.key
       return item
     })
-    console.log(
-      '🚀 ~ file: NewCampaign.tsx ~ line 303 ~ winningValues.map ~ winningValues',
-      winningValues
-    )
+
     let newObj = {
       [formFields.COMPANY_NAME]: obj[formFields.COMPANY_NAME],
       [formFields.DIFFICULTY]: obj[formFields.DIFFICULTY],
@@ -320,10 +303,11 @@ const NewCampaign: React.FC<Props> = () => {
       [formFields.BANNER1]: obj[formFields.BANNER1],
       [formFields.BANNER2]: obj[formFields.BANNER2],
       [formFields.BACKGROUND_IMAGE]: obj[formFields.BACKGROUND_IMAGE],
-      [formFields.WHEEL_BACKGROUNDCOLOR]: obj[formFields.WHEEL_BACKGROUNDCOLOR],
+      [formFields.WHEEL_BACKGROUNDCOLOR]: obj[formFields.WHEEL_BACKGROUNDCOLOR]?.length
+        ? obj[formFields.WHEEL_BACKGROUNDCOLOR][0]
+        : obj[formFields.WHEEL_BACKGROUNDCOLOR],
     }
 
-    console.log('🚀 ~ file: NewCampaign.tsx ~ line 343 ~ patchForm ~ obj', newObj)
     return newObj
   }
 
@@ -332,9 +316,11 @@ const NewCampaign: React.FC<Props> = () => {
       initialValues={location.state ? patchForm() : initialValues}
       validationSchema={validationSchema}
       onSubmit={async (values, {setSubmitting, resetForm}) => {
+        console.log('🚀 ~ file: NewCampaign.tsx ~ line 318 ~ onSubmit={ ~ values', values)
         setIsSubmitted(true)
         const format = 'YYYY-MM-DD'
         const payload = {...values}
+        console.log('🚀 ~ file: NewCampaign.tsx ~ line 323 ~ onSubmit={ ~ payload', payload)
         payload['start_date'] = moment(values['start_date']).format(format)
         payload['end_date'] = moment(values['end_date']).format(format)
         if (
@@ -361,7 +347,6 @@ const NewCampaign: React.FC<Props> = () => {
             .then(
               axios.spread((firstResponse, secondResponse, thirdResponse, forthResponse) => {
                 if (id) {
-                  console.log('🚀 ~ file: NewCampaign.tsx ~ line 401 ~ axios.spread ~ id', id)
                   putCampaign(payload, id)
                     .then((resp) => {
                       if (resp) {
@@ -374,7 +359,6 @@ const NewCampaign: React.FC<Props> = () => {
                       }
                     })
                     .catch((error) => {
-                      console.log(error.response.data.message)
                       if (error?.response?.data?.message) {
                         ToastMessage(error?.response?.data?.message, 'error')
                       } else {
@@ -503,9 +487,9 @@ const NewCampaign: React.FC<Props> = () => {
                       <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
                         Number of Selection per user per day
                       </label>
+                      {values[formFields.MAX_PLAY_USER]}
                       <input
                         type='number'
-                        min='1'
                         name={formFields.MAX_PLAY_USER}
                         onChange={handleChange}
                         value={values[formFields.MAX_PLAY_USER]}
@@ -624,12 +608,14 @@ const NewCampaign: React.FC<Props> = () => {
                         <div>
                           {logoOfCampaign.path || values.logo_url ? (
                             <img
+                              alt='logo'
                               className='logo'
                               src={values.logo_url ? values.logo_url : logoOfCampaign.path}
                             />
                           ) : (
                             <img
                               className='logo'
+                              alt='logo'
                               src={toAbsoluteUrl('/media/icons/logo_placeholder.png')}
                             />
                           )}

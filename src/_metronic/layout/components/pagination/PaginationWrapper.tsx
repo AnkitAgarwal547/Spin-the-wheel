@@ -32,7 +32,7 @@ export default function PaginationWrappper(props: any) {
   }
 
   return (
-    <Pagination className='justify-content-end mb-10' size='sm'>
+    <Pagination className='justify-content-end mb-5' size='sm'>
       <Pagination.Prev onClick={() => handleClickPrevious()} disabled={currentPage === 1} />
 
       {pageNumbers.map((number) => (

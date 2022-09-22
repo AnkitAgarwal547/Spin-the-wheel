@@ -2,6 +2,7 @@ import React, {Component, useEffect, useState} from 'react'
 import CSS from 'csstype'
 
 import './SpinningWheel.css'
+import {crackers} from '../user/campaigns/campaign-types/SpinTheWheel/SpinTheWheel'
 
 export const Delayed = ({children = null, waitBeforeShow = 500}) => {
   const [isShown, setIsShown] = useState(false)
@@ -60,15 +61,6 @@ export default class Wheel extends Component<any, any> {
     const spinning = selectedItem !== null ? 'spinning' : ''
     const run = selectedItem !== null ? true : false
     const style = {'--item-nb': 10} as React.CSSProperties
-
-    const crackers = [
-      'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/rocket_blue.png',
-      'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker1.png',
-      'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker2.png',
-      'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker3.png',
-      'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/rocket_red.png',
-      'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker4.png',
-    ]
 
     return (
       <div

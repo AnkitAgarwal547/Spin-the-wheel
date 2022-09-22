@@ -10,28 +10,35 @@ import {NewCampaign} from '../pages/campaign/newCampaign/NewCampaign'
 import ChangePassword from '../modules/auth/components/ChangePassword'
 import QuestionnaireWrapper from '../modules/questionnaire/QuestionnaireWrapper'
 import {CampaignDetailsWrapper} from '../pages/campaign/campaignDetails/CampaignDetailsWrapper'
+import VerifyMobile from '../../_metronic/layout/components/user/auth/VerifyMobile'
+import VerifyOTP from '../../_metronic/layout/components/user/auth/VerifyOTP'
+import UserCampaignWrapper from '../../_metronic/layout/components/user/campaigns/UserCampaignWrapper'
 
+const role = 'user'
 const PrivateRoutes = () => {
-  const WizardsPage = lazy(() => import('../modules/wizards/WizardsPage'))
-
   return (
     <Routes>
       <Route element={<MasterLayout />}>
         {/* Redirect to Dashboard after success login/registartion */}
         <Route path='auth/*' element={<Navigate to='/dashboard' />} />
         {/* Pages */}
-        <Route path='dashboard' element={<DashboardWrapper />} />
-        <Route path='campaigns' element={<CompaignWrapper />} />
-        <Route path='campaign-details/:id' element={<CampaignDetailsWrapper />} />
-        <Route path='campaign/:type' element={<CampaignDetailsWrapper />} />
-        <Route path='change-password' element={<ChangePassword />} />
-        <Route path='new-campaign' element={<NewCampaign />} />
-        <Route path='edit-campaign/:id' element={<NewCampaign />} />
-        <Route path='questionnaire' element={<QuestionnaireWrapper />} />
+        <Route path='/dashboard' element={<DashboardWrapper />} />
+        <Route path='/campaigns' element={<CompaignWrapper />} />
+        <Route path='/campaign-details/:id' element={<CampaignDetailsWrapper />} />
+        <Route path='/campaign/:type' element={<CampaignDetailsWrapper />} />
+        <Route path='/change-password' element={<ChangePassword />} />
+        <Route path='/new-campaign' element={<NewCampaign />} />
+        <Route path='/edit-campaign/:id' element={<NewCampaign />} />
+        <Route path='/questionnaire' element={<QuestionnaireWrapper />} />
         {/* Lazy Modules */}
 
         {/* Page Not Found */}
         <Route path='*' element={<Navigate to='/error/404' />} />
+      </Route>
+      <Route>
+        <Route path='/verify-mobile' element={<VerifyMobile />} />
+        <Route path='/verify-otp' element={<VerifyOTP />} />
+        <Route path='/campaign' element={<UserCampaignWrapper />} />
       </Route>
     </Routes>
   )

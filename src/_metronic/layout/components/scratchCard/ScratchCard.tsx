@@ -3,12 +3,10 @@ import './ScratchCard.scss'
 import ScratchCard from 'react-scratchcard-v2'
 
 export default function ScratchCardWrapper({image}) {
-  console.log('🚀 ~ file: ScratchCard.tsx ~ line 6 ~ ScratchCardWrapper ~ image', image)
   const ref = useRef<ScratchCard>(null)
 
   useEffect(() => {
     ref.current && ref.current.reset()
-    console.log('🚀 ~ file: ScratchCard.tsx ~ line 11 ~ useEffect ~ ref.current', ref.current)
   }, [image])
 
   const settings = {

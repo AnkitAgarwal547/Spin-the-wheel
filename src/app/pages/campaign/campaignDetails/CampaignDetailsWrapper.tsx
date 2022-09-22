@@ -2,7 +2,7 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {CSVLink} from 'react-csv'
 import {useParams} from 'react-router'
-import {getRequest} from '../../../modules/auth/core/_requests'
+import { getRequest} from '../../../modules/auth/core/_requests'
 import Loader from '../../../shared/Loader'
 import {CampaignDetailsTable} from './CampaignDetailsTable'
 import './CampaignDetailsWrapper.scss'
@@ -20,23 +20,28 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
   const tableRef = useRef(null)
   const [isLoadingDetails, setIsLoadingDetails] = useState(false)
   const {searchKey} = useAppSelector((state) => state.searchReducer)
+  const {id} = useParams()
+  console.log('🚀 ~ file: CampaignDetailsWrapper.tsx ~ line 24 ~ id', id)
 
-  useEffect(() => {
-    setIsLoadingDetails(true)
-    getRequest()
-      .then((resp) => {
-        setIsLoadingDetails(false)
-      })
-      .catch(() => {})
-  }, [searchKey])
+  // useEffect(() => {
+  //   setIsLoadingDetails(true)
+  //   getCampaignDetailsRequest(id)
+  //     .then((resp) => {
+  //       setIsLoadingDetails(false)
+  //       console.log('🚀 ~ file: CampaignDetailsWrapper.tsx ~ line 34 ~ .then ~ resp', resp)
+  //     })
+  //     .catch(() => {
+  //       setIsLoadingDetails(false)
+  //     })
+  // }, [searchKey])
 
   const generateBumperWinner = () => {
     console.log('*')
     setBumperWinnerLoading(true)
-    getRequest().then((resp) => {
-      setBumperWinnerDetails(resp)
-      setBumperWinnerLoading(false)
-    })
+    // getCampaignDetailsRequest(id).then((resp) => {
+    //   setBumperWinnerDetails(resp)
+    //   setBumperWinnerLoading(false)
+    // })
   }
 
   const getTypeName = (type) => {

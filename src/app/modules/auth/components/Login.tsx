@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {useState} from 'react'
 import * as Yup from 'yup'
+import {useFormik} from 'formik'
 import clsx from 'clsx'
 import {Link} from 'react-router-dom'
-import {useFormik} from 'formik'
 import {getUserByToken, login, setToken} from '../core/_requests'
 import {useAuth} from '../core/Auth'
 import {ToastContainer, toast} from 'react-toastify'
@@ -43,11 +43,11 @@ export function Login() {
           setStatus('The login detail is incorrect')
           setSubmitting(false)
           setLoading(false)
-          ToastMessage(auth?.message, 'success')
+          ToastMessage(auth?.message, 'error')
         } else {
           saveAuth(auth.data)
           setToken(auth.data.token)
-          ToastMessage('Login successful!', 'error')
+          ToastMessage('Login successful!', 'success')
           setCurrentUser(auth.data)
         }
       } catch (error: any) {

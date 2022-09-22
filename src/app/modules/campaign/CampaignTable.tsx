@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useEffect, useRef, useState} from 'react'
 import {CSVLink} from 'react-csv'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {KTSVG, toAbsoluteUrl} from '../../../_metronic/helpers'
 import PaginationWrappper from '../../../_metronic/layout/components/pagination/PaginationWrapper'
 import {useAppSelector} from '../../redux/hooks/hooks'
@@ -32,6 +32,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
   const currentCampaignsList = campaigns.slice(indexOfFirstCampaign, indexOfLastCampaign)
   const {currentUser} = useAuth()
   const [error, setError] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (currentUser) {
@@ -230,9 +231,21 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                         <td>{typeOfCampaign(item.type)}</td>
                         <td>
                           <div style={{width: '100px'}} className='text-truncate'>
-                            <a className='text-truncate text-dark' href={item.logo_url}>
+                            <button
+                              className='btn btn-link'
+                              onClick={() => {
+                                navigate({
+                                  pathname: '/verify-mobile',
+                                  search: `?campaignId=${item._id}`,
+                                })
+                              }}
+                            >
+                              /user/auth
+                            </button>
+                            {/* <Link to={{pathname: `/verify-mobile`}}>/user/auth</Link> */}
+                            {/* <a className='text-truncate text-dark' href={item.logo_url}>
                               {item.logo_url}
-                            </a>
+                            </a> */}
                           </div>
                         </td>
                         <td className='text-center'>

@@ -30,7 +30,7 @@ export function AsideMenuMain() {
       />
 
       <AsideMenuItem
-        to='questionnaire'
+        to='/questionnaire'
         icon='/media/icons/white_questionnaire.png'
         title='Questionnaire'
         fontIcon='fa-file'

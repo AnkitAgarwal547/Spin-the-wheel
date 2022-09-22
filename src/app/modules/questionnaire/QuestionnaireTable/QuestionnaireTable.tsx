@@ -179,10 +179,6 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
   const patchQuestionnaire = (item) => {
     setSelectedItem(item._id)
     setAddNewQuestionnaire(false)
-    console.log(
-      '🚀 ~ file: QuestionnaireTable.tsx ~ line 175 ~ constpatchQuestionnaire ~ item',
-      item
-    )
 
     const fields = ['question', 'option1', 'option2', 'answer1', 'answer2', 'type']
 
@@ -217,7 +213,6 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
     initialValues,
     validationSchema: loginSchema,
     onSubmit: async (values, {setStatus, setSubmitting}) => {
-      console.log('🚀 ~ file: QuestionnaireTable.tsx ~ line 174 ~ onSubmit: ~ values', values)
       const payload: any = {
         question: values.question,
         options: [values.option1, values.option2],
@@ -338,7 +333,6 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
             )}
             checked={formik.values.answer1}
             onChange={(e) => {
-              console.log(e.target.checked)
               formik.setFieldValue('answer1', e.target.checked)
               formik.setFieldValue('answer2', !e.target.checked)
             }}
