@@ -7875,7 +7875,12 @@
     "history" "^5.2.0"
     "react-router" "6.3.0"
 
-"react-router@6.3.0":
+"react-router-prompt@^0.3.0":
+  "integrity" "sha512-oQDwfkowxZ5O6xENqDAXB5GWP6fu6feng2Uh2cFMGFWEDcLbCVPwbssk1M8GG0OSZGWKbxkClyZtGDzKEs+vJg=="
+  "resolved" "https://registry.npmjs.org/react-router-prompt/-/react-router-prompt-0.3.0.tgz"
+  "version" "0.3.0"
+
+"react-router@>=6.x", "react-router@6.3.0":
   "integrity" "sha512-7Wh1DzVQ+tlFjkeo+ujvjSqSJmkt1+8JO+T5xklPlgrh70y7ogx75ODRW0ThWhY7S+6yEDks8TYrtQe/aoboBQ=="
   "resolved" "https://registry.npmjs.org/react-router/-/react-router-6.3.0.tgz"
   "version" "6.3.0"

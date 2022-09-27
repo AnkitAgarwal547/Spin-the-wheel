@@ -43,6 +43,7 @@
     "react-query": "^3.38.0",
     "react-redux": "^8.0.2",
     "react-router-dom": "6.3.0",
+    "react-router-prompt": "^0.3.0",
     "react-scratchcard": "^1.1.2",
     "react-scratchcard-v2": "^1.1.1",
     "react-scripts": "5.0.1",

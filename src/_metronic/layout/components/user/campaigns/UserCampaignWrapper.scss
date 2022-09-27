@@ -2,5 +2,43 @@
     background-size: 100% 100%;
     background-position: center;
     height: 100%;
+    overflow-x: hidden;
+
+    .campaign-type {
+        font-family: 'Dancing Script',
+            cursive;
+        font-size: 28px;
+    }
+
+    .logo-wrapper {
+        .logo {
+            height: 80px;
+            width: 80px;
+            -webkit-transform: scale(0.999);
+            transform: scale(0.999);
+            border-radius: 50%;
+        }
+
+        text-align: center;
+        margin-top: 70px;
+    }
+
+    .banner1 {
+        height: 60px;
+        width: 40%;
+        margin: 40px auto 40px auto;
+        background-size: 100% 100%;
+        background-position: center;
+    }
+
+    .banner2 {
+        height: 60px;
+        width: 60%;
+        margin: 40px auto 40px auto;
+        background-size: 100% 100%;
+        background-position: center;
+    }
+
+
 
 }

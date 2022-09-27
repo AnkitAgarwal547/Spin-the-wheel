@@ -8,7 +8,7 @@ type Props = {
   ref?: any
 }
 
-const CampaignDetailsTable: React.FC<Props> = ({data, ref}) => {
+const CampaignDetailsTable: React.FC<Props> = ({data}) => {
   const {searchKey} = useAppSelector((state) => state.searchReducer)
   const dummyData = [
     {
@@ -189,10 +189,7 @@ const CampaignDetailsTable: React.FC<Props> = ({data, ref}) => {
     <div className='campaign-details-table'>
       <div className='card-body py-3'>
         <div className='table-responsive'>
-          <table
-            className='table campaign-table table-row-dashed table-row-gray-300 align-middle gs-0'
-            ref={ref}
-          >
+          <table className='table campaign-table table-row-dashed table-row-gray-300 align-middle gs-0'>
             <thead className='bg-dark rounded'>
               <tr className='fw-bold text-muted'>
                 <th className='min-w-100px text-center'> QUESTION ID</th>

@@ -29,7 +29,7 @@ import {persistor, store} from './app/redux/store'
  *
  * @see https://github.com/axios/axios#interceptors
  */
-// setupAxios(axios)
+setupAxios(axios)
 Chart.register(...registerables)
 
 const queryClient = new QueryClient()

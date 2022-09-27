@@ -31,11 +31,59 @@ import {Link} from 'react-router-dom'
 
 type Props = {}
 
+export const getThemeStyle = (type) => {
+  console.log('🚀 ~ file: NewCampaign.tsx ~ line 35 ~ getThemeStyle ~ type', type)
+  let backgroundImage = ''
+  let scratchCardImage = ''
+  let color = ''
+  let buttonBackgroundColor = ''
+  let pickTheBox =
+    'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/pick_the_box/Group+166.png'
+  switch (type) {
+    case 'TEMPLATE_1':
+      backgroundImage =
+        'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/general.jpg'
+      scratchCardImage =
+        'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/scratch_the_card/general-scratch-card.png'
+      color = '#ffffff'
+      buttonBackgroundColor = '#ffffff'
+
+      break
+
+    case 'TEMPLATE_2':
+      backgroundImage =
+        'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/festive.jpg'
+      scratchCardImage =
+        'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/scratch_the_card/festive-scratch-card.png'
+      color = '#000000'
+      buttonBackgroundColor = '#ffffff'
+
+      break
+    case 'TEMPLATE_3':
+      backgroundImage =
+        'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/newyear.jpg'
+      scratchCardImage =
+        'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/scratch_the_card/new-year-scratch-card.png'
+      buttonBackgroundColor = '#1E7FC9'
+      color = '#000000'
+      break
+    default:
+      backgroundImage =
+        'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/general.jpg'
+      scratchCardImage =
+        'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/scratch_the_card/general-scratch-card.png'
+      color = '#ffffff'
+      buttonBackgroundColor = '#ffffff'
+  }
+  return {backgroundImage, color, scratchCardImage, buttonBackgroundColor, pickTheBox}
+}
+
 const NewCampaign: React.FC<Props> = () => {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const {id} = useParams()
   const location = useLocation()
+  console.log('🚀 ~ file: NewCampaign.tsx ~ line 85 ~ location', location)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [campaignBackground, setCampaignBackground] = useState({
     details: {name: ''},
@@ -129,7 +177,7 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.TITLE]: Yup.string().required(),
     [formFields.TYPE]: Yup.string().required(),
     [formFields.TERMS]: Yup.string().required(),
-    [formFields.MAX_PLAY_USER]: Yup.string().required(),
+    [formFields.MAX_PLAY_USER]: Yup.number().min(1).required(),
     [formFields.TEMPLATE_TYPE]: Yup.string().required(),
     [formFields.FONT_COLOR]: Yup.string(),
     [formFields.WINNING_VALUES]: Yup.array().of(
@@ -139,49 +187,6 @@ const NewCampaign: React.FC<Props> = () => {
       })
     ),
   })
-
-  const getThemeStyle = (type) => {
-    let backgroundImage = ''
-    let scratchCardImage = ''
-    let color = ''
-    let buttonBackgroundColor = ''
-    let pickTheBox =
-      'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/pick_the_box/Group+166.png'
-    switch (type) {
-      case 'TEMPLATE_1':
-        backgroundImage =
-          'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/general.jpg'
-        scratchCardImage =
-          'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/scratch_the_card/general-scratch-card.png'
-        color = '#ffffff'
-        break
-
-      case 'TEMPLATE_2':
-        backgroundImage =
-          'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/festive.jpg'
-        scratchCardImage =
-          'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/scratch_the_card/festive-scratch-card.png'
-        color = '#000000'
-
-        break
-      case 'TEMPLATE_3':
-        backgroundImage =
-          'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/newyear.jpg'
-        scratchCardImage =
-          'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/scratch_the_card/new-year-scratch-card.png'
-        buttonBackgroundColor = '#1E7FC9'
-        color = '#000000'
-        break
-      default:
-        backgroundImage =
-          'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/general.jpg'
-        scratchCardImage =
-          'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/scratch_the_card/general-scratch-card.png'
-        color = '#ffffff'
-        buttonBackgroundColor = '#ffffff'
-    }
-    return {backgroundImage, color, scratchCardImage, buttonBackgroundColor, pickTheBox}
-  }
 
   const initialValueOfImages = {
     details: null,
@@ -489,6 +494,7 @@ const NewCampaign: React.FC<Props> = () => {
                       </label>
                       {values[formFields.MAX_PLAY_USER]}
                       <input
+                        min={1}
                         type='number'
                         name={formFields.MAX_PLAY_USER}
                         onChange={handleChange}
@@ -667,27 +673,29 @@ const NewCampaign: React.FC<Props> = () => {
                         >
                           Next
                         </button>
-                        {banner1.path && (
-                          <div
-                            className='banner-img'
-                            style={{
-                              backgroundImage: `url(${
-                                values.banner1_url ? values.banner1_url : banner1.path
-                              })`,
-                            }}
-                          />
-                        )}
+                        {banner1.path ||
+                          (values.banner1_url && (
+                            <div
+                              className='banner-img'
+                              style={{
+                                backgroundImage: `url(${
+                                  values.banner1_url ? values.banner1_url : banner1.path
+                                })`,
+                              }}
+                            />
+                          ))}
 
-                        {banner2.path && (
-                          <div
-                            className='banner-img'
-                            style={{
-                              backgroundImage: `url(${
-                                values.banner2_url ? values.banner2_url : banner2.path
-                              })`,
-                            }}
-                          />
-                        )}
+                        {banner2.path ||
+                          (values.banner2_url && (
+                            <div
+                              className='banner-img'
+                              style={{
+                                backgroundImage: `url(${
+                                  values.banner2_url ? values.banner2_url : banner2.path
+                                })`,
+                              }}
+                            />
+                          ))}
                       </div>
                     </div>
                   </div>
@@ -894,7 +902,6 @@ const NewCampaign: React.FC<Props> = () => {
                           Terms & Conditions
                         </label>
                         <textarea
-                          placeholder='Leave a comment here'
                           id='floatingTextarea'
                           rows={5}
                           name={formFields.TERMS}

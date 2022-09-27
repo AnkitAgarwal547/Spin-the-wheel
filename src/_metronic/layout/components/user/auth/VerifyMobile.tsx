@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {toAbsoluteUrl} from '../../../../helpers'
 import * as Yup from 'yup'
 import {useFormik} from 'formik'
@@ -7,13 +7,15 @@ import clsx from 'clsx'
 import {userLogin} from '../../../../../app/modules/auth/core/_requests'
 import {ToastContainer} from 'react-toastify'
 import {useNavigate, useLocation} from 'react-router'
+import {useAppSelector} from '../../../../../app/redux/hooks/hooks'
+import './style.scss'
 
 export default function VerifyMobile() {
   const [loading, setLoading] = useState(false)
   const search = useLocation().search
   const campaignId = new URLSearchParams(search).get('campaignId')
   console.log('🚀 ~ file: VerifyMobile.tsx ~ line 14 ~ VerifyMobile ~ search', search)
-
+  const {campaignDetails} = useAppSelector((state) => state.userReducer)
   const navigate = useNavigate()
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -30,6 +32,12 @@ export default function VerifyMobile() {
     mobile_no: '9136035356',
     country_code: '+91',
   }
+
+  useEffect(() => {
+    if (!campaignId) {
+      navigate('/error')
+    }
+  }, [])
 
   const formik = useFormik({
     initialValues,
@@ -58,15 +66,13 @@ export default function VerifyMobile() {
   })
 
   return (
-    <div className='container'>
-      <div className='row d-flex justify-content-center'>
-        <div className='col-xxl-4 col-xl-4 col-lg-5 col-md-5 col-sm-6 col-12'>
+    <div className='verify-screens'>
+      <div className='user-details-sub-div '></div>
+      <div className='sub-div'>
+        <div className='text-center heading'>Mobile Number Verification</div>
+        <div className='px-10'>
           <form onSubmit={formik.handleSubmit}>
-            <div className='text-center'>
-              <img height='80px' src={toAbsoluteUrl('/media/icons/logo_placeholder.png')} />
-            </div>
             <div className='form-group mt-15'>
-              <h1 className='fw-normal mb-5'>Mobile Number Verification</h1>
               <input
                 type='number'
                 placeholder='Enter the 10 Digit Mobile Number'
@@ -87,7 +93,7 @@ export default function VerifyMobile() {
             </div>
             <div className='d-grid mt-10'>
               <button
-                className='btn btn-dark btn-sm'
+                className='btn btn-primary btn-lg'
                 type='submit'
                 disabled={formik.isSubmitting || !formik.isValid}
               >
@@ -99,11 +105,14 @@ export default function VerifyMobile() {
                   </span>
                 )}
               </button>
-              <ToastContainer />
             </div>
           </form>
         </div>
+        <div className='logo-wrapper'>
+          <img alt='logo' className='logo' src={campaignDetails?.logo_url} />
+        </div>
       </div>
+      <ToastContainer />
     </div>
   )
 }

@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import {useFormik} from 'formik'
 import clsx from 'clsx'
 import {Link} from 'react-router-dom'
-import {getUserByToken, login, setToken} from '../core/_requests'
+import {getUserByToken, login, setToken, setUserType} from '../core/_requests'
 import {useAuth} from '../core/Auth'
 import {ToastContainer, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -47,6 +47,7 @@ export function Login() {
         } else {
           saveAuth(auth.data)
           setToken(auth.data.token)
+          setUserType('admin')
           ToastMessage('Login successful!', 'success')
           setCurrentUser(auth.data)
         }

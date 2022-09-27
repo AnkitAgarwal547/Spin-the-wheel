@@ -11,7 +11,7 @@ import {
 import {LayoutSplashScreen} from '../../../../_metronic/layout/core'
 import {AuthModel, UserModel} from './_models'
 import * as authHelper from './AuthHelpers'
-import {getUserByToken, removeToken, setToken} from './_requests'
+import {getUserByToken, getUserType, removeToken, removeUserType, setToken} from './_requests'
 import {WithChildren} from '../../../../_metronic/helpers'
 
 type AuthContextProps = {
@@ -50,9 +50,14 @@ const AuthProvider: FC<WithChildren> = ({children}) => {
   }
 
   const logout = () => {
-    saveAuth(undefined)
-    setCurrentUser(undefined)
-    removeToken()
+    const userType = getUserType()
+    if (userType !== 'user') {
+      console.log('🚀 ~ file: Auth.tsx ~ line 54 ~ logout ~ userType', userType)
+      saveAuth(undefined)
+      setCurrentUser(undefined)
+      removeToken()
+      removeUserType()
+    }
   }
 
   return (

@@ -2,7 +2,7 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {CSVLink} from 'react-csv'
 import {useParams} from 'react-router'
-import { getRequest} from '../../../modules/auth/core/_requests'
+import {getRequest} from '../../../modules/auth/core/_requests'
 import Loader from '../../../shared/Loader'
 import {CampaignDetailsTable} from './CampaignDetailsTable'
 import './CampaignDetailsWrapper.scss'
@@ -17,7 +17,6 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
   const {type} = useParams()
   const [bumperWinnerDetails, setBumperWinnerDetails] = useState()
   const [isBumperWinnerLoading, setBumperWinnerLoading] = useState(false)
-  const tableRef = useRef(null)
   const [isLoadingDetails, setIsLoadingDetails] = useState(false)
   const {searchKey} = useAppSelector((state) => state.searchReducer)
   const {id} = useParams()
@@ -125,7 +124,7 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
             </>
           )}
           {type && <h2 className='mb-5'>{getTypeName(type)}</h2>}
-          <CampaignDetailsTable data={[]} ref={tableRef} />
+          <CampaignDetailsTable data={[]} />
         </>
       )}
     </div>

@@ -13,8 +13,11 @@ import {CampaignDetailsWrapper} from '../pages/campaign/campaignDetails/Campaign
 import VerifyMobile from '../../_metronic/layout/components/user/auth/VerifyMobile'
 import VerifyOTP from '../../_metronic/layout/components/user/auth/VerifyOTP'
 import UserCampaignWrapper from '../../_metronic/layout/components/user/campaigns/UserCampaignWrapper'
+import {getUserType} from '../modules/auth/core/_requests'
+import Question from '../../_metronic/layout/components/user/question/Question'
 
-const role = 'user'
+const role = getUserType()
+console.log('🚀 ~ file: PrivateRoutes.tsx ~ line 19 ~ role', role)
 const PrivateRoutes = () => {
   return (
     <Routes>
@@ -39,6 +42,7 @@ const PrivateRoutes = () => {
         <Route path='/verify-mobile' element={<VerifyMobile />} />
         <Route path='/verify-otp' element={<VerifyOTP />} />
         <Route path='/campaign' element={<UserCampaignWrapper />} />
+        <Route path='/question' element={<Question />} />
       </Route>
     </Routes>
   )

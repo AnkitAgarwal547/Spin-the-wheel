@@ -35,10 +35,11 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser && currentUser.token) {
+      console.log('🚀 ~ file: CampaignTable.tsx ~ line 39 ~ useEffect ~ currentUser', currentUser)
       getCampaignList()
     }
-  }, [])
+  }, [currentUser])
 
   const columns = [
     {
@@ -281,11 +282,11 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                       </tr>
                     )
                   })
-                ) : (
+                ) : currentCampaignsList.length && !error ? (
                   <div className='center no-data'>No data</div>
+                ) : (
+                  <div className='center no-data'>Unable to fetch data</div>
                 )}
-
-                {error && <div className='center no-data'>Unable to fetch data</div>}
               </tbody>
             </table>
 

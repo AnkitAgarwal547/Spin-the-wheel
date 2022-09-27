@@ -73,4 +73,5 @@ export interface UserModel {
   communication?: UserCommunicationModel
   address?: UserAddressModel
   socialNetworks?: UserSocialNetworksModel
+  token:string
 }

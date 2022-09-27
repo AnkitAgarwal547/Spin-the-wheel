@@ -69,6 +69,17 @@ export const getToken = () => {
   return localStorage.getItem('token')
 }
 
+export const setUserType = (type) => {
+  return localStorage.setItem('role', type)
+}
+
+export const removeUserType = () => {
+  return localStorage.removeItem('role')
+}
+
+export const getUserType = () => {
+  return localStorage.getItem('role')
+}
 
 
 export function getUserByToken(token: string) {
@@ -161,4 +172,19 @@ export function verifyOtp(payload) {
 
 export async function getUserCampaignDetailsRequest(id) {
   return axios.get(GET_USER_CAMPAIGN_DETAILS + '/' + id, header)
+}
+
+
+export async function getQuestion(id) {
+  return axios.get(API_URL + '/campaigns/' + id + '/questions', header)
+}
+
+
+export async function submitAnswer(payload, id) {
+  return axios.post(API_URL + '/campaigns/' + id + '/submitdetail', payload, header)
+}
+
+
+export async function updateClickCount(id, payload) {
+  return axios.patch(API_URL + '/campaigns/' + id, payload, header)
 }

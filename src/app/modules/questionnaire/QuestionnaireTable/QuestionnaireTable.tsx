@@ -593,7 +593,9 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                     <div className='center no-data'>No data</div>
                   )}
 
-                  {!error && <div className='center no-data'>Unable to fetch data</div>}
+                  {!error && !currrentQuestionnaireList.length && (
+                    <div className='center no-data'>Unable to fetch data</div>
+                  )}
                 </tbody>
               </table>
             </form>

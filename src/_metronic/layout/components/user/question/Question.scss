@@ -1,0 +1,122 @@
+.question-wrapper {
+    background-image: url('https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/background.png');
+    background-size: 100% 100%;
+    height: 100%;
+    overflow-x: hidden;
+
+
+    .main-div {
+
+        background-color: #ffffff;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        border-radius: 10px;
+        position: relative;
+        width: 100%;
+        height: 400px;
+        margin: auto;
+        margin-top: 150px;
+    }
+
+    .banner1 {
+        height: 60px;
+        width: 70%;
+        margin: 40px auto 40px auto;
+        background-size: 100% 100%;
+        background-position: center;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    }
+
+    .banner2 {
+        height: 60px;
+        width: 100%;
+        margin: 40px auto 40px auto;
+        background-size: 100% 100%;
+        background-position: center;
+        padding-bottom: 40px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    }
+
+    .banner-div {
+        margin-bottom: 100px;
+        height: 200px;
+    }
+
+
+    .sub-div {
+        position: absolute;
+        width: 100%;
+        transform: translateY(-50%);
+        left: 0%;
+        margin-top: 230px;
+        padding: 25px;
+
+        .heading {
+            font-size: 22px;
+            font-weight: 600;
+            text-align: center;
+
+        }
+
+        p {
+            text-align: center;
+            margin-top: 15px;
+            color: #232323;
+            font-size: 16px;
+        }
+
+        .question {
+            font-size: 22px;
+            text-align: center;
+            color: #232323;
+            margin-top: 20px;
+
+
+        }
+
+        .answer-div {
+            border: 1px solid #707070;
+            padding: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .active {
+            background-color: #35BF30;
+            border-color: #35BF30;
+            font-weight: 600;
+            color: #ffffff;
+        }
+    }
+
+    .gift-outer-div {
+        height: 100%;
+
+        .gift-wrapper {
+            background-color: #ffffff;
+            height: 160px;
+            width: 160px;
+            border-radius: 100%;
+            position: absolute;
+            margin: auto;
+            transform: translate(-50%, -50%);
+            top: 0%;
+            left: 50%;
+        }
+
+        img {
+            height: 120px;
+            width: 120px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+        }
+
+
+
+    }
+}

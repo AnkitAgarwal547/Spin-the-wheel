@@ -6,7 +6,6 @@ import {ScrollTop} from './components/ScrollTop'
 import {Content} from './components/Content'
 import {PageDataProvider} from './core'
 import {useLocation} from 'react-router-dom'
-import {UpgradePlan, ThemeModeProvider} from '../partials'
 import {MenuComponent} from '../assets/ts/components'
 
 export const AsideContext = createContext({asideRef: {}, minimize: () => {}})
@@ -35,29 +34,27 @@ const MasterLayout = () => {
 
   return (
     <PageDataProvider>
-      <ThemeModeProvider>
-        <AsideContext.Provider
-          value={{
-            asideRef: asideRef,
-            minimize: minimize,
-          }}
-        >
-          <div className='page d-flex flex-row flex-column-fluid'>
-            <AsideDefault asideRef={asideRef} minimize={minimize} />
+      <AsideContext.Provider
+        value={{
+          asideRef: asideRef,
+          minimize: minimize,
+        }}
+      >
+        <div className='page d-flex flex-row flex-column-fluid'>
+          <AsideDefault asideRef={asideRef} minimize={minimize} />
 
-            <div className='wrapper d-flex flex-column flex-row-fluid' id='kt_wrapper'>
-              <HeaderWrapper asideRef={asideRef} minimize={minimize} />
-              <div id='kt_content' className='d-flex flex-column flex-column-fluid'>
-                <div className='post d-flex flex-column-fluid' id='kt_post'>
-                  <Content>
-                    <Outlet />
-                  </Content>
-                </div>
+          <div className='wrapper d-flex flex-column flex-row-fluid' id='kt_wrapper'>
+            <HeaderWrapper asideRef={asideRef} minimize={minimize} />
+            <div id='kt_content' className='d-flex flex-column flex-column-fluid'>
+              <div className='post d-flex flex-column-fluid' id='kt_post'>
+                <Content>
+                  <Outlet />
+                </Content>
               </div>
             </div>
           </div>
-        </AsideContext.Provider>
-      </ThemeModeProvider>
+        </div>
+      </AsideContext.Provider>
     </PageDataProvider>
   )
 }
