@@ -4,11 +4,12 @@ import PaginationWrappper from '../../../../_metronic/layout/components/paginati
 import {useAppSelector} from '../../../redux/hooks/hooks'
 
 type Props = {
-  data?: []
+  data?: any
   ref?: any
+  error?: boolean
 }
 
-const CampaignDetailsTable: React.FC<Props> = ({data}) => {
+const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
   const {searchKey} = useAppSelector((state) => state.searchReducer)
   const dummyData = [
     {
@@ -178,12 +179,16 @@ const CampaignDetailsTable: React.FC<Props> = ({data}) => {
     []
   )
 
-  const [posts, setPosts] = useState(dummyData)
+  useEffect(() => {})
+
+  const [posts, setPosts] = useState(data || [])
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage, setPostsPerPage] = useState(5)
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
-  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost)
+  const currentUsers = posts?.length && posts.slice(indexOfFirstPost, indexOfLastPost)
+
+  console.log('🚀 ~ file: CampaignDetailsTable.tsx ~ line 189 ~ currentUsers', currentUsers)
 
   return (
     <div className='campaign-details-table'>
@@ -203,34 +208,43 @@ const CampaignDetailsTable: React.FC<Props> = ({data}) => {
               </tr>
             </thead>
             <tbody>
-              {currentPosts.map((item, i) => {
-                return (
-                  <tr key={i}>
-                    <td className='text-center'>{item.id}</td>
-                    <td>{item.name}</td>
+              {currentUsers.length > 0 && !error ? (
+                currentUsers.map((item, i) => {
+                  return (
+                    <tr key={i}>
+                      <td className='text-center'>{item.id}</td>
+                      <td>{item.name}</td>
 
-                    <td>{item.date}</td>
-                    <td>{item.email}</td>
-                    <td>{item.mobile}</td>
+                      <td>{item.date}</td>
+                      <td>{item.email}</td>
+                      <td>{item.mobile}</td>
 
-                    <td className='text-center'>{item.totalAttempts}</td>
-                    <td>{item.gift}</td>
-                    <td className='text-center'>{item.answer}</td>
-                  </tr>
-                )
-              })}
+                      <td className='text-center'>{item.totalAttempts}</td>
+                      <td>{item.gift}</td>
+                      <td className='text-center'>{item.answer}</td>
+                    </tr>
+                  )
+                })
+              ) : !currentUsers.length && !error ? (
+                <div className='center no-data'>No data</div>
+              ) : (
+                <div className='center no-data'>Unable to fetch data</div>
+              )}
             </tbody>
           </table>
         </div>
-        <PaginationWrappper
-          postsPerPage={5}
-          totalPosts={posts.length}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          data={posts}
-          indexOfLastPost={indexOfLastPost}
-          indexOfFirstPost={indexOfFirstPost}
-        />
+
+        {data?.length > postsPerPage && (
+          <PaginationWrappper
+            postsPerPage={postsPerPage}
+            totalPosts={posts.length}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            data={posts}
+            indexOfLastPost={indexOfLastPost}
+            indexOfFirstPost={indexOfFirstPost}
+          />
+        )}
       </div>
     </div>
   )

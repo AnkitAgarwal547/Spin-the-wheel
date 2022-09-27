@@ -41,7 +41,6 @@ export default function Question() {
             startTime: new Date().getTime(),
           })
           setLoading(false)
-          // setCampaignDetails(resp.data.data)
           dispatch({
             type: TRIGGER_QUESTION_DETAILS,
             questionDetails: resp.data.data[0],
@@ -53,7 +52,7 @@ export default function Question() {
           setLoading(false)
         })
     } else {
-      // navigate('/error')
+      navigate('/error')
     }
   }, [])
 

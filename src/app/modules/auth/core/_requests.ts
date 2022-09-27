@@ -1,8 +1,7 @@
 import axios from 'axios'
 import { AuthModel, UserModel } from './_models'
 
-const API_URL = process.env.REACT_APP_API_URL
-const baseUrl = "https://jsonplaceholder.typicode.com/users";
+const API_URL: any = process.env.REACT_APP_API_URL
 
 
 export const GET_USER_BY_ACCESSTOKEN_URL = `${API_URL}/admin/verify_token`
@@ -14,6 +13,7 @@ export const REQUEST_PASSWORD_URL = `${API_URL}/admin/forgot-password`
 export const CHANGE_PASSWORD_URL = `${API_URL}/admin/change-password`
 export const QUESTIONNAIRE_URL = `${API_URL}/admin/questions`
 export const GET_CAMPAIGNS = `${API_URL}/admin/campaigns`
+export const GET_CAMPAIGNS_USERS = `${API_URL}/admin`
 export const GET_USER_CAMPAIGN_DETAILS = `${API_URL}/campaigns`
 export const UPLOAD = `${API_URL}/admin/upload`
 
@@ -90,7 +90,7 @@ export function getUserByToken(token: string) {
 
 
 export async function getRequest() {
-  const { data } = await axios.get(baseUrl)
+  const { data } = await axios.get(API_URL)
   return data
 }
 
@@ -101,7 +101,7 @@ export function changePassword(payload) {
 
 
 export async function postRequest(payload) {
-  const { data } = await axios.post(baseUrl, payload, header)
+  const { data } = await axios.post(API_URL, payload, header)
   return data
 }
 
@@ -153,6 +153,14 @@ export async function getQuestionnaire() {
   return axios.get(QUESTIONNAIRE_URL, header)
 }
 
+export async function getCampaignUsers(id) {
+  return axios.get(GET_CAMPAIGNS_USERS + '/campaigns/' + id + '/users', header)
+}
+
+
+export async function generateWinner(id) {
+  return axios.patch(GET_CAMPAIGNS_USERS + '/campaigns/' + id + '/generate-winner', header)
+}
 
 
 // user login
@@ -185,6 +193,9 @@ export async function submitAnswer(payload, id) {
 }
 
 
-export async function updateClickCount(id, payload) {
+export async function updateCount(id, payload) {
   return axios.patch(API_URL + '/campaigns/' + id, payload, header)
 }
+
+
+

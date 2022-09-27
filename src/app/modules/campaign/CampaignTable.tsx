@@ -9,6 +9,7 @@ import Loader from '../../shared/Loader'
 import {deleteCampaignRequest, getCampaigns, getRequest} from '../auth/core/_requests'
 import './CompaignTable.scss'
 import {useAuth} from '../auth'
+import _ from 'lodash'
 
 type Props = {
   className: string
@@ -133,6 +134,24 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
     },
   ]
 
+  // useEffect(() => {
+  //   if (searchKey !== '') {
+  //     const timeout = setTimeout(() => {
+  //       const filter = _.filter(data, (user) => {
+  //         return _.includes(_.lowerCase(JSON.stringify(_.values(user))), _.lowerCase(searchKey))
+  //       })
+  //       setCampaigns(filter)
+  //     }, 500)
+  //     return () => clearTimeout(timeout)
+  //   }
+  // }, [searchKey])
+
+  //   useEffect(() => {
+  //     if (searchKey === '') {
+  //       setCampaigns(currentCampaignsList)
+  //     }
+  //   }, [currentCampaignsList])
+
   const getCampaignList = () => {
     setIsLoading(true)
     getCampaigns()
@@ -231,22 +250,13 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                         <td className='text-center'>{item.title}</td>
                         <td>{typeOfCampaign(item.type)}</td>
                         <td>
-                          <div style={{width: '100px'}} className='text-truncate'>
-                            <button
-                              className='btn btn-link'
-                              onClick={() => {
-                                navigate({
-                                  pathname: '/verify-mobile',
-                                  search: `?campaignId=${item._id}`,
-                                })
-                              }}
-                            >
-                              /user/auth
-                            </button>
-                            {/* <Link to={{pathname: `/verify-mobile`}}>/user/auth</Link> */}
-                            {/* <a className='text-truncate text-dark' href={item.logo_url}>
-                              {item.logo_url}
-                            </a> */}
+                          <div className='text-truncate' style={{width: '100px'}}>
+                            <a
+                              style={{width: '100px'}}
+                              target='_blank'
+                              className='text-dark'
+                              href={`https://fedicoms.net/verify-mobile?campaignId=${item._id}`}
+                            >{`https://fedicoms.net/verify-mobile?campaignId=${item._id}`}</a>
                           </div>
                         </td>
                         <td className='text-center'>
@@ -259,7 +269,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                             <Link
                               to={`/edit-campaign/${item._id}`}
                               state={item}
-                              className='btn btn-sm btn-outline-dark mr-2'
+                              className='btn btn-secondary-outline btn-sm'
                             >
                               Edit
                             </Link>

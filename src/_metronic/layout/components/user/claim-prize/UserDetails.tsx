@@ -14,23 +14,9 @@ import {ToastContainer} from 'react-toastify'
 export default function UserDetails() {
   const {campaignDetails, prizeDetails, questionDetails, answerDetails, startTime, endTime} =
     useAppSelector((state) => state.userReducer)
-  console.log('🚀 ~ file: UserDetails.tsx ~ line 14 ~ UserDetails ~ endTime', endTime)
-  console.log('🚀 ~ file: UserDetails.tsx ~ line 14 ~ UserDetails ~ startTime', startTime)
-  console.log('🚀 ~ file: UserDetails.tsx ~ line 14 ~ UserDetails ~ answerDetails', answerDetails)
-  console.log(
-    '🚀 ~ file: UserDetails.tsx ~ line 14 ~ UserDetails ~ questionDetails',
-    questionDetails
-  )
-  console.log('🚀 ~ file: UserDetails.tsx ~ line 14 ~ UserDetails ~ prizeDetails', prizeDetails)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-
-  console.log(
-    '🚀 ~ file: UserDetails.tsx ~ line 7 ~ UserDetails ~ campaignDetails',
-    campaignDetails
-  )
-
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
@@ -62,7 +48,6 @@ export default function UserDetails() {
     initialValues,
     validationSchema: schema,
     onSubmit: async (values, {setStatus, setSubmitting}) => {
-      console.log('🚀 ~ file: UserAuth.tsx ~ line 28 ~ onSubmit: ~ values', values)
       const payload = {
         ques_id: questionDetails?._id,
         answer_selected: questionDetails?.options.findIndex((item) => item === answerDetails),
@@ -77,17 +62,11 @@ export default function UserDetails() {
         answer_text: answerDetails,
         answer_timetaken: Math.abs(((endTime - startTime) / 24) * 60 * 60 * 1000),
       }
-      console.log('🚀 ~ file: UserDetails.tsx ~ line 72 ~ onSubmit: ~ payload', payload)
       setLoading(true)
       try {
         const {data} = await submitAnswer(payload, campaignDetails._id)
         setSubmitting(false)
         setLoading(false)
-        // dispatch({
-        //   type: TRIGGER_USER_DETAILS,
-        //   userDetails: values,
-        // })
-        // navigate('/question')
         ToastMessage('Details submitted successfully!', 'success')
         navigate('/terms-and-conditions')
       } catch (error: any) {
@@ -98,8 +77,7 @@ export default function UserDetails() {
   })
   return (
     <div className='user-details'>
-      <div className='user-details-sub-div '></div> {/* <Row className='justify-content-center'> */}
-      {/* <Col sm={8} xxl={8} xl={8} lg={8} className='rounded  p-10'> */}
+      <div className='user-details-sub-div '></div>
       <div className='sub-div'>
         <div className='text-center heading'>Share your Details to Claim your Prize</div>
         <hr className='mt-1 mb-10' />
@@ -187,8 +165,6 @@ export default function UserDetails() {
                     </span>
                   )}
                 </button>
-                {/* </Col> */}
-                {/* </Row> */}
               </Col>
             </Row>
           </div>

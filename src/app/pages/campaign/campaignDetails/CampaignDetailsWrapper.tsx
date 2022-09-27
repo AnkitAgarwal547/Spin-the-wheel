@@ -2,7 +2,7 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {CSVLink} from 'react-csv'
 import {useParams} from 'react-router'
-import {getRequest} from '../../../modules/auth/core/_requests'
+import {generateWinner, getCampaignUsers, getRequest} from '../../../modules/auth/core/_requests'
 import Loader from '../../../shared/Loader'
 import {CampaignDetailsTable} from './CampaignDetailsTable'
 import './CampaignDetailsWrapper.scss'
@@ -19,8 +19,27 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
   const [isBumperWinnerLoading, setBumperWinnerLoading] = useState(false)
   const [isLoadingDetails, setIsLoadingDetails] = useState(false)
   const {searchKey} = useAppSelector((state) => state.searchReducer)
+  const [userList, setUserList] = useState([])
+  const [details, setDetails] = useState<any>()
+  console.log('🚀 ~ file: CampaignDetailsWrapper.tsx ~ line 24 ~ details', details)
+  const [error, setError] = useState(false)
+
   const {id} = useParams()
   console.log('🚀 ~ file: CampaignDetailsWrapper.tsx ~ line 24 ~ id', id)
+
+  useEffect(() => {
+    setIsLoadingDetails(true)
+    getCampaignUsers(id)
+      .then((resp) => {
+        setUserList(resp?.data?.data?.users)
+        setDetails(resp?.data?.data?.stats)
+        setIsLoadingDetails(false)
+      })
+      .catch((err) => {
+        setIsLoadingDetails(false)
+        setError(true)
+      })
+  }, [id])
 
   // useEffect(() => {
   //   setIsLoadingDetails(true)
@@ -37,10 +56,14 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
   const generateBumperWinner = () => {
     console.log('*')
     setBumperWinnerLoading(true)
-    // getCampaignDetailsRequest(id).then((resp) => {
-    //   setBumperWinnerDetails(resp)
-    //   setBumperWinnerLoading(false)
-    // })
+    generateWinner(id)
+      .then((resp) => {
+        console.log('🚀 ~ file: CampaignDetailsWrapper.tsx ~ line 60 ~ generateWinner ~ resp', resp)
+        setBumperWinnerLoading(false)
+      })
+      .catch(() => {
+        setBumperWinnerLoading(false)
+      })
   }
 
   const getTypeName = (type) => {
@@ -70,40 +93,44 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
               <div className='d-flex flex-wrap flex-stack mb-6'>
                 <div className='d-flex flex-wrap  align-items-center'>
                   <h2 className='mb-0'>Tata AIG User Details</h2>
-                  <button
-                    className='btn btn-dark btn-sm bumper-btn'
-                    onClick={() => generateBumperWinner()}
-                    disabled={isBumperWinnerLoading}
-                  >
-                    <span className='indicator-progress' style={{display: 'block'}}>
-                      Generate Bumpur Winner
-                      {isBumperWinnerLoading && (
-                        <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
-                      )}
-                    </span>
-                  </button>
+                  {userList?.length !== 0 && (
+                    <button
+                      className='btn btn-dark btn-sm bumper-btn'
+                      onClick={() => generateBumperWinner()}
+                      disabled={isBumperWinnerLoading}
+                    >
+                      <span className='indicator-progress' style={{display: 'block'}}>
+                        Generate Bumpur Winner
+                        {isBumperWinnerLoading && (
+                          <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                        )}
+                      </span>
+                    </button>
+                  )}
                 </div>
-                <div className='d-flex flex-wrap my-2'>
-                  <CSVLink
-                    data={[]}
-                    className='btn btn-outline-dark btn-sm rounded-pill'
-                    filename={'Campaigns.csv'}
-                    target='_blank'
-                  >
-                    Export
-                  </CSVLink>
-                </div>
+                {userList?.length !== 0 && (
+                  <div className='d-flex flex-wrap my-2'>
+                    <CSVLink
+                      data={userList}
+                      className='btn btn-outline-dark btn-sm rounded-pill'
+                      filename={'Campaigns.csv'}
+                      target='_blank'
+                    >
+                      Export
+                    </CSVLink>
+                  </div>
+                )}
               </div>
               <div>
                 <div className='d-flex flex-wrap  mb-6 border px-4 pt-3 pb-1 campaign-details-sub-header'>
                   <div className='px-4'>
                     <div className='label'>Total Clicks On The Campaign</div>
-                    <div className='value'>100</div>
+                    <div className='value'>{details?.click_count || 0}</div>
                   </div>
                   <div className='vr'></div>
                   <div className='px-4'>
                     <div className='label'>Total Attempts On The Campaign</div>
-                    <div className='value'>100</div>
+                    <div className='value'>{details?.attempt_count || 0}</div>
                   </div>
                   {bumperWinnerDetails && (
                     <>
@@ -124,7 +151,7 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
             </>
           )}
           {type && <h2 className='mb-5'>{getTypeName(type)}</h2>}
-          <CampaignDetailsTable data={[]} />
+          <CampaignDetailsTable data={userList} error={error} />
         </>
       )}
     </div>

@@ -51,13 +51,11 @@ const AuthProvider: FC<WithChildren> = ({children}) => {
 
   const logout = () => {
     const userType = getUserType()
-    if (userType !== 'user') {
       console.log('🚀 ~ file: Auth.tsx ~ line 54 ~ logout ~ userType', userType)
       saveAuth(undefined)
       setCurrentUser(undefined)
       removeToken()
       removeUserType()
-    }
   }
 
   return (

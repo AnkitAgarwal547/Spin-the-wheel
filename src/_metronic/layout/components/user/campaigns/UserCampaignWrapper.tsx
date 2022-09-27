@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useLocation, useNavigate} from 'react-router'
 import {
   getUserCampaignDetailsRequest,
-  updateClickCount,
+  updateCount,
 } from '../../../../../app/modules/auth/core/_requests'
 import SpinTheWheel from './campaign-types/SpinTheWheel/SpinTheWheel'
 import './UserCampaignWrapper.scss'
@@ -31,13 +31,6 @@ export default function UserCampaignWrapper() {
   const [reward, setReward] = useState()
   const dispatch = useAppDispatch()
 
-  console.log('&&', reward)
-
-  console.log(
-    '🚀 ~ file: UserCampaignWrapper.tsx ~ line 9 ~ UserCampaignWrapper ~ campaignDetails',
-    campaignDetails
-  )
-  console.log('🚀 ~ file: UserCampaignWrapper.tsx ~ line 8 ~ UserCampaignWrapper ~ id', id)
   useEffect(() => {
     if (id !== undefined && id !== null && id) {
       setLoading(true)
@@ -49,13 +42,12 @@ export default function UserCampaignWrapper() {
             type: TRIGGER_CAMPAIGN_DETAILS,
             campaignDetails: resp.data.data,
           })
-          console.log('🚀 ~ file: CampaignDetailsWrapper.tsx ~ line 34 ~ .then ~ resp', resp)
         })
         .catch(() => {
           setLoading(false)
         })
 
-      updateClickCount(id, {action: 'UPDATE_CAMPAIGN_CLICKCOUNT'})
+      updateCount(id, {action: 'UPDATE_CAMPAIGN_CLICKCOUNT'})
     } else {
       console.log('🚀 ~ file: UserCampaignWrapper.tsx ~ line 30 ~ useEffect ~ id', id)
       navigate('/error')
@@ -141,7 +133,7 @@ export default function UserCampaignWrapper() {
           )}
           <div className='row justify-content-center my-10'>
             <button
-              className='btn btn-block  btn-lg col-md-5 col-xxl-3 col-xl-3 col-lg-3 col-sm-5 col-4'
+              className='btn btn-block btn-primary  btn-lg col-md-5 col-xxl-3 col-xl-3 col-lg-3 col-sm-5 col-4'
               style={{
                 color: campaignDetails?.forecolor,
                 backgroundColor: getThemeStyle(campaignDetails.template).buttonBackgroundColor,
