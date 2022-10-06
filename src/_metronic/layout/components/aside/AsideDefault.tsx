@@ -36,23 +36,25 @@ const AsideDefault: React.FC<Props> = ({asideRef, minimize}) => {
         {aside.theme === 'dark' && (
           <>
             <Link to='/dashboard'>
-              <img
-                alt='Logo'
-                className='h-35px logo mr-2'
-                src='https://live25east.com/wp-content/uploads/2015/10/placeholder-circle-300x300.png'
-              />
+              <div className='logo-wrapper'>
+                <img
+                  alt='Logo'
+                  className=' logo mr-2 center'
+                  src='https://s3.ap-south-1.amazonaws.com/fedicoms.net/logo/logo.png'
+                />
+              </div>
             </Link>
-            <h5 className='aside-company-name text-light ml-2 mb-0'>Company Name</h5>
+            <h5 className='aside-company-name text-light ml-2 mb-0'>Fedicoms</h5>
           </>
         )}
         {aside.theme === 'light' && (
           <Link to='/dashboard'>
             <img
               alt='Logo'
-              className='h-25px logo'
-              src='https://live25east.com/wp-content/uploads/2015/10/placeholder-circle-300x300.png'
+              className='h-25px logo '
+              src='https://s3.ap-south-1.amazonaws.com/fedicoms.net/logo/logo.png'
             />
-            <div className='aside-company-name'>Company Name</div>
+            <div className='aside-company-name'>Fedicoms</div>
           </Link>
         )}
       </div>

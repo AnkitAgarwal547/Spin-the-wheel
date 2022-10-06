@@ -8,6 +8,7 @@ import {
   getUserType,
   setToken,
   setUserType,
+  updateCount,
   userLogin,
   verifyOtp,
 } from '../../../../../app/modules/auth/core/_requests'
@@ -87,6 +88,8 @@ export default function VerifyOTP() {
             pathname: '/campaign',
             search: `?id=${campaignId}`,
           })
+          updateCount(campaignId, {action: 'UPDATE_CAMPAIGN_CLICKCOUNT'})
+
           setCurrentUser(auth.data)
         }
       } catch (error: any) {
@@ -141,7 +144,7 @@ export default function VerifyOTP() {
                   type='submit'
                   disabled={formik.isSubmitting || !formik.isValid}
                 >
-                  {!loading && <span className='indicator-label'>Submit</span>}
+                  {!loading && <span className='indicator-label'>Next</span>}
                   {loading && (
                     <span className='indicator-progress' style={{display: 'block'}}>
                       Please wait...

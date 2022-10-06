@@ -62,7 +62,7 @@ export function Login() {
   })
 
   return (
-    <div className='col-xxl-6 offset-xl-3'>
+    <div className='col-xxl-6 col-xl-6 offset-xxl-3 offset-xl-2 col-lg-8 offset-lg-2 col-lg-6 col-md-8 offset-md-2  col-xl-8 offset-sm-2 col-sm-8'>
       <form
         className='form w-100'
         onSubmit={formik.handleSubmit}

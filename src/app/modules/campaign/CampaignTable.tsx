@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useMemo, useRef, useState} from 'react'
 import {CSVLink} from 'react-csv'
 import {Link, useNavigate} from 'react-router-dom'
 import {KTSVG, toAbsoluteUrl} from '../../../_metronic/helpers'
@@ -9,7 +9,9 @@ import Loader from '../../shared/Loader'
 import {deleteCampaignRequest, getCampaigns, getRequest} from '../auth/core/_requests'
 import './CompaignTable.scss'
 import {useAuth} from '../auth'
-import _ from 'lodash'
+import _, {debounce} from 'lodash'
+import {TRIGGER_SEARCH_KEYWORD} from '../../redux/actions/actionTypes'
+import {useDispatch} from 'react-redux'
 
 type Props = {
   className: string
@@ -31,11 +33,11 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
   const indexOfFirstCampaign = indexOfLastCampaign - campaignsPerPage
   const [isLoading, setIsLoading] = useState(false)
   const currentCampaignsList = campaigns.slice(indexOfFirstCampaign, indexOfLastCampaign)
-  console.log('🚀 ~ file: CampaignTable.tsx ~ line 34 ~ currentCampaignsList', currentCampaignsList)
   const {currentUser} = useAuth()
   const [error, setError] = useState(false)
-  console.log('🚀 ~ file: CampaignTable.tsx ~ line 37 ~ error', error)
   const navigate = useNavigate()
+  const [currentData, setCurrentData] = useState(currentCampaignsList)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (currentUser && currentUser.token) {
@@ -135,24 +137,6 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
     },
   ]
 
-  // useEffect(() => {
-  //   if (searchKey !== '') {
-  //     const timeout = setTimeout(() => {
-  //       const filter = _.filter(data, (user) => {
-  //         return _.includes(_.lowerCase(JSON.stringify(_.values(user))), _.lowerCase(searchKey))
-  //       })
-  //       setCampaigns(filter)
-  //     }, 500)
-  //     return () => clearTimeout(timeout)
-  //   }
-  // }, [searchKey])
-
-  //   useEffect(() => {
-  //     if (searchKey === '') {
-  //       setCampaigns(currentCampaignsList)
-  //     }
-  //   }, [currentCampaignsList])
-
   const getCampaignList = () => {
     setIsLoading(true)
     getCampaigns()
@@ -193,6 +177,31 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
       getCampaignList()
     })
   }
+
+  useEffect(() => {
+    if (searchKey !== '') {
+      const timeout = setTimeout(() => {
+        const filter = _.filter(campaigns, (user) => {
+          return _.includes(_.lowerCase(JSON.stringify(_.values(user))), _.lowerCase(searchKey))
+        })
+        setCurrentData(filter)
+      }, 500)
+      return () => clearTimeout(timeout)
+    }
+  }, [searchKey])
+
+  useEffect(() => {
+    if (searchKey === '') {
+      setCurrentData(currentCampaignsList)
+    }
+  }, [currentCampaignsList])
+
+  useEffect(() => {
+    dispatch({
+      type: TRIGGER_SEARCH_KEYWORD,
+      searchKey: '',
+    })
+  }, [])
 
   return (
     <div className={`campaign-table-wrapper ${className}`}>
@@ -239,8 +248,8 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                 </tr>
               </thead>
               <tbody>
-                {currentCampaignsList.length > 0 && !error ? (
-                  currentCampaignsList.map((item, i) => {
+                {currentData.length > 0 && !error ? (
+                  currentData.map((item, i) => {
                     return (
                       <tr key={i}>
                         <td className='text-center'>
@@ -257,8 +266,8 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                               style={{width: '100px'}}
                               target='_blank'
                               className='text-primary'
-                              href={`http://localhost:3011/verify-mobile?campaignId=${item._id}`}
-                            >{`http://localhost:3011/verify-mobile?campaignId=${item._id}`}</a>
+                              href={`https://fedicoms.net/verify-mobile?campaignId=${item._id}`}
+                            >{`https://fedicoms.net/verify-mobile?campaignId=${item._id}`}</a>
                           </div>
                         </td>
                         <td className='text-center'>
@@ -302,7 +311,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
               </tbody>
             </table>
 
-            {campaigns?.length > campaignsPerPage && (
+            {campaigns?.length > campaignsPerPage && searchKey === '' && (
               <PaginationWrappper
                 postsPerPage={5}
                 totalPosts={campaigns.length}

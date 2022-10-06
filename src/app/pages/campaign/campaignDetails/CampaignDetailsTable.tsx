@@ -1,9 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import moment from 'moment'
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {useDispatch} from 'react-redux'
 import {useParams} from 'react-router'
 import PaginationWrappper from '../../../../_metronic/layout/components/pagination/PaginationWrapper'
 import {useAppSelector} from '../../../redux/hooks/hooks'
+import _, {debounce} from 'lodash'
+import {TRIGGER_SEARCH_KEYWORD} from '../../../redux/actions/actionTypes'
 
 type Props = {
   data?: any
@@ -191,6 +194,33 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
   const currentUsers = posts?.length && posts.slice(indexOfFirstPost, indexOfLastPost)
+  const dispatch = useDispatch()
+  const [currentData, setCurrentData] = useState(currentUsers)
+
+  useEffect(() => {
+    if (searchKey !== '') {
+      const timeout = setTimeout(() => {
+        const filter = _.filter(posts, (user) => {
+          return _.includes(_.lowerCase(JSON.stringify(_.values(user))), _.lowerCase(searchKey))
+        })
+        setCurrentData(filter)
+      }, 500)
+      return () => clearTimeout(timeout)
+    }
+  }, [searchKey])
+
+  useEffect(() => {
+    if (searchKey === '') {
+      setCurrentData(currentUsers)
+    }
+  }, [currentUsers])
+
+  useEffect(() => {
+    dispatch({
+      type: TRIGGER_SEARCH_KEYWORD,
+      searchKey: '',
+    })
+  }, [])
 
   return (
     <div className='campaign-details-table'>
@@ -211,8 +241,8 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
                 </tr>
               </thead>
               <tbody>
-                {currentUsers.length > 0 && !error ? (
-                  currentUsers.map((item, i) => {
+                {currentData.length > 0 && !error ? (
+                  currentData.map((item, i) => {
                     return (
                       <tr key={i}>
                         {/* <td className='text-center'>{item._id}</td> */}
@@ -224,11 +254,11 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
 
                         {/* <td className='text-center'>{item.game_played}</td>
                       <td>{item.gift_unlock_text}</td> */}
-                        <td className='text-center'>{item.pin_code}</td>
+                        <td className='text-center'>{item.comments}</td>
                       </tr>
                     )
                   })
-                ) : !currentUsers.length && !error ? (
+                ) : !currentData.length && !error ? (
                   <div className='center no-data'>No data</div>
                 ) : (
                   <div className='center no-data'>Unable to fetch data</div>
@@ -250,8 +280,8 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
                 </tr>
               </thead>
               <tbody>
-                {currentUsers.length > 0 && !error ? (
-                  currentUsers.map((item, i) => {
+                {currentData.length > 0 && !error ? (
+                  currentData.map((item, i) => {
                     return (
                       <tr key={i}>
                         {/* <td className='text-center'>{item._id}</td> */}
@@ -267,7 +297,7 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
                       </tr>
                     )
                   })
-                ) : !currentUsers.length && !error ? (
+                ) : !currentData.length && !error ? (
                   <div className='center no-data'>No data</div>
                 ) : (
                   <div className='center no-data'>Unable to fetch data</div>
@@ -277,7 +307,7 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
           )}
         </div>
 
-        {data?.length > postsPerPage && (
+        {data?.length > postsPerPage && !searchKey && (
           <PaginationWrappper
             postsPerPage={postsPerPage}
             totalPosts={posts.length}

@@ -7,23 +7,24 @@ import {KTSVG, toAbsoluteUrl} from '../../../../../helpers'
 
 export default function Search() {
   const {searchKey} = useAppSelector((state) => state.searchReducer)
-
-  const [searchTerm, setSearchTerm] = useState(searchKey)
   const dispatch = useAppDispatch()
   const handleChange = (e) => {
-    setSearchTerm(e.target.value)
+    dispatch({
+      type: TRIGGER_SEARCH_KEYWORD,
+      searchKey: e.target.value,
+    })
   }
 
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      dispatch({
-        type: TRIGGER_SEARCH_KEYWORD,
-        searchKey: searchTerm,
-      })
-    }, 400)
+  // useEffect(() => {
+  //   const delayDebounceFn = setTimeout(() => {
+  //     dispatch({
+  //       type: TRIGGER_SEARCH_KEYWORD,
+  //       searchKey: searchTerm,
+  //     })
+  //   }, 400)
 
-    return () => clearTimeout(delayDebounceFn)
-  }, [searchTerm])
+  //   return () => clearTimeout(delayDebounceFn)
+  // }, [searchTerm])
 
   return (
     <div className='search-input'>
@@ -35,7 +36,7 @@ export default function Search() {
           type='text'
           className='form-control rounded-pill'
           placeholder='Search here'
-          value={searchTerm}
+          value={searchKey}
           onChange={handleChange}
         />
       </div>

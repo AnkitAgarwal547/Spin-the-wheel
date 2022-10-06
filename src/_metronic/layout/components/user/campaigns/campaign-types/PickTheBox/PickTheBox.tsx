@@ -38,17 +38,7 @@ export default function PickTheBox() {
   ]
   const [boxes, setBoxes] = useState<any>(boxesList)
 
-  useEffect(() => {
-    let updatedBoxesList = [...boxes]
-    updatedBoxesList.map((el, i) => {
-      console.log('🚀 ~ file: PickTheBox.tsx ~ line 31 ~ updatedBoxesList.map ~ el', el)
-      return (el.label = campaignDetails['winning_values'][i]['label'])
-    })
-    console.log(
-      '🚀 ~ file: PickTheBox.tsx ~ line 34 ~ updatedBoxesList.map ~ updatedBoxesList',
-      updatedBoxesList
-    )
-  }, [campaignDetails])
+
 
   const [reward, setReward] = useState(prizeIndex)
   const selectReward = (index) => {

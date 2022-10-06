@@ -41,7 +41,7 @@ export default function UserDetails() {
       .matches(phoneRegExp, 'Phone number is not valid')
       .min(10, 'to short')
       .max(10, 'to long'),
-    comments: Yup.string().required('required'),
+    comments: Yup.number().required('required'),
 
     email: Yup.string()
       .email('Wrong email format')
@@ -125,6 +125,7 @@ export default function UserDetails() {
                       'is-valid': formik.touched.name && !formik.errors.name,
                     }
                   )}
+                  readOnly
                   value={formik.values.name}
                 />
               </Col>
@@ -166,9 +167,22 @@ export default function UserDetails() {
               </Col>
 
               <Col sm={12}>
-                <Form.Label className='fw-bold'>Comments</Form.Label>
+                <Form.Label className='fw-bold'>Pincode</Form.Label>
+                <Form.Control
+                  type='number'
+                  placeholder=''
+                  {...formik.getFieldProps('comments')}
+                  className={clsx(
+                    'form-control form-control-lg ',
+                    {'is-invalid': formik.touched.comments && formik.errors.comments},
+                    {
+                      'is-valid': formik.touched.comments && !formik.errors.comments,
+                    }
+                  )}
+                  value={formik.values.comments}
+                />
 
-                <textarea
+                {/* <textarea
                   rows={5}
                   {...formik.getFieldProps('comments')}
                   className={clsx(
@@ -179,7 +193,7 @@ export default function UserDetails() {
                     }
                   )}
                   value={formik.values.comments}
-                ></textarea>
+                ></textarea> */}
               </Col>
               <Col sm={12}>
                 <button

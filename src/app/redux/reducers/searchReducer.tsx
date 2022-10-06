@@ -5,6 +5,7 @@ const initialState = {
 }
 
 const searchReducer = function (state = initialState, action) {
+  console.log('🚀 ~ file: searchReducer.tsx ~ line 19 ~ searchReducer ~ action', action)
   switch (action.type) {
     case TRIGGER_SEARCH_KEYWORD: {
       return {

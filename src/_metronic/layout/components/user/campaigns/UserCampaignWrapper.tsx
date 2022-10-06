@@ -70,7 +70,6 @@ export default function UserCampaignWrapper() {
           setLoading(false)
         })
 
-      updateCount(id, {action: 'UPDATE_CAMPAIGN_CLICKCOUNT'})
     } else {
       navigate('/error')
       logout()
@@ -205,7 +204,10 @@ export default function UserCampaignWrapper() {
             <ScratchCardWrapper image={getThemeStyle(campaignDetails.template).scratchCardImage} />
           )}
 
-<PickTheBox />
+          {campaignDetails && campaignDetails.type === typeOfCampaigns.CHOOSE_THE_BOX && (
+            <PickTheBox />
+          )}
+
           <div className='row justify-content-center my-10'>
             <button
               className='btn btn-block btn-primary  btn-lg col-md-5 col-xxl-3 col-xl-3 col-lg-3 col-sm-5 col-4'

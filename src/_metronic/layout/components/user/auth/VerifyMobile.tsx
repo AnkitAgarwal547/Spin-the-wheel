@@ -45,10 +45,10 @@ export default function VerifyMobile() {
   })
 
   const initialValues = {
-    mobile_no: '9136035356',
+    mobile_no: '',
     country_code: '+91',
-    first_name: 'pratiksha',
-    last_name: 'mhatre',
+    first_name: '',
+    last_name: '',
   }
 
   useEffect(() => {
@@ -59,8 +59,6 @@ export default function VerifyMobile() {
       getUserCampaignDetailsRequest(campaignId)
         .then((resp) => {
           // setCampaignDetails(resp.data.data)
-          updateCount(campaignId, {action: 'UPDATE_CAMPAIGN_CLICKCOUNT'})
-
           dispatch({
             type: TRIGGER_CAMPAIGN_DETAILS,
             campaignDetails: resp.data.data,
@@ -69,8 +67,6 @@ export default function VerifyMobile() {
         .catch(() => {
           navigate('/error')
         })
-
-      // updateCount(campaignId, {action: 'UPDATE_CAMPAIGN_CLICKCOUNT'})
     } else {
       navigate('/error')
       // logout()

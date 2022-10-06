@@ -20,7 +20,6 @@ import {Field, FieldArray, Formik, useFormik, useFormikContext} from 'formik'
 import {ToastMessage} from '../../../shared/ToastMessage'
 import clsx from 'clsx'
 import DatePicker from 'react-datepicker'
-import Spin from '../../../../_metronic/layout/components/ScratchCardNew'
 import {getBase64} from '../../../utils/common'
 import {typeOfCampaigns} from '../../../modules/campaign/CampaignTable'
 import {ToastContainer} from 'react-toastify'
@@ -159,6 +158,7 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.FONT_COLOR]: '#000000',
     [formFields.LOGO]: '',
     [formFields.WINNING_VALUES]: initialWinningValues,
+    [formFields.WHEEL_BACKGROUNDCOLOR]: '#da3768',
   }
 
   const validationSchema = Yup.object().shape({
@@ -323,6 +323,7 @@ const NewCampaign: React.FC<Props> = () => {
         const payload = {...values}
         payload['start_date'] = moment(values['start_date']).format(format)
         payload['end_date'] = moment(values['end_date']).format(format)
+        payload['prop_color'] = [values['prop_color']]
         if (
           new Date(values[formFields.END_DATE]).getTime() >
           new Date(values[formFields.START_DATE]).getTime()
@@ -690,29 +691,42 @@ const NewCampaign: React.FC<Props> = () => {
                         >
                           Next
                         </button>
-                        {banner1.path ||
-                          (values.banner1_url && (
-                            <div
-                              className='banner-img'
-                              style={{
-                                backgroundImage: `url(${
-                                  values.banner1_url ? values.banner1_url : banner1.path
-                                })`,
-                              }}
-                            />
-                          ))}
 
-                        {banner2.path ||
-                          (values.banner2_url && (
-                            <div
-                              className='banner-img'
-                              style={{
-                                backgroundImage: `url(${
-                                  values.banner2_url ? values.banner2_url : banner2.path
-                                })`,
-                              }}
-                            />
-                          ))}
+                        {banner1.path && (
+                          <div
+                            className='banner-img'
+                            style={{
+                              backgroundImage: `url(${banner1.path})`,
+                            }}
+                          />
+                        )}
+
+                        {banner2.path && (
+                          <div
+                            className='banner-img'
+                            style={{
+                              backgroundImage: `url(${banner2.path})`,
+                            }}
+                          />
+                        )}
+
+                        {values.banner1_url && !banner1.path && (
+                          <div
+                            className='banner-img'
+                            style={{
+                              backgroundImage: `url(${values.banner1_url})`,
+                            }}
+                          />
+                        )}
+
+                        {values.banner2_url && !banner2.path && (
+                          <div
+                            className='banner-img'
+                            style={{
+                              backgroundImage: `url(${values.banner2_url})`,
+                            }}
+                          />
+                        )}
                       </div>
                     </div>
                   </div>

@@ -34,8 +34,6 @@ export default function Question() {
   const [answer, setAnswer] = useState(answerDetails)
   const [question, setQuestion] = useState<any>(questionDetails)
 
-  console.log('🚀 ~ file: Question.tsx ~ line 38 ~ useEffect ~ campaignDetails', campaignDetails)
-  console.log('🚀 ~ file: Question.tsx ~ line 40 ~ useEffect ~ questionDetails', questionDetails)
   useEffect(() => {
     if (campaignDetails?._id && (questionDetails === '' || !questionDetails)) {
       setLoading(true)
@@ -75,8 +73,6 @@ export default function Question() {
   }, [])
 
   const selectAnswer = (item, index) => {
-    console.log('🚀 ~ file: Question.tsx ~ line 71 ~ selectAnswer ~ item', item)
-    console.log('🚀 ~ file: Question.tsx ~ line 68 ~ selectAnswer ~ answerDetails', answerDetails)
     if (!answerDetails) {
       setAnswer(item)
       console.log('answr', answer)
@@ -220,7 +216,7 @@ export default function Question() {
                       disabled={answer === ''}
                       onClick={() => submitAnswer()}
                     >
-                      Submit
+                      Next
                     </button>
                   </div>
                 </>

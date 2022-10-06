@@ -7,6 +7,7 @@ import {ToastContainer, toast} from 'react-toastify'
 import {useQuery} from 'react-query'
 import './QuestionnaireTable.scss'
 import {KTSVG} from '../../../../_metronic/helpers'
+import _, {debounce} from 'lodash'
 import {
   deleteQuestionnaire,
   getQuestionnaire,
@@ -21,6 +22,8 @@ import {Formik, useFormik} from 'formik'
 import * as Yup from 'yup'
 import clsx from 'clsx'
 import {ToastMessage} from '../../../shared/ToastMessage'
+import {TRIGGER_SEARCH_KEYWORD} from '../../../redux/actions/actionTypes'
+import {useDispatch} from 'react-redux'
 
 type Props = {
   className?: string
@@ -157,6 +160,8 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
   const currrentQuestionnaireList = posts.slice(indexOfFirstPost, indexOfLastPost)
   const {searchKey} = useAppSelector((state) => state.searchReducer)
   const [error, setError] = useState(false)
+  const [currentData, setCurrentData] = useState(currrentQuestionnaireList)
+  const dispatch = useDispatch()
 
   const loginSchema = Yup.object().shape({
     question: Yup.string().required('Question is required'),
@@ -175,6 +180,31 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
     answer1: false,
     answer2: true,
   }
+
+  useEffect(() => {
+    if (searchKey !== '') {
+      const timeout = setTimeout(() => {
+        const filter = _.filter(posts, (user) => {
+          return _.includes(_.lowerCase(JSON.stringify(_.values(user))), _.lowerCase(searchKey))
+        })
+        setCurrentData(filter)
+      }, 500)
+      return () => clearTimeout(timeout)
+    }
+  }, [searchKey])
+
+  useEffect(() => {
+    if (searchKey === '') {
+      setCurrentData(currrentQuestionnaireList)
+    }
+  }, [currrentQuestionnaireList])
+
+  useEffect(() => {
+    dispatch({
+      type: TRIGGER_SEARCH_KEYWORD,
+      searchKey: '',
+    })
+  }, [])
 
   const patchQuestionnaire = (item) => {
     setSelectedItem(item._id)
@@ -492,8 +522,8 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {currrentQuestionnaireList.length > 0 && !error ? (
-                    currrentQuestionnaireList.map((item, i) => {
+                  {currentData.length > 0 && !error ? (
+                    currentData.map((item, i) => {
                       return (
                         <tr key={i}>
                           <td className='p-1 pl-5 text-center'>
@@ -599,7 +629,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                 </tbody>
               </table>
             </form>
-            {posts.length > postsPerPage && (
+            {posts.length > postsPerPage && searchKey && (
               <PaginationWrappper
                 postsPerPage={postsPerPage}
                 totalPosts={posts.length}
