@@ -45,10 +45,10 @@ export default function VerifyMobile() {
   })
 
   const initialValues = {
-    mobile_no: '',
+    mobile_no: '9136035356',
     country_code: '+91',
-    first_name: '',
-    last_name: '',
+    first_name: 'pratiksha',
+    last_name: 'mhatre',
   }
 
   useEffect(() => {

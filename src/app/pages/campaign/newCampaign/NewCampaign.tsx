@@ -43,7 +43,7 @@ export const getThemeStyle = (type) => {
         'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/general.jpg'
       scratchCardImage = toAbsoluteUrl('/media/scratch-card/general-scratch-card.png')
 
-      color = '#ffffff'
+      color = '#000000'
       buttonBackgroundColor = '#ffffff'
 
       break
@@ -155,7 +155,7 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.MAX_PLAY_USER]: '',
     [formFields.TEMPLATE_TYPE]: 'TEMPLATE_1',
     [formFields.TERMS]: '',
-    [formFields.FONT_COLOR]: '#ffffff',
+    [formFields.FONT_COLOR]: getThemeStyle('TEMPLATE_1').color as string,
     [formFields.LOGO]: '',
     [formFields.WINNING_VALUES]: initialWinningValues,
     [formFields.WHEEL_BACKGROUNDCOLOR]: '#da3768',
@@ -417,17 +417,8 @@ const NewCampaign: React.FC<Props> = () => {
         setFieldValue,
         handleSubmit,
         isSubmitting,
-        initialStatus,
-        isValid,
         initialErrors,
-        resetForm,
       }) => {
-        console.log(
-          '🚀 ~ file: NewCampaign.tsx ~ line 402 ~ onSubmit={ ~ initialStatus',
-          initialErrors
-        )
-        console.log('🚀 ~ file: NewCampaign.tsx ~ line 404 ~ values', values)
-
         return (
           <form>
             <div>

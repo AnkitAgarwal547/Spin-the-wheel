@@ -69,7 +69,6 @@ export default function UserCampaignWrapper() {
         .catch(() => {
           setLoading(false)
         })
-
     } else {
       navigate('/error')
       logout()
@@ -210,7 +209,7 @@ export default function UserCampaignWrapper() {
 
           <div className='row justify-content-center my-10'>
             <button
-              className='btn btn-block btn-primary  btn-lg col-md-5 col-xxl-3 col-xl-3 col-lg-3 col-sm-5 col-4'
+              className='btn btn-block btn-light next-btn  btn-lg col-md-5 col-xxl-3 col-xl-3 col-lg-3 col-sm-5 col-4'
               style={{
                 color: campaignDetails?.forecolor,
                 backgroundColor: getThemeStyle(campaignDetails.template).buttonBackgroundColor,

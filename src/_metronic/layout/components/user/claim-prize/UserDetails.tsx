@@ -54,8 +54,8 @@ export default function UserDetails() {
     name: mobileDetails?.first_name + ' ' + mobileDetails?.last_name,
     mobile_no: mobileDetails?.mobile_no,
     country_code: '+91',
-    comments: '',
-    email: '',
+    comments: '136235',
+    email: 'pkm@gmail.com',
   }
   console.log('🚀 ~ file: UserDetails.tsx ~ line 56 ~ UserDetails ~ mobileDetails', mobileDetails)
 

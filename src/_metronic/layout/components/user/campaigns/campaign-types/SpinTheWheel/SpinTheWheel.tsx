@@ -54,6 +54,10 @@ export default class SpinTheWheel extends Component<any, any> {
           (item) => item['day_count'] <= item['max_perday']
         )
         selectedItem = index
+        console.log(
+          '🚀 ~ file: SpinTheWheel.tsx ~ line 57 ~ SpinTheWheel ~ selectItem ~ index',
+          index
+        )
       }
 
       if (this.props.onSelectItem) {
@@ -61,6 +65,10 @@ export default class SpinTheWheel extends Component<any, any> {
       }
 
       this.setState({selectedItem})
+      console.log(
+        '🚀 ~ file: SpinTheWheel.tsx ~ line 64 ~ SpinTheWheel ~ selectItem ~ selectedItem',
+        selectedItem
+      )
     } else {
       // this.setState({selectedItem: null})
       // setTimeout(this.selectItem, 500)
@@ -89,7 +97,7 @@ export default class SpinTheWheel extends Component<any, any> {
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
   }
   render() {
-    const {textColor, details, setReward} = this.props
+    const {details} = this.props
 
     const wheelVars = {
       '--nb-item': details?.winning_values?.length,
@@ -97,6 +105,10 @@ export default class SpinTheWheel extends Component<any, any> {
       backgroundColor: details?.prop_color,
       borderColor: details?.prop_color,
     }
+    console.log(
+      '🚀 ~ file: SpinTheWheel.tsx ~ line 100 ~ SpinTheWheel ~ render ~ details?.prop_color',
+      details?.prop_color
+    )
 
     const spinning = this.state.selectedItem !== null ? 'spinning' : ''
 
@@ -122,7 +134,7 @@ export default class SpinTheWheel extends Component<any, any> {
                 <div className='wheel-text'>
                   <div
                     style={{
-                      color: textColor,
+                      color: details.forecolor,
                     }}
                   >
                     {item.label}
