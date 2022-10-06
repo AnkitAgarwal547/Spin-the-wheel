@@ -155,7 +155,7 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.MAX_PLAY_USER]: '',
     [formFields.TEMPLATE_TYPE]: 'TEMPLATE_1',
     [formFields.TERMS]: '',
-    [formFields.FONT_COLOR]: '#000000',
+    [formFields.FONT_COLOR]: '#ffffff',
     [formFields.LOGO]: '',
     [formFields.WINNING_VALUES]: initialWinningValues,
     [formFields.WHEEL_BACKGROUNDCOLOR]: '#da3768',

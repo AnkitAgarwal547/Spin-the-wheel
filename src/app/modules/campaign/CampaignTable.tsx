@@ -266,8 +266,8 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                               style={{width: '100px'}}
                               target='_blank'
                               className='text-primary'
-                              href={`https://fedicoms.net/verify-mobile?campaignId=${item._id}`}
-                            >{`https://fedicoms.net/verify-mobile?campaignId=${item._id}`}</a>
+                              href={`http://localhost:3011/verify-mobile?campaignId=${item._id}`}
+                            >{`http://localhost:3011/verify-mobile?campaignId=${item._id}`}</a>
                           </div>
                         </td>
                         <td className='text-center'>

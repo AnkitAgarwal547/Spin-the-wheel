@@ -156,89 +156,92 @@ export default function Question() {
                       src='https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/pick_the_box/gift_box.png'
                     />
                   </div>
-                  <div className='sub-div'>
-                    <div className='heading'>Your Special Rewards Has Been Unblocked !</div>
-                    <div>
-                      <h2 className='text-center text-primary my-3'>
-                        {' '}
-                        You got "{campaignDetails?.winning_values[prizeIndex]['label']}" Reward
-                      </h2>
-                      {/* {answer}
+                  <div className='postion-relative'>
+                    <div className='sub-div'>
+                      <div className='heading'>Your Special Rewards Has Been Unblocked !</div>
+                      <div>
+                        <h2 className='text-center text-primary my-3'>
+                          {' '}
+                          You got "{campaignDetails?.winning_values[prizeIndex]['label']}" Reward
+                        </h2>
+                        {/* {answer}
                       <br /> */}
-                      {answer &&
-                      questionDetails?.options.findIndex((item) => item === answer) + 1 !=
-                        questionDetails?.answer ? (
-                        <h4 className='text-center  my-3'>
-                          Oops you missed the chance this time, play again
-                        </h4>
-                      ) : (
-                        ''
-                      )}
-                      {/* {isAnswerCorrect && answer && (
+                        {answer &&
+                        questionDetails?.options.findIndex((item) => item === answer) + 1 !=
+                          questionDetails?.answer ? (
+                          <h4 className='text-center  my-3'>
+                            Oops you missed the chance this time, play again
+                          </h4>
+                        ) : (
+                          ''
+                        )}
+                        {/* {isAnswerCorrect && answer && (
                         <h4 className='text-center  my-3'>
                           Oops you missed the chance this time, play again
                         </h4>
                       )} */}
+                      </div>
+
+                      <p>Answer the question below to continue</p>
+                      <div className='question'>{question?.question}</div>
+                      <Row className='gx-10'>
+                        {question?.options?.map((item, i) => {
+                          return (
+                            <Col sm={6} key={i}>
+                              {/* {i} {Number(questionDetails.answer) + 'sjgdjs'} */}
+                              {/* {answer} */}
+
+                              <div
+                                className={clsx('answer-div ', checkIfAnswerIsCorrect(i))}
+                                onClick={() => selectAnswer(item, i)}
+                                // style={{
+                                //   backgroundColor:
+                                //     (answer === 0 && Number(questionDetails.answer) == i) ||
+                                //     (answer && Number(questionDetails.answer) == i)
+                                //       ? 'active'
+                                //       : 'red',
+                                //   color:
+                                //     answer && Number(questionDetails.answer) - 1 == i ? 'white' : '',
+                                // }}
+                              >
+                                {item}
+                              </div>
+                            </Col>
+                          )
+                        })}
+                      </Row>
+
+                      <button
+                        className='btn btn-primary btn-block w-100 mt-10'
+                        type='submit'
+                        disabled={answer === ''}
+                        onClick={() => submitAnswer()}
+                      >
+                        Next
+                      </button>
+
+                      <div className='banner-div'>
+                        {campaignDetails?.banner1_url && (
+                          <div
+                            className='banner1'
+                            style={{
+                              backgroundImage: `url(${campaignDetails?.banner1_url})`,
+                            }}
+                          ></div>
+                        )}
+
+                        {campaignDetails?.banner2_url && (
+                          <div
+                            className='banner2'
+                            style={{
+                              backgroundImage: `url(${campaignDetails?.banner2_url})`,
+                            }}
+                          ></div>
+                        )}
+                      </div>
                     </div>
-
-                    <p>Answer the question below to continue</p>
-                    <div className='question'>{question?.question}</div>
-                    <Row className='gx-10'>
-                      {question?.options?.map((item, i) => {
-                        return (
-                          <Col sm={6} key={i}>
-                            {/* {i} {Number(questionDetails.answer) + 'sjgdjs'} */}
-                            {/* {answer} */}
-
-                            <div
-                              className={clsx('answer-div ', checkIfAnswerIsCorrect(i))}
-                              onClick={() => selectAnswer(item, i)}
-                              // style={{
-                              //   backgroundColor:
-                              //     (answer === 0 && Number(questionDetails.answer) == i) ||
-                              //     (answer && Number(questionDetails.answer) == i)
-                              //       ? 'active'
-                              //       : 'red',
-                              //   color:
-                              //     answer && Number(questionDetails.answer) - 1 == i ? 'white' : '',
-                              // }}
-                            >
-                              {item}
-                            </div>
-                          </Col>
-                        )
-                      })}
-                    </Row>
-
-                    <button
-                      className='btn btn-primary btn-block w-100 my-10'
-                      type='submit'
-                      disabled={answer === ''}
-                      onClick={() => submitAnswer()}
-                    >
-                      Next
-                    </button>
                   </div>
                 </>
-              )}
-            </div>
-            <div className='banner-div'>
-              {campaignDetails?.banner1_url && (
-                <div
-                  className='banner1'
-                  style={{
-                    backgroundImage: `url(${campaignDetails?.banner1_url})`,
-                  }}
-                ></div>
-              )}
-
-              {campaignDetails?.banner2_url && (
-                <div
-                  className='banner2'
-                  style={{
-                    backgroundImage: `url(${campaignDetails?.banner2_url})`,
-                  }}
-                ></div>
               )}
             </div>
           </div>

@@ -50,10 +50,6 @@ export default class Wheel extends Component<any, any> {
   }
   render() {
     const {textColor, backgroundColor, selectedItem, items, type} = this.props
-    console.log(
-      '🚀 ~ file: SpinningWheel.tsx ~ line 53 ~ Wheel ~ render ~ backgroundColor',
-      backgroundColor
-    )
 
     const wheelVars = {
       '--nb-item': items.length,
