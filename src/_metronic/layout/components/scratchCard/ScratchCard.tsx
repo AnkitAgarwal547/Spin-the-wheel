@@ -21,7 +21,7 @@ export default function ScratchCardWrapper({image}) {
   }, [image])
 
   const settings = {
-    width: 200,
+    width: 190,
     height: 200,
     finishPercent: 80,
     onComplete: () => {
