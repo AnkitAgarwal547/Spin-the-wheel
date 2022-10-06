@@ -193,6 +193,7 @@ const NewCampaign: React.FC<Props> = () => {
   const [logoOfCampaign, setLogoOfCampaign] = useState(initialValueOfImages)
   const [banner1, setBanner1] = useState(initialValueOfImages)
   const [banner2, setBanner2] = useState(initialValueOfImages)
+  const [initialData, setInitialData] = useState(initialValues)
 
   const getWinningValuesLabel = (values) => {
     return values.map((a) => a.label)
@@ -309,12 +310,20 @@ const NewCampaign: React.FC<Props> = () => {
         : obj[formFields.WHEEL_BACKGROUNDCOLOR],
     }
 
-    return newObj
+    setInitialData(newObj)
+    // return newObj
   }
+
+  useEffect(() => {
+    if (id) {
+      patchForm()
+    }
+  }, [])
 
   return (
     <Formik
-      initialValues={id ? patchForm() : initialValues}
+      initialValues={initialData}
+      enableReinitialize
       validationSchema={validationSchema}
       onSubmit={async (values, {setSubmitting, resetForm}) => {
         console.log('🚀 ~ file: NewCampaign.tsx ~ line 319 ~ onSubmit={ ~ values', values)
@@ -411,12 +420,14 @@ const NewCampaign: React.FC<Props> = () => {
         initialStatus,
         isValid,
         initialErrors,
+        resetForm,
       }) => {
         console.log(
           '🚀 ~ file: NewCampaign.tsx ~ line 402 ~ onSubmit={ ~ initialStatus',
           initialErrors
         )
         console.log('🚀 ~ file: NewCampaign.tsx ~ line 404 ~ values', values)
+
         return (
           <form>
             <div>
