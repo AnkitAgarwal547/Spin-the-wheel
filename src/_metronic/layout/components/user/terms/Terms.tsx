@@ -1,21 +1,34 @@
 import clsx from 'clsx'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Col, Form, Row} from 'react-bootstrap'
 import {useAppDispatch, useAppSelector} from '../../../../../app/redux/hooks/hooks'
 import * as Yup from 'yup'
 import './Terms.scss'
 import {ToastMessage} from '../../../../../app/shared/ToastMessage'
 import {useNavigate} from 'react-router'
-import {useFormik} from 'formik'
-import {TRIGGER_USER_DETAILS} from '../../../../../app/redux/actions/actionTypes'
+import {useAuth} from '../../../../../app/modules/auth'
+import {getUserType} from '../../../../../app/modules/auth/core/_requests'
+import {useDispatch} from 'react-redux'
+import {useReset} from '../../../../../app/shared/hooks/useReset'
 
 export default function Terms() {
   const {campaignDetails} = useAppSelector((state) => state.userReducer)
-
-  console.log('🚀 ~ file: terms.tsx ~ line 14 ~ Terms ~ campaignDetails', campaignDetails)
-  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const {logout, currentUser} = useAuth()
+  const [handleReset] = useReset()
+
+  const onClose = () => {
+    logout()
+    navigate(`/verify-mobile?campaignId=${campaignDetails._id}`)
+    handleReset()
+  }
+
+  // useEffect(() => {
+  //   if (currentUser && getUserType() == 'user') {
+  //     navigate(`/campaign?id=${campaignDetails._id}`)
+  //   }
+  // }, [])
 
   return (
     <div className='terms-and-conditions'>
@@ -31,7 +44,9 @@ export default function Terms() {
           <p className='terms-heading'>Terms & Conditions</p>
           <div className='term-text'>{campaignDetails?.tnc}</div>
 
-          <button className='btn btn-primary btn-sm submit-btn'>Close</button>
+          <button className='btn btn-primary btn-sm submit-btn' onClick={() => onClose()}>
+            Close
+          </button>
         </div>
       </div>
     </div>

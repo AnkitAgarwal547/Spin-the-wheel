@@ -13,6 +13,7 @@ export const REQUEST_PASSWORD_URL = `${API_URL}/admin/forgot-password`
 export const CHANGE_PASSWORD_URL = `${API_URL}/admin/change-password`
 export const QUESTIONNAIRE_URL = `${API_URL}/admin/questions`
 export const GET_CAMPAIGNS = `${API_URL}/admin/campaigns`
+export const DELETE_QUESTIONS = `${API_URL}/admin/questions`
 export const GET_CAMPAIGNS_USERS = `${API_URL}/admin`
 export const GET_USER_CAMPAIGN_DETAILS = `${API_URL}/campaigns`
 export const UPLOAD = `${API_URL}/admin/upload`
@@ -131,7 +132,7 @@ export async function postCampaign(payload) {
 }
 
 export async function deleteQuestionnaire(id) {
-  return axios.delete(GET_CAMPAIGNS + '/' + id, header)
+  return axios.delete(DELETE_QUESTIONS + '/' + id, header)
 }
 
 export async function deleteCampaignRequest(id) {
@@ -139,14 +140,16 @@ export async function deleteCampaignRequest(id) {
 }
 
 
-
-
 export async function getUploadUrl(fileObj) {
   return axios.post(UPLOAD, fileObj, header)
 }
 
 export async function uploadFile(url, fileObj) {
-  return axios.put(url, fileObj)
+  // return axios.put(url, fileObj)
+  return fetch(url, {
+    method: 'PUT',
+    body: fileObj,
+  })
 }
 
 export async function getQuestionnaire() {
@@ -163,13 +166,24 @@ export async function generateWinner(id) {
 }
 
 
+export async function getTotalUsers(type) {
+  console.log("🚀 ~ file: _requests.ts ~ line 170 ~ getTotalUsers ~ type", type)
+  return axios.get(`${GET_CAMPAIGNS_USERS}/users?${type}`, header)
+}
+
+
+
+
+
 // user login
 
 
-export function userLogin(mobile_no: string, country_code: string) {
+export function userLogin(mobile_no: string, country_code: string, first_name: string, last_name: string) {
   return axios.post(USER_LOGIN_URL, {
     mobile_no,
     country_code,
+    first_name,
+    last_name
   })
 }
 
@@ -194,7 +208,10 @@ export async function submitAnswer(payload, id) {
 
 
 export async function updateCount(id, payload) {
-  return axios.patch(API_URL + '/campaigns/' + id, payload, header)
+  return fetch(API_URL + '/campaigns/' + id, {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  })
 }
 
 

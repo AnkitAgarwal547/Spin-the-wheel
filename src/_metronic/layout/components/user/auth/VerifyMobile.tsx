@@ -4,19 +4,33 @@ import * as Yup from 'yup'
 import {useFormik} from 'formik'
 import {ToastMessage} from '../../../../../app/shared/ToastMessage'
 import clsx from 'clsx'
-import {userLogin} from '../../../../../app/modules/auth/core/_requests'
+import {
+  getUserCampaignDetailsRequest,
+  getUserType,
+  updateCount,
+  userLogin,
+} from '../../../../../app/modules/auth/core/_requests'
 import {ToastContainer} from 'react-toastify'
 import {useNavigate, useLocation} from 'react-router'
-import {useAppSelector} from '../../../../../app/redux/hooks/hooks'
+import {useAppDispatch, useAppSelector} from '../../../../../app/redux/hooks/hooks'
 import './style.scss'
+import {
+  TRIGGER_CAMPAIGN_DETAILS,
+  TRIGGER_MOBILE,
+  TRIGGER_OTP,
+  TRIGGER_PRIZE_INDEX,
+} from '../../../../../app/redux/actions/actionTypes'
+import {useAuth} from '../../../../../app/modules/auth'
+import {Col, Row} from 'react-bootstrap'
 
 export default function VerifyMobile() {
   const [loading, setLoading] = useState(false)
   const search = useLocation().search
   const campaignId = new URLSearchParams(search).get('campaignId')
-  console.log('🚀 ~ file: VerifyMobile.tsx ~ line 14 ~ VerifyMobile ~ search', search)
   const {campaignDetails} = useAppSelector((state) => state.userReducer)
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const {currentUser} = useAuth()
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
@@ -26,16 +40,40 @@ export default function VerifyMobile() {
       .matches(phoneRegExp, 'Phone number is not valid')
       .min(10, 'to short')
       .max(10, 'to long'),
+    first_name: Yup.string().required('required'),
+    last_name: Yup.string().required('required'),
   })
 
   const initialValues = {
     mobile_no: '9136035356',
     country_code: '+91',
+    first_name: 'pratiksha',
+    last_name: 'mhatre',
   }
 
   useEffect(() => {
-    if (!campaignId) {
+    // if (currentUser && getUserType() == 'user') {
+    //   navigate(`/campaign?id=${campaignId}`)
+    // }
+    if (campaignId) {
+      getUserCampaignDetailsRequest(campaignId)
+        .then((resp) => {
+          // setCampaignDetails(resp.data.data)
+          updateCount(campaignId, {action: 'UPDATE_CAMPAIGN_CLICKCOUNT'})
+
+          dispatch({
+            type: TRIGGER_CAMPAIGN_DETAILS,
+            campaignDetails: resp.data.data,
+          })
+        })
+        .catch(() => {
+          navigate('/error')
+        })
+
+      // updateCount(campaignId, {action: 'UPDATE_CAMPAIGN_CLICKCOUNT'})
+    } else {
       navigate('/error')
+      // logout()
     }
   }, [])
 
@@ -43,11 +81,14 @@ export default function VerifyMobile() {
     initialValues,
     validationSchema: schema,
     onSubmit: async (values, {setStatus, setSubmitting}) => {
-      console.log('🚀 ~ file: UserAuth.tsx ~ line 28 ~ onSubmit: ~ values', values)
       setLoading(true)
       try {
-        const {data} = await userLogin(values.mobile_no.toString(), values.country_code)
-        console.log('🚀 ~ file: VerifyMobile.tsx ~ line 35 ~ onSubmit: ~ data', data)
+        const {data} = await userLogin(
+          values.mobile_no.toString(),
+          values.country_code,
+          values.first_name,
+          values.last_name
+        )
         setSubmitting(false)
         setLoading(false)
         ToastMessage('OTP sent successfully!', 'success')
@@ -58,6 +99,19 @@ export default function VerifyMobile() {
           },
           {state: values}
         )
+        dispatch({
+          type: TRIGGER_MOBILE,
+          mobileDetails: values,
+        })
+
+        dispatch({
+          type: TRIGGER_PRIZE_INDEX,
+          prizeIndex: '',
+        })
+        dispatch({
+          type: TRIGGER_OTP,
+          otpDetails: values,
+        })
       } catch (error: any) {
         setLoading(false)
         ToastMessage('Something went wrong!', 'error')
@@ -72,7 +126,54 @@ export default function VerifyMobile() {
         <div className='text-center heading'>Mobile Number Verification</div>
         <div className='px-10'>
           <form onSubmit={formik.handleSubmit}>
-            <div className='form-group mt-15'>
+            <Row>
+              <Col xxl={6} xl={6} lg={6} md={6} sm={6}>
+                {' '}
+                <div className='form-group mt-15'>
+                  <input
+                    type='test'
+                    placeholder='Enter your first name'
+                    {...formik.getFieldProps('first_name')}
+                    className={clsx(
+                      'form-control form-control-lg ',
+                      {'is-invalid': formik.touched.first_name && formik.errors.first_name},
+                      {
+                        'is-valid': formik.touched.first_name && !formik.errors.first_name,
+                      }
+                    )}
+                    value={formik.values.first_name}
+                  />
+
+                  {formik.touched.first_name && formik.errors.first_name && (
+                    <p className='text-danger px-2 pt-1'>Please enter first name </p>
+                  )}
+                </div>
+              </Col>
+              <Col xxl={6} xl={6} lg={6} md={6} sm={6}>
+                {' '}
+                <div className='form-group mt-15'>
+                  <input
+                    type='test'
+                    placeholder='Enter your last name'
+                    {...formik.getFieldProps('last_name')}
+                    className={clsx(
+                      'form-control form-control-lg ',
+                      {'is-invalid': formik.touched.last_name && formik.errors.last_name},
+                      {
+                        'is-valid': formik.touched.last_name && !formik.errors.last_name,
+                      }
+                    )}
+                    value={formik.values.last_name}
+                  />
+
+                  {formik.touched.last_name && formik.errors.last_name && (
+                    <p className='text-danger px-2 pt-1'>Please enter last name </p>
+                  )}
+                </div>
+              </Col>
+            </Row>
+
+            <div className='form-group mt-5'>
               <input
                 type='number'
                 placeholder='Enter the 10 Digit Mobile Number'

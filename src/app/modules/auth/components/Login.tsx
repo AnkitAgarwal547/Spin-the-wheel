@@ -70,7 +70,7 @@ export function Login() {
         id='kt_login_signin_form'
       >
         <div className='text-center mb-10'>
-          <h1 className='text-dark mb-3'>Welcome</h1>
+          <h1 className='text-primary mb-3'>Welcome</h1>
           <h6 className='text-dark mb-3'>Please Login to Admin Dashboard</h6>
         </div>
 
@@ -129,7 +129,7 @@ export function Login() {
           <button
             type='submit'
             id='kt_sign_in_submit'
-            className='btn btn-lg btn-dark w-100 mb-5'
+            className='btn btn-lg btn-primary w-100 mb-5'
             disabled={formik.isSubmitting || !formik.isValid}
           >
             {!loading && <span className='indicator-label'>Login</span>}

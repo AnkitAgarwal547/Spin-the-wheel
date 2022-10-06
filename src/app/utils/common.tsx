@@ -1,3 +1,5 @@
+
+
 export const getBase64 = (file) => {
   return new Promise((resolve) => {
     let fileInfo
@@ -25,3 +27,4 @@ export const crackers = [
   'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/rocket_red.png',
   'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker4.png',
 ]
+

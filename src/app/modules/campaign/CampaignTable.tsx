@@ -19,7 +19,7 @@ type Props = {
 export const typeOfCampaigns = {
   SPIN_THE_WHEEL: 'SPIN_THE_WHEEL',
   CHOOSE_THE_BOX: 'CHOOSE_THE_BOX',
-  SCRATCH_THE_CARD: 'SCRATCH_THE_CARD',
+  SCRATCH_THE_CARD: 'SCRATCH_CARD',
 }
 
 const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
@@ -31,13 +31,14 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
   const indexOfFirstCampaign = indexOfLastCampaign - campaignsPerPage
   const [isLoading, setIsLoading] = useState(false)
   const currentCampaignsList = campaigns.slice(indexOfFirstCampaign, indexOfLastCampaign)
+  console.log('🚀 ~ file: CampaignTable.tsx ~ line 34 ~ currentCampaignsList', currentCampaignsList)
   const {currentUser} = useAuth()
   const [error, setError] = useState(false)
+  console.log('🚀 ~ file: CampaignTable.tsx ~ line 37 ~ error', error)
   const navigate = useNavigate()
 
   useEffect(() => {
     if (currentUser && currentUser.token) {
-      console.log('🚀 ~ file: CampaignTable.tsx ~ line 39 ~ useEffect ~ currentUser', currentUser)
       getCampaignList()
     }
   }, [currentUser])
@@ -156,7 +157,6 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
     setIsLoading(true)
     getCampaigns()
       .then((resp) => {
-        console.log('🚀 ~ file: CampaignTable.tsx ~ line 244 ~ .then ~ resp', resp)
         setIsLoading(false)
         setCampaigns(resp.data.data)
       })
@@ -211,7 +211,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
               </CSVLink>
             </div>
 
-            <Link to='/new-campaign' className='btn btn-dark btn-sm rounded-pill'>
+            <Link to='/new-campaign' className='btn btn-primary btn-sm rounded-pill'>
               <KTSVG className='svg-icon-sm' path='/media/icons/plus.svg' />
               New Campaign
             </Link>
@@ -225,8 +225,8 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
         ) : (
           <div className='table-responsive'>
             <table className='table campaign-table table-row-dashed table-responsive table-row-gray-300 align-middle gs-0'>
-              <thead className='bg-dark rounded'>
-                <tr className='fw-bold text-muted'>
+              <thead className='bg-secondary rounded'>
+                <tr className='fw-bold text-dark'>
                   <th className='min-w-100px text-center'>SR NO.</th>
                   <th className='min-w-100px'>COMPANY NAME</th>
                   <th className='min-w-120px text-center'>COMPAIGN TITLE</th>
@@ -250,13 +250,15 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                         <td className='text-center'>{item.title}</td>
                         <td>{typeOfCampaign(item.type)}</td>
                         <td>
-                          <div className='text-truncate' style={{width: '100px'}}>
+                          <div className='text-truncate text-primary' style={{width: '100px'}}>
+                            {/* https://fedicoms.net  */}
+                            {/* http://localhost:3011/campaigns */}
                             <a
                               style={{width: '100px'}}
                               target='_blank'
-                              className='text-dark'
-                              href={`https://fedicoms.net/verify-mobile?campaignId=${item._id}`}
-                            >{`https://fedicoms.net/verify-mobile?campaignId=${item._id}`}</a>
+                              className='text-primary'
+                              href={`http://localhost:3011/verify-mobile?campaignId=${item._id}`}
+                            >{`http://localhost:3011/verify-mobile?campaignId=${item._id}`}</a>
                           </div>
                         </td>
                         <td className='text-center'>
@@ -292,7 +294,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                       </tr>
                     )
                   })
-                ) : currentCampaignsList.length && !error ? (
+                ) : !error ? (
                   <div className='center no-data'>No data</div>
                 ) : (
                   <div className='center no-data'>Unable to fetch data</div>

@@ -410,7 +410,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
           <div className='d-flex flex-wrap my-2'>
             <Link
               to=''
-              className='btn btn-dark btn-sm rounded-pill'
+              className='btn btn-primary btn-sm rounded-pill'
               onClick={() => {
                 setAddNewQuestionnaire(true)
                 setSelectedItem(0)
@@ -430,7 +430,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
           <form className='form w-100' noValidate onSubmit={formik.handleSubmit}>
             <table className='table add-new-questionnaire-table table-row-dashed table-row-gray-300 align-middle gs-0 mb-0'>
               <thead className=''>
-                <tr className='fw-bold text-dark add-question-tr'>
+                <tr className='fw-bold text-light add-question-tr'>
                   <th className='min-w-100px'>QUESTION</th>
                   <th className='min-w-120px'>OPTION 1.</th>
                   <th className='min-w-100px'>OPTION 2.</th>
@@ -481,8 +481,8 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
           <div className='table-responsive'>
             <form className='form w-100' noValidate onSubmit={formik.handleSubmit}>
               <table className='table questionnaire-table table-row-dashed table-row-gray-300 align-middle gs-0'>
-                <thead className='bg-dark rounded'>
-                  <tr className='fw-bold text-muted'>
+                <thead className='bg-secondary rounded'>
+                  <tr className='fw-bold text-dark'>
                     <th className='w-100px text-center'>SR NO.</th>
                     <th className='min-w-100px'>QUESTION</th>
                     <th className='min-w-120px'>OPTION 1.</th>

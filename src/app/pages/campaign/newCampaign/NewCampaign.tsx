@@ -32,19 +32,18 @@ import {Link} from 'react-router-dom'
 type Props = {}
 
 export const getThemeStyle = (type) => {
-  console.log('🚀 ~ file: NewCampaign.tsx ~ line 35 ~ getThemeStyle ~ type', type)
   let backgroundImage = ''
-  let scratchCardImage = ''
+  let scratchCardImage
   let color = ''
   let buttonBackgroundColor = ''
   let pickTheBox =
-    'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/pick_the_box/Group+166.png'
+    'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/pick_the_box/box_group.png'
   switch (type) {
     case 'TEMPLATE_1':
       backgroundImage =
         'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/general.jpg'
-      scratchCardImage =
-        'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/scratch_the_card/general-scratch-card.png'
+      scratchCardImage = toAbsoluteUrl('/media/scratch-card/general-scratch-card.png')
+
       color = '#ffffff'
       buttonBackgroundColor = '#ffffff'
 
@@ -53,8 +52,8 @@ export const getThemeStyle = (type) => {
     case 'TEMPLATE_2':
       backgroundImage =
         'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/festive.jpg'
-      scratchCardImage =
-        'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/scratch_the_card/festive-scratch-card.png'
+      scratchCardImage = toAbsoluteUrl('/media/scratch-card/festive-scratch-card.png')
+
       color = '#000000'
       buttonBackgroundColor = '#ffffff'
 
@@ -62,16 +61,14 @@ export const getThemeStyle = (type) => {
     case 'TEMPLATE_3':
       backgroundImage =
         'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/newyear.jpg'
-      scratchCardImage =
-        'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/scratch_the_card/new-year-scratch-card.png'
+      scratchCardImage = toAbsoluteUrl('/media/scratch-card/new-year-scratch-card.png')
       buttonBackgroundColor = '#1E7FC9'
       color = '#000000'
       break
     default:
       backgroundImage =
         'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/general.jpg'
-      scratchCardImage =
-        'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/scratch_the_card/general-scratch-card.png'
+      scratchCardImage = toAbsoluteUrl('/media/scratch-card/general-scratch-card.png')
       color = '#ffffff'
       buttonBackgroundColor = '#ffffff'
   }
@@ -83,7 +80,6 @@ const NewCampaign: React.FC<Props> = () => {
   const navigate = useNavigate()
   const {id} = useParams()
   const location = useLocation()
-  console.log('🚀 ~ file: NewCampaign.tsx ~ line 85 ~ location', location)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [campaignBackground, setCampaignBackground] = useState({
     details: {name: ''},
@@ -157,7 +153,7 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.END_DATE]: new Date().setDate(new Date().getDate() + 1),
     [formFields.TITLE]: '',
     [formFields.TYPE]: typeOfCampaigns.SPIN_THE_WHEEL,
-    [formFields.MAX_PLAY_USER]: null,
+    [formFields.MAX_PLAY_USER]: '',
     [formFields.TEMPLATE_TYPE]: 'TEMPLATE_1',
     [formFields.TERMS]: '',
     [formFields.FONT_COLOR]: '#000000',
@@ -182,7 +178,7 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.FONT_COLOR]: Yup.string(),
     [formFields.WINNING_VALUES]: Yup.array().of(
       Yup.object().shape({
-        [formFields.MAX_PERDAY]: Yup.number().required(),
+        [formFields.MAX_PERDAY]: Yup.number().min(1).required(),
         [formFields.LABEL]: Yup.string().required(),
       })
     ),
@@ -318,14 +314,13 @@ const NewCampaign: React.FC<Props> = () => {
 
   return (
     <Formik
-      initialValues={location.state ? patchForm() : initialValues}
+      initialValues={id ? patchForm() : initialValues}
       validationSchema={validationSchema}
       onSubmit={async (values, {setSubmitting, resetForm}) => {
-        console.log('🚀 ~ file: NewCampaign.tsx ~ line 318 ~ onSubmit={ ~ values', values)
+        console.log('🚀 ~ file: NewCampaign.tsx ~ line 319 ~ onSubmit={ ~ values', values)
         setIsSubmitted(true)
         const format = 'YYYY-MM-DD'
         const payload = {...values}
-        console.log('🚀 ~ file: NewCampaign.tsx ~ line 323 ~ onSubmit={ ~ payload', payload)
         payload['start_date'] = moment(values['start_date']).format(format)
         payload['end_date'] = moment(values['end_date']).format(format)
         if (
@@ -404,7 +399,23 @@ const NewCampaign: React.FC<Props> = () => {
         }
       }}
     >
-      {({values, errors, touched, handleChange, setFieldValue, handleSubmit, isSubmitting}) => {
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        setFieldValue,
+        handleSubmit,
+        isSubmitting,
+        initialStatus,
+        isValid,
+        initialErrors,
+      }) => {
+        console.log(
+          '🚀 ~ file: NewCampaign.tsx ~ line 402 ~ onSubmit={ ~ initialStatus',
+          initialErrors
+        )
+        console.log('🚀 ~ file: NewCampaign.tsx ~ line 404 ~ values', values)
         return (
           <form>
             <div>
@@ -492,7 +503,6 @@ const NewCampaign: React.FC<Props> = () => {
                       <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
                         Number of Selection per user per day
                       </label>
-                      {values[formFields.MAX_PLAY_USER]}
                       <input
                         min={1}
                         type='number'
@@ -643,7 +653,10 @@ const NewCampaign: React.FC<Props> = () => {
                         </h6>
                         {values.type === typeOfCampaigns.SCRATCH_THE_CARD ? (
                           <div className='my-2'>
-                            <img src={getThemeStyle(values.template).scratchCardImage} />
+                            <img
+                              height={'120px'}
+                              src={getThemeStyle(values.template).scratchCardImage}
+                            />
                           </div>
                         ) : // <ScratchCardWrapper
                         //   image={getThemeStyle(values.template).scratchCardImage}
@@ -663,12 +676,16 @@ const NewCampaign: React.FC<Props> = () => {
                           </div>
                         )}
                         <button
+                          type='button'
                           className='my-5 btn btn-light claim-prize-btn'
                           style={{
                             color: values.forecolor as string,
                             backgroundColor: getThemeStyle(values.template)
                               .buttonBackgroundColor as string,
                             border: `1px solid ${values.forecolor}`,
+                          }}
+                          onClick={(e) => {
+                            e.preventDefault()
                           }}
                         >
                           Next
@@ -850,6 +867,7 @@ const NewCampaign: React.FC<Props> = () => {
                                   <div className='col-xxl-5 col-xl-5 col-lg-5 col-md-5 col-sm-5 col-6'>
                                     <div className='input-group mb-3'>
                                       <input
+                                        min={1}
                                         type='number'
                                         name={`${formFields.WINNING_VALUES}.${index}.${formFields.MAX_PERDAY}`}
                                         className='form-control'
@@ -938,7 +956,7 @@ const NewCampaign: React.FC<Props> = () => {
                       className='mb-10'
                     >
                       <span className='indicator-progress' style={{display: 'block'}}>
-                        {id ? 'Edit' : 'Create'}
+                        {id ? 'Update' : 'Create'}
 
                         {isLoading && (
                           <span className='spinner-border spinner-border-sm align-middle ms-2'></span>

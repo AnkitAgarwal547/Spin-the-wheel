@@ -52,7 +52,6 @@ export function setupAxios(axios: any) {
   axios.interceptors.request.use(
     (config: { headers: { Authorization: string } }) => {
       const auth = getAuth()
-      console.log("🚀 ~ file: AuthHelpers.ts ~ line 55 ~ setupAxios ~ auth", auth)
       if (auth && auth.token) {
         config.headers.Authorization = `${auth.token}`
       }

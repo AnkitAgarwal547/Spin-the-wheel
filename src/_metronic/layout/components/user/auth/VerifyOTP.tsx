@@ -5,6 +5,7 @@ import {useFormik} from 'formik'
 import {ToastMessage} from '../../../../../app/shared/ToastMessage'
 import clsx from 'clsx'
 import {
+  getUserType,
   setToken,
   setUserType,
   userLogin,
@@ -23,8 +24,10 @@ export default function VerifyOTP() {
   const search = useLocation().search
   const otpid = new URLSearchParams(search).get('otpid')
   const campaignId = new URLSearchParams(search).get('campaignId')
+  const {currentUser} = useAuth()
   const navigate = useNavigate()
-  const {campaignDetails} = useAppSelector((state) => state.userReducer)
+  const {campaignDetails, mobileDetails} = useAppSelector((state) => state.userReducer)
+  const {otpDetails} = useAppSelector((state) => state.authReducer)
 
   const schema = Yup.object().shape({
     otp: Yup.number().min(4, 'Must be exactly 5 digits').required(),
@@ -40,14 +43,25 @@ export default function VerifyOTP() {
     }
   }, [])
 
+  useEffect(() => {
+    console.log('🚀 ~ file: VerifyOTP.tsx ~ line 48 ~ useEffect ~ otpDetails', otpDetails)
+    if (!otpDetails) {
+      navigate({
+        pathname: '/verify-mobile',
+        search: `?campaignId=${campaignDetails._id}`,
+      })
+    } else if (!campaignDetails) {
+      navigate('/error')
+    }
+  }, [])
+
   const formik = useFormik({
     initialValues,
     validationSchema: schema,
     onSubmit: async (values, {setStatus, setSubmitting}) => {
-      console.log('🚀 ~ file: UserAuth.tsx ~ line 28 ~ onSubmit: ~ values', values)
       const payload = {
         country_code: location.state.country_code,
-        mobile_no: location.state.mobile_no,
+        mobile_no: String(location.state.mobile_no),
         otp: values.otp,
         otp_id: otpid,
       }
@@ -81,8 +95,6 @@ export default function VerifyOTP() {
       }
     },
   })
-
-  console.log('erro', formik.errors)
 
   return (
     <>

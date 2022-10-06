@@ -10,29 +10,34 @@ import {
   TRIGGER_ANSWER_DETAILS,
   TRIGGER_START_TIME,
   TRIGGER_END_TIME,
+  TRIGGER_IS_ANSWER_CORRECT,
 } from '../../../../../app/redux/actions/actionTypes'
 import {useAppDispatch, useAppSelector} from '../../../../../app/redux/hooks/hooks'
 import Loader from '../../../../../app/shared/Loader'
 import './Question.scss'
 
 export default function Question() {
-  const {campaignDetails, questionDetails, userDetails} = useAppSelector(
-    (state) => state.userReducer
-  )
+  const {
+    campaignDetails,
+    questionDetails,
+    userDetails,
+    prizeIndex,
+    answerDetails,
+    isAnswerCorrect,
+  } = useAppSelector((state) => state.userReducer)
+  console.log('🚀 ~ file: Question.tsx ~ line 28 ~ Question ~ questionDetails', questionDetails)
+  console.log('🚀 ~ file: Question.tsx ~ line 27 ~ Question ~ isAnswerCorrect', isAnswerCorrect)
   const {currentUser} = useAuth()
   const navigate = useNavigate()
-  console.log('🚀 ~ file: Question.tsx ~ line 18 ~ Question ~ currentUser', currentUser)
-
-  console.log('🚀 ~ file: Question.tsx ~ line 15 ~ Question ~ campaignDetails', campaignDetails)
-  console.log('🚀 ~ file: Question.tsx ~ line 15 ~ Question ~ userDetails', userDetails)
-  console.log('🚀 ~ file: Question.tsx ~ line 14 ~ Question ~ questionDetails', questionDetails)
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false)
-  const [answer, setAnswer] = useState('')
-  const [question, setQuestion] = useState<any>({})
+  const [answer, setAnswer] = useState(answerDetails)
+  const [question, setQuestion] = useState<any>(questionDetails)
 
+  console.log('🚀 ~ file: Question.tsx ~ line 38 ~ useEffect ~ campaignDetails', campaignDetails)
+  console.log('🚀 ~ file: Question.tsx ~ line 40 ~ useEffect ~ questionDetails', questionDetails)
   useEffect(() => {
-    if (campaignDetails?._id) {
+    if (campaignDetails?._id && (questionDetails === '' || !questionDetails)) {
       setLoading(true)
       getQuestion(campaignDetails?._id)
         .then((resp) => {
@@ -45,33 +50,97 @@ export default function Question() {
             type: TRIGGER_QUESTION_DETAILS,
             questionDetails: resp.data.data[0],
           })
+          dispatch({
+            type: TRIGGER_END_TIME,
+            endTime: '',
+          })
+
+          dispatch({
+            type: TRIGGER_ANSWER_DETAILS,
+            answerDetails: '',
+          })
           setQuestion(resp.data.data[0])
-          console.log('🚀 ~ file: CampaignDetailsWrapper.tsx ~ line 34 ~ .then ~ resp', resp)
         })
         .catch(() => {
           setLoading(false)
         })
+
+      dispatch({
+        type: TRIGGER_ANSWER_DETAILS,
+        answerDetails: '',
+      })
     } else {
-      navigate('/error')
+      // navigate('/error')
     }
   }, [])
 
-  const selectAnswer = (item) => {
-    setAnswer(item)
-    dispatch({
-      type: TRIGGER_END_TIME,
-      endTime: new Date().getTime(),
-    })
+  const selectAnswer = (item, index) => {
+    console.log('🚀 ~ file: Question.tsx ~ line 71 ~ selectAnswer ~ item', item)
+    console.log('🚀 ~ file: Question.tsx ~ line 68 ~ selectAnswer ~ answerDetails', answerDetails)
+    if (!answerDetails) {
+      setAnswer(item)
+      console.log('answr', answer)
+      dispatch({
+        type: TRIGGER_END_TIME,
+        endTime: new Date().getTime(),
+      })
+
+      dispatch({
+        type: TRIGGER_ANSWER_DETAILS,
+        answerDetails: item,
+      })
+      let i = questionDetails['options'].findIndex((el) => el === item)
+      if (i !== -1) {
+        if (
+          questionDetails['options'][Number(questionDetails.answer)] !==
+          questionDetails['options'][index]
+        ) {
+          dispatch({
+            type: TRIGGER_IS_ANSWER_CORRECT,
+            isAnswerCorrect: true,
+          })
+          return 'active'
+        } else {
+          dispatch({
+            type: TRIGGER_IS_ANSWER_CORRECT,
+            isAnswerCorrect: false,
+          })
+          return 'wrong-anwer'
+        }
+      }
+    }
   }
 
   const submitAnswer = () => {
     if (answer) {
       navigate('/user-details')
-      dispatch({
-        type: TRIGGER_ANSWER_DETAILS,
-        answerDetails: answer,
-      })
     }
+  }
+
+  const checkIfAnswerIsCorrect = (index) => {
+    console.log(
+      '🚀 ~ file: Question.tsx ~ line 110 ~ checkIfAnswerIsCorrect ~ answer',
+      Number(questionDetails.answer) - 1,
+      index
+    )
+    let i = questionDetails['options'].findIndex((item) => item === answer)
+
+    console.log(i)
+    if (answer) {
+      if (Number(questionDetails.answer) - 1 == index) {
+        return 'active'
+      } else {
+        return 'wrong-answer'
+      }
+    }
+    // console.log(questionDetails['options'][Number(questionDetails.answer) - 1])
+    // if (i !== -1) {
+    //   if (questionDetails['options'][Number(questionDetails.answer) - 1] == answer) {
+    //     return 'active'
+    //   } else {
+    //     return 'wrong-anwer'
+    //   }
+    // }
   }
 
   return (
@@ -93,15 +162,50 @@ export default function Question() {
                   </div>
                   <div className='sub-div'>
                     <div className='heading'>Your Special Rewards Has Been Unblocked !</div>
+                    <div>
+                      <h2 className='text-center text-primary my-3'>
+                        {' '}
+                        You got "{campaignDetails?.winning_values[prizeIndex]['label']}" Reward
+                      </h2>
+                      {/* {answer}
+                      <br /> */}
+                      {answer &&
+                      questionDetails?.options.findIndex((item) => item === answer) + 1 !=
+                        questionDetails?.answer ? (
+                        <h4 className='text-center  my-3'>
+                          Oops you missed the chance this time, play again
+                        </h4>
+                      ) : (
+                        ''
+                      )}
+                      {/* {isAnswerCorrect && answer && (
+                        <h4 className='text-center  my-3'>
+                          Oops you missed the chance this time, play again
+                        </h4>
+                      )} */}
+                    </div>
+
                     <p>Answer the question below to continue</p>
                     <div className='question'>{question?.question}</div>
                     <Row className='gx-10'>
                       {question?.options?.map((item, i) => {
                         return (
                           <Col sm={6} key={i}>
+                            {/* {i} {Number(questionDetails.answer) + 'sjgdjs'} */}
+                            {/* {answer} */}
+
                             <div
-                              className={clsx('answer-div ', answer === item && 'active')}
-                              onClick={() => selectAnswer(item)}
+                              className={clsx('answer-div ', checkIfAnswerIsCorrect(i))}
+                              onClick={() => selectAnswer(item, i)}
+                              // style={{
+                              //   backgroundColor:
+                              //     (answer === 0 && Number(questionDetails.answer) == i) ||
+                              //     (answer && Number(questionDetails.answer) == i)
+                              //       ? 'active'
+                              //       : 'red',
+                              //   color:
+                              //     answer && Number(questionDetails.answer) - 1 == i ? 'white' : '',
+                              // }}
                             >
                               {item}
                             </div>

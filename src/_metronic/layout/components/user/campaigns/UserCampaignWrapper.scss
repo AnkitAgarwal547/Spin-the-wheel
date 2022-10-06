@@ -12,15 +12,35 @@
 
     .logo-wrapper {
         .logo {
-            height: 80px;
-            width: 80px;
-            -webkit-transform: scale(0.999);
-            transform: scale(0.999);
-            border-radius: 50%;
+            border-radius: 10px;
+            // background-color: #fff;
+            text-align: center;
+            height: 65px;
+            width: 65px;
+            background-position: center;
+            background-size: contain;
+            // border-radius: 50%;
+            background-color: #fff;
+            background-repeat: no-repeat;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
         }
 
         text-align: center;
+        height: 90px;
+        width: 90px;
+        position: relative;
+
+        margin: auto;
         margin-top: 70px;
+        border-radius: 50%;
+        background-color: #fff;
+
+
+
+
     }
 
     .banner1 {

@@ -3,7 +3,7 @@ import CSS from 'csstype'
 
 import './SpinningWheel.scss'
 import {crackers} from '../user/campaigns/campaign-types/SpinTheWheel/SpinTheWheel'
-import { useAppDispatch } from '../../../../app/redux/hooks/hooks'
+import {useAppDispatch} from '../../../../app/redux/hooks/hooks'
 
 export const Delayed = ({children = null, waitBeforeShow = 500}) => {
   const [isShown, setIsShown] = useState(false)
@@ -18,7 +18,6 @@ export const Delayed = ({children = null, waitBeforeShow = 500}) => {
 }
 
 export default class Wheel extends Component<any, any> {
-
   constructor(props: any) {
     super(props)
     this.state = {
@@ -34,7 +33,6 @@ export default class Wheel extends Component<any, any> {
         this.props.onSelectItem(selectedItem)
       }
       this.setState({selectedItem})
-
     } else {
       this.setState({selectedItem: null})
       setTimeout(this.selectItem, 500)
@@ -52,6 +50,10 @@ export default class Wheel extends Component<any, any> {
   }
   render() {
     const {textColor, backgroundColor, selectedItem, items, type} = this.props
+    console.log(
+      '🚀 ~ file: SpinningWheel.tsx ~ line 53 ~ Wheel ~ render ~ backgroundColor',
+      backgroundColor
+    )
 
     const wheelVars = {
       '--nb-item': items.length,

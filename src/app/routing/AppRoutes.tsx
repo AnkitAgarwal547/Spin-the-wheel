@@ -28,7 +28,6 @@ const {PUBLIC_URL} = process.env
 const AppRoutes: FC = () => {
   const {currentUser} = useAuth()
   const userType = getUserType()
-  console.log('🚀 ~ file: AppRoutes.tsx ~ line 26 ~ userType', userType)
   return (
     <BrowserRouter>
       <Routes>
@@ -47,8 +46,8 @@ const AppRoutes: FC = () => {
               <Route path='*' element={<Navigate to='/auth/forgot-password' />} />
             </>
           )}
-
           <Route path='/verify-mobile' element={<VerifyMobile />} />
+
           <Route path='/verify-otp' element={<VerifyOTP />} />
           <Route path='/campaign' element={<UserCampaignWrapper />} />
           <Route path='/user-details' element={<UserDetails />} />

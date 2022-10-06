@@ -51,7 +51,6 @@ const AuthProvider: FC<WithChildren> = ({children}) => {
 
   const logout = () => {
     const userType = getUserType()
-      console.log('🚀 ~ file: Auth.tsx ~ line 54 ~ logout ~ userType', userType)
       saveAuth(undefined)
       setCurrentUser(undefined)
       removeToken()
@@ -77,7 +76,6 @@ const AuthInit: FC<WithChildren> = ({children}) => {
         //   const {data} = await getUserByToken(apiToken)
         //   if (data) {
         //     setCurrentUser(data)
-        console.log('🚀 ~ file: Auth.tsx ~ line 85 ~ requestUser ~ didRequest', didRequest)
         //   }
         // }
       } catch (error) {

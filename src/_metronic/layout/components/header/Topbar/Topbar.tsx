@@ -21,7 +21,7 @@ const Topbar: FC = () => {
         <div className='collapse navbar-collapse row justify-content-between'>
           <div className='col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3'>
             <div
-              id='kt_aside_toggle'
+              id='kt_aside_mobile_toggle'
               className='btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle'
               data-kt-toggle='true'
               data-kt-toggle-state='active'

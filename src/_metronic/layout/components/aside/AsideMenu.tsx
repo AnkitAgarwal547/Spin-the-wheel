@@ -35,6 +35,7 @@ const AsideMenu: React.FC<Props> = ({asideMenuCSSClasses}) => {
       data-kt-scroll-dependencies='#kt_aside_logo, #kt_aside_footer'
       data-kt-scroll-wrappers='#kt_aside_menu'
       data-kt-scroll-offset='0'
+      data-kt-drawer-toggle='#kt_aside_mobile_toggle'
     >
       <div
         id='#kt_aside_menu'

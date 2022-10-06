@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
+import {getTotalUsers} from '../../auth/core/_requests'
 import './CountWidget.css'
 
 type Props = {
@@ -8,13 +9,23 @@ type Props = {
 }
 
 const CountWidget: React.FC<Props> = ({className}) => {
+  const [counts, setCounts] = useState<any>({})
+
+  useEffect(() => {
+    getTotalUsers('stats=1')
+      .then((resp) => {
+        setCounts(resp?.data?.data)
+      })
+      .catch((err) => {})
+  }, [])
+
   return (
     <div className='mt-10'>
       <div className='row'>
         <div className='col-xxl-4 col-xl-4 col-md-4 col-sm-4 '>
-          <div className='count-widget-block bg-dark rounded mr-auto'>
+          <div className='count-widget-block bg-primary rounded mr-auto'>
             <div>
-              <h1 className='text-white'>300</h1>
+              <h1 className='text-white'>{counts?.user_count}</h1>
               <small className='text-white'>Total Users</small>
             </div>
             <div className='d-flex flex-column'>
@@ -26,10 +37,10 @@ const CountWidget: React.FC<Props> = ({className}) => {
           </div>
         </div>
         <div className='col-xxl-4  col-xl-4 col-md-4 col-sm-4'>
-          <div className='count-widget-block bg-dark rounded m-auto'>
+          <div className='count-widget-block bg-danger rounded m-auto'>
             {/* begin::Symbol */}
             <div>
-              <h1 className='text-white'>300</h1>
+              <h1 className='text-white'>{counts?.winner_count}</h1>
               <small className='text-white'>Total Winners</small>
             </div>
             {/* end::Symbol */}
@@ -44,10 +55,10 @@ const CountWidget: React.FC<Props> = ({className}) => {
         </div>
         <div className='col-xxl-4 col-xl-4 col-md-4 col-sm-4'>
           {/* begin::Item */}
-          <div className='count-widget-block bg-dark rounded' style={{marginLeft: 'auto'}}>
+          <div className='count-widget-block bg-success rounded' style={{marginLeft: 'auto'}}>
             {/* begin::Symbol */}
             <div>
-              <h1 className='text-white'>300</h1>
+              <h1 className='text-white'>{counts?.submittedetail_count}</h1>
               <small className='text-white'>Total Users submitted details</small>
             </div>
             {/* end::Symbol */}

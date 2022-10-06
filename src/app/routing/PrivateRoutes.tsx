@@ -17,7 +17,6 @@ import {getUserType} from '../modules/auth/core/_requests'
 import Question from '../../_metronic/layout/components/user/question/Question'
 
 const role = getUserType()
-console.log('🚀 ~ file: PrivateRoutes.tsx ~ line 19 ~ role', role)
 const PrivateRoutes = () => {
   return (
     <Routes>

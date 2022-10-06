@@ -15,16 +15,31 @@ export default function FileUpload({
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
 
+  const reader = new FileReader()
+
   const handleClick = () => {
     if (inputRef.current) {
       inputRef.current.click()
     }
   }
 
-  const handleFileChange = (event: any) => {
+  function getBinaryFromFile(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+
+      reader.addEventListener('load', () => resolve(reader.result))
+      reader.addEventListener('error', (err) => reject(err))
+
+      reader.readAsBinaryString(file)
+    })
+  }
+
+  const handleFileChange = async (event: any) => {
     const fileObj = event.target.files && event.target.files[0]
     let file = event.target.files[0]
     setFieldValue(file)
+
+    let binary = await getBinaryFromFile(file)
 
     getBase64(file)
       .then((result) => {
@@ -90,7 +105,7 @@ export default function FileUpload({
         <Button
           onClick={handleClick}
           variant='outline-dark'
-          className='rounded-pill file-upload-btn'
+          className='rounded-pill bg-secondary file-upload-btn'
           size='sm'
         >
           Select

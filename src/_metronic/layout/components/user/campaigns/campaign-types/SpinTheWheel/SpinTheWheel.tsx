@@ -1,6 +1,9 @@
 import React, {Component, useEffect, useState} from 'react'
 import CSS from 'csstype'
 import './SpinTheWheel.scss'
+import {getToken, updateCount} from '../../../../../../../app/modules/auth/core/_requests'
+import {ToastContainer} from 'react-toastify'
+import {ToastMessage} from '../../../../../../../app/shared/ToastMessage'
 
 export const crackers = [
   'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/rocket_blue.png',
@@ -31,28 +34,27 @@ export default class SpinTheWheel extends Component<any, any> {
     this.selectItem = this.selectItem.bind(this)
   }
 
-  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
-    console.log(
-      '🚀 ~ file: SpinTheWheel.tsx ~ line 35 ~ SpinTheWheel ~ componentDidUpdate ~ prevState',
-      prevState
-    )
-    console.log(
-      '🚀 ~ file: SpinTheWheel.tsx ~ line 35 ~ SpinTheWheel ~ componentDidUpdate ~ prevProps',
-      prevProps
-    )
-  }
-
   selectItem() {
     let selectedItem
-    if (this.state.selectedItem === null) {
-      console.log(
-        '🚀 ~ file: SpinTheWheel.tsx ~ line 40 ~ SpinTheWheel ~ selectItem ~ this.state.selectedItem'
-      )
+    console.log('this.props.prizeIndex ', this.props.prizeIndex)
+    if (this.state.selectedItem === null && !this.props.prizeIndex && this.props.prizeIndex !== 0) {
+      const payload = {
+        action: 'UPDATE_USER_PLAYEDGAME',
+        user_id: this?.props.userDetails?._id,
+        access_token: getToken(),
+      }
+
+      updateCount(this?.props.details?._id, payload)
       selectedItem = Math.floor(Math.random() * this.props.details?.winning_values.length)
-      console.log(
-        '🚀 ~ file: SpinTheWheel.tsx ~ line 42 ~ SpinTheWheel ~ selectItem ~ selectedItem',
-        selectedItem
-      )
+      if (
+        this.props.details.winning_values[selectedItem]['day_count'] >=
+        this.props.details.winning_values[selectedItem]['max_perday']
+      ) {
+        let index = this.props.details.winning_values.findIndex(
+          (item) => item['day_count'] <= item['max_perday']
+        )
+        selectedItem = index
+      }
 
       if (this.props.onSelectItem) {
         this.props.onSelectItem(selectedItem)
@@ -60,14 +62,19 @@ export default class SpinTheWheel extends Component<any, any> {
 
       this.setState({selectedItem})
     } else {
-      this.setState({selectedItem: null})
-      console.log('first')
-      setTimeout(this.selectItem, 500)
+      // this.setState({selectedItem: null})
+      // setTimeout(this.selectItem, 500)
+      ToastMessage('You have already played', 'error')
     }
 
     setTimeout(() => {
-      console.log('sdf')
-      this.props.setReward(selectedItem)
+      if (selectedItem) {
+        this.props.setReward(selectedItem)
+        updateCount(this?.props.details?._id, {
+          action: 'UPDATE_CAMPAIGN_WINNINGVALUE',
+          winninglabel_key: this.props.details.winning_values[selectedItem]['key'],
+        })
+      }
       // alert('test')
     }, 4000)
   }
@@ -83,36 +90,22 @@ export default class SpinTheWheel extends Component<any, any> {
   }
   render() {
     const {textColor, details, setReward} = this.props
-    console.log('state', this.state.selectedItem)
-    console.log(
-      '🚀 ~ file: SpinTheWheel.tsx ~ line 58 ~ SpinTheWheel ~ render ~ details',
-      this.props
-    )
 
     const wheelVars = {
       '--nb-item': details?.winning_values?.length,
       '--selected-item': this.state.selectedItem,
-      backgroundColor: details?.prop_color?.length ? details?.prop_color[0] : details?.prop_color,
-      borderColor: details?.prop_color?.length ? details?.prop_color[0] : details?.prop_color,
+      backgroundColor: details?.prop_color,
+      borderColor: details?.prop_color,
     }
 
     const spinning = this.state.selectedItem !== null ? 'spinning' : ''
-    console.log(
-      '🚀 ~ file: SpinTheWheel.tsx ~ line 98 ~ SpinTheWheel ~ render ~ spinning',
-      spinning
-    )
-
-    console.log(
-      '🚀 ~ file: SpinTheWheel.tsx ~ line 83 ~ SpinTheWheel ~ render ~ selectedItem',
-      this.props.details?.winning_values[this.state.selectedItem]
-    )
 
     return (
       <div className='user-panel'>
         <div
           className='wheel-container '
           style={{
-            borderColor: details?.prop_color?.length ? details?.prop_color[0] : details?.prop_color,
+            borderColor: details?.prop_color,
           }}
         >
           <div
@@ -133,7 +126,6 @@ export default class SpinTheWheel extends Component<any, any> {
                     }}
                   >
                     {item.label}
-                    {index}
                   </div>
                 </div>
                 {details.template === 'TEMPLATE_2' && (
@@ -152,7 +144,8 @@ export default class SpinTheWheel extends Component<any, any> {
           </div>
           {details.template === 'TEMPLATE_3' && (
             <img
-              className='light'
+              onClick={this.selectItem}
+              className='light cursor-pointer'
               src='https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/light.png'
             />
           )}
@@ -161,16 +154,20 @@ export default class SpinTheWheel extends Component<any, any> {
             <div className='wheel-center' />
           ) : details.template === 'TEMPLATE_3' ? (
             <img
-              className='cracker'
+              className='cracker cursor-pointer'
+              onClick={this.selectItem}
               src='https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker.png'
             />
           ) : (
             <img
-              className='lamp'
+              className='lamp cursor-pointer'
+              onClick={this.selectItem}
               src='https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/lamp.png'
             />
           )}
         </div>
+
+        <ToastContainer />
       </div>
     )
   }

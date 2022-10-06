@@ -12,10 +12,11 @@
     min-width: 100%;
 
     .logo {
-        height: 35px;
-        width: 35px;
+        height: 40px;
+        width: 40px;
         border-radius: 50%;
         margin-top: 50px;
+        background-color: white;
     }
 
     .type-of-campaign {
@@ -44,6 +45,25 @@
         font-weight: bold;
         border-radius: 20px;
 
+    }
+
+    .logo-wrapper {
+        .logo {
+            border-radius: 10px;
+            // background-color: #fff;
+            text-align: center;
+            height: 80px;
+            width: 80px;
+            background-position: center;
+            background-size: contain;
+            // border-radius: 50%;
+            background-color: #fff;
+            background-repeat: no-repeat;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+        }
     }
 
 

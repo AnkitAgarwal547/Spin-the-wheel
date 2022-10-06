@@ -17,7 +17,7 @@
     .sub-div {
         position: absolute;
         box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
-        width: 500px;
+        width: 540px;
         background-color: #ffffff;
         padding: 50px 0 50px 0;
         transform: translate(-50%, -50%);
@@ -40,8 +40,8 @@
 
         .logo-wrapper {
             .logo {
-                height: 120px;
-                width: 120px;
+                max-height: 120px;
+                max-width: 120px;
                 position: absolute;
                 transform: translate(-50%, -50%);
                 top: 50%;

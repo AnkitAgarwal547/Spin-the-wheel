@@ -15,13 +15,13 @@ const Error404: FC = () => {
         {/* end::Illustration */}
         {/* begin::Message */}
         <h1 className='fw-bold mb-10' style={{color: '#A3A3C7'}}>
-          Seems there is nothing here
+          Page Not Found
         </h1>
         {/* end::Message */}
         {/* begin::Link */}
-        <Link to='/' className='btn btn-primary'>
+        {/* <Link to='/' className='btn btn-primary'>
           Return Home
-        </Link>
+        </Link> */}
         {/* end::Link */}
       </div>
     </div>

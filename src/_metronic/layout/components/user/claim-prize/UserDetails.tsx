@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Col, Form, Row} from 'react-bootstrap'
 import {useAppDispatch, useAppSelector} from '../../../../../app/redux/hooks/hooks'
 import * as Yup from 'yup'
@@ -8,15 +8,29 @@ import {ToastMessage} from '../../../../../app/shared/ToastMessage'
 import {useNavigate} from 'react-router'
 import {useFormik} from 'formik'
 import {TRIGGER_USER_DETAILS} from '../../../../../app/redux/actions/actionTypes'
-import {submitAnswer} from '../../../../../app/modules/auth/core/_requests'
+import {getUserType, submitAnswer} from '../../../../../app/modules/auth/core/_requests'
 import {ToastContainer} from 'react-toastify'
+import {useAuth} from '../../../../../app/modules/auth'
 
 export default function UserDetails() {
-  const {campaignDetails, prizeDetails, questionDetails, answerDetails, startTime, endTime} =
-    useAppSelector((state) => state.userReducer)
+  const {
+    campaignDetails,
+    prizeDetails,
+    questionDetails,
+    answerDetails,
+    startTime,
+    endTime,
+    mobileDetails,
+  } = useAppSelector((state) => state.userReducer)
+  console.log(
+    '🚀 ~ file: UserDetails.tsx ~ line 17 ~ UserDetails ~ questionDetails',
+    questionDetails
+  )
+
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const {currentUser} = useAuth()
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
@@ -37,21 +51,27 @@ export default function UserDetails() {
   })
 
   const initialValues = {
-    name: '',
-    mobile_no: '9136035356',
+    name: mobileDetails?.first_name + ' ' + mobileDetails?.last_name,
+    mobile_no: mobileDetails?.mobile_no,
     country_code: '+91',
-    comments: 'comments',
+    comments: '',
     email: '',
   }
+  console.log('🚀 ~ file: UserDetails.tsx ~ line 56 ~ UserDetails ~ mobileDetails', mobileDetails)
 
   const formik = useFormik({
     initialValues,
     validationSchema: schema,
     onSubmit: async (values, {setStatus, setSubmitting}) => {
+      console.log('answerDetails', answerDetails)
       const payload = {
         ques_id: questionDetails?._id,
-        answer_selected: questionDetails?.options.findIndex((item) => item === answerDetails),
-        is_correct_answer: questionDetails?.answer,
+        answer_selected: questionDetails?.options.findIndex((item) => item === answerDetails) + 1,
+        is_correct_answer:
+          questionDetails?.options.findIndex((item) => item === answerDetails) + 1 ==
+          questionDetails?.answer
+            ? 1
+            : 0,
         name: values.name,
         email: values.email,
         mobileno: values.mobile_no,
@@ -60,8 +80,10 @@ export default function UserDetails() {
         gift_unlock_key: prizeDetails.key,
         gift_unlock_text: prizeDetails.label,
         answer_text: answerDetails,
-        answer_timetaken: Math.abs(((endTime - startTime) / 24) * 60 * 60 * 1000),
+        answer_timetaken: Math.abs(endTime - startTime),
       }
+
+      console.log('payload', payload)
       setLoading(true)
       try {
         const {data} = await submitAnswer(payload, campaignDetails._id)
@@ -75,6 +97,13 @@ export default function UserDetails() {
       }
     },
   })
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate(`/error`)
+    }
+  }, [])
+
   return (
     <div className='user-details'>
       <div className='user-details-sub-div '></div>
@@ -113,6 +142,7 @@ export default function UserDetails() {
                       'is-valid': formik.touched.mobile_no && !formik.errors.mobile_no,
                     }
                   )}
+                  readOnly
                   value={formik.values.mobile_no}
                 />
               </Col>

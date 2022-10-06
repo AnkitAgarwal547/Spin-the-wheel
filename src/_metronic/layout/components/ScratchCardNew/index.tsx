@@ -59,8 +59,6 @@ export default function Spin() {
   const onClick = () => {
     const newCouponNum = getRandomInt(1, 6)
     setCouponNum(newCouponNum)
-    console.log(newCouponNum)
-    console.log(couponNum)
     setMustSpin(true)
   }
 

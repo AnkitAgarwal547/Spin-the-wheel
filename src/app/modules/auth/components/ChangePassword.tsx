@@ -137,7 +137,7 @@ export default function ChangePassword() {
                 <button
                   type='submit'
                   id='kt_sign_in_submit'
-                  className='btn btn-sm btn-dark '
+                  className='btn btn-sm btn-primary '
                   disabled={formik.isSubmitting || !formik.isValid}
                 >
                   {!loading && <span className='indicator-label'>Set Password</span>}

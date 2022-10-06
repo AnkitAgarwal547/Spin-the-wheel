@@ -17,3 +17,18 @@
     border-radius: 15px;
 
 }
+
+.scratch-card {
+    height: 200px;
+    width: 200px;
+    border-radius: 15px;
+    position: relative;
+    background-color: #ffffff;
+    margin: auto;
+    font-weight: 600;
+
+    div {
+        width: 60%;
+        text-align: center;
+    }
+}

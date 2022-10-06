@@ -2,7 +2,12 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {CSVLink} from 'react-csv'
 import {useParams} from 'react-router'
-import {generateWinner, getCampaignUsers, getRequest} from '../../../modules/auth/core/_requests'
+import {
+  generateWinner,
+  getCampaignUsers,
+  getRequest,
+  getTotalUsers,
+} from '../../../modules/auth/core/_requests'
 import Loader from '../../../shared/Loader'
 import {CampaignDetailsTable} from './CampaignDetailsTable'
 import './CampaignDetailsWrapper.scss'
@@ -15,31 +20,53 @@ type Props = {
 
 const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
   const {type} = useParams()
-  const [bumperWinnerDetails, setBumperWinnerDetails] = useState()
+  const [bumperWinnerDetails, setBumperWinnerDetails] = useState<any>()
   const [isBumperWinnerLoading, setBumperWinnerLoading] = useState(false)
   const [isLoadingDetails, setIsLoadingDetails] = useState(false)
   const {searchKey} = useAppSelector((state) => state.searchReducer)
   const [userList, setUserList] = useState([])
   const [details, setDetails] = useState<any>()
-  console.log('🚀 ~ file: CampaignDetailsWrapper.tsx ~ line 24 ~ details', details)
   const [error, setError] = useState(false)
 
   const {id} = useParams()
-  console.log('🚀 ~ file: CampaignDetailsWrapper.tsx ~ line 24 ~ id', id)
 
   useEffect(() => {
-    setIsLoadingDetails(true)
-    getCampaignUsers(id)
-      .then((resp) => {
-        setUserList(resp?.data?.data?.users)
-        setDetails(resp?.data?.data?.stats)
-        setIsLoadingDetails(false)
-      })
-      .catch((err) => {
-        setIsLoadingDetails(false)
-        setError(true)
-      })
+    if (id) {
+      setIsLoadingDetails(true)
+      getCampaignUsers(id)
+        .then((resp) => {
+          setUserList(resp?.data?.data?.users)
+          setDetails(resp?.data?.data?.stats)
+          setIsLoadingDetails(false)
+        })
+        .catch((err) => {
+          setIsLoadingDetails(false)
+          setError(true)
+        })
+    }
   }, [id])
+
+  useEffect(() => {
+    if (type) {
+      setIsLoadingDetails(true)
+      getTotalUsers(
+        type === 'totalWinners'
+          ? 'winner=1'
+          : type === 'totalUserSubmitted'
+          ? 'submitteddetail=1'
+          : ''
+      )
+        .then((resp) => {
+          setUserList(resp?.data?.data)
+          setDetails(resp?.data?.data?.stats)
+          setIsLoadingDetails(false)
+        })
+        .catch((err) => {
+          setIsLoadingDetails(false)
+          setError(true)
+        })
+    }
+  }, [type])
 
   // useEffect(() => {
   //   setIsLoadingDetails(true)
@@ -54,12 +81,11 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
   // }, [searchKey])
 
   const generateBumperWinner = () => {
-    console.log('*')
     setBumperWinnerLoading(true)
     generateWinner(id)
       .then((resp) => {
-        console.log('🚀 ~ file: CampaignDetailsWrapper.tsx ~ line 60 ~ generateWinner ~ resp', resp)
         setBumperWinnerLoading(false)
+        setBumperWinnerDetails(resp.data.data[0])
       })
       .catch(() => {
         setBumperWinnerLoading(false)
@@ -95,7 +121,7 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
                   <h2 className='mb-0'>Tata AIG User Details</h2>
                   {userList?.length !== 0 && (
                     <button
-                      className='btn btn-dark btn-sm bumper-btn'
+                      className='btn btn-primary btn-sm bumper-btn'
                       onClick={() => generateBumperWinner()}
                       disabled={isBumperWinnerLoading}
                     >
@@ -113,7 +139,7 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
                     <CSVLink
                       data={userList}
                       className='btn btn-outline-dark btn-sm rounded-pill'
-                      filename={'Campaigns.csv'}
+                      filename={'CampaignDetails.csv'}
                       target='_blank'
                     >
                       Export
@@ -137,12 +163,16 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
                       <div className='vr'></div>
                       <div className='px-4'>
                         <div className='label'>Bumpur Winner Name</div>
-                        <div className='value'>Ravi</div>
+                        <div className='value'>
+                          {bumperWinnerDetails?.submitted_detail_name?.name}
+                        </div>
                       </div>
                       <div className='vr'></div>
                       <div className='px-4'>
                         <div className='label'>Avg Shortest Time Taken</div>
-                        <div className='value'>6.6 Sec</div>
+                        <div className='value'>
+                          {(bumperWinnerDetails?.avg_timetaken % 60000) / 1000} Sec
+                        </div>
                       </div>
                     </>
                   )}

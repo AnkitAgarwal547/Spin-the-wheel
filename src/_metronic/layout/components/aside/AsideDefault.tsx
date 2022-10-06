@@ -31,7 +31,7 @@ const AsideDefault: React.FC<Props> = ({asideRef, minimize}) => {
       ref={asideRef}
     >
       {/* begin::Brand */}
-      <div className='aside-logo mt-2' id='kt_aside_logo'>
+      <div className='aside-logo bg-dark mt-2' id='kt_aside_logo'>
         {/* begin::Logo */}
         {aside.theme === 'dark' && (
           <>

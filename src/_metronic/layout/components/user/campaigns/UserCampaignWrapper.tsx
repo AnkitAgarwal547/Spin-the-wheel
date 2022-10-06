@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useLocation, useNavigate} from 'react-router'
 import {
   getUserCampaignDetailsRequest,
+  getUserType,
   updateCount,
 } from '../../../../../app/modules/auth/core/_requests'
 import SpinTheWheel from './campaign-types/SpinTheWheel/SpinTheWheel'
@@ -13,31 +14,53 @@ import ReactRouterPrompt from 'react-router-prompt'
 import Modal from 'react-bootstrap/Modal'
 import {Button} from 'react-bootstrap'
 import {useAuth} from '../../../../../app/modules/auth'
-import {useAppDispatch} from '../../../../../app/redux/hooks/hooks'
+import {useAppDispatch, useAppSelector} from '../../../../../app/redux/hooks/hooks'
 import {
   TRIGGER_CAMPAIGN_DETAILS,
   TRIGGER_PRIZE_DETAILS,
+  TRIGGER_PRIZE_INDEX,
 } from '../../../../../app/redux/actions/actionTypes'
+import {ToastMessage} from '../../../../../app/shared/ToastMessage'
+import {ToastContainer} from 'react-toastify'
+import {useReset} from '../../../../../app/shared/hooks/useReset'
+import ScratchCardWrapper from '../../scratchCard/ScratchCard'
+import PickTheBox from './campaign-types/PickTheBox/PickTheBox'
 
 export default function UserCampaignWrapper() {
   const search = useLocation().search
-  console.log('🚀 ~ file: UserCampaignWrapper.tsx ~ line 16 ~ UserCampaignWrapper ~ search', search)
   const id = new URLSearchParams(search).get('id')
-  const [campaignDetails, setCampaignDetails] = useState<any>({})
+  const {campaignDetails, prizeIndex} = useAppSelector((state) => state.userReducer)
+  console.log(
+    '🚀 ~ file: UserCampaignWrapper.tsx ~ line 32 ~ UserCampaignWrapper ~ prizeIndex',
+    prizeIndex
+  )
   const [loading, setLoading] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const {currentUser} = useAuth()
+
   const navigate = useNavigate()
   const {logout} = useAuth()
-  const [reward, setReward] = useState()
+  const [reward, setReward] = useState(prizeIndex)
   const dispatch = useAppDispatch()
+  const [modal, showModal] = useState(false)
+  const [prizePopup, setPrizePopup] = useState(prizeIndex || prizeIndex === 0 ? true : false)
+  const [handleReset] = useReset()
+
+  const checkIfAlreadyPlayed = () => {
+    if (currentUser?.['play_count']['campaign_id'] === id) {
+      if (campaignDetails.maxplay_peruser_perday <= currentUser?.['play_count']['played_today']) {
+        showModal(true)
+      }
+    }
+  }
 
   useEffect(() => {
     if (id !== undefined && id !== null && id) {
       setLoading(true)
+      checkIfAlreadyPlayed()
       getUserCampaignDetailsRequest(id)
         .then((resp) => {
           setLoading(false)
-          setCampaignDetails(resp.data.data)
+          // setCampaignDetails(resp.data.data)
           dispatch({
             type: TRIGGER_CAMPAIGN_DETAILS,
             campaignDetails: resp.data.data,
@@ -49,28 +72,56 @@ export default function UserCampaignWrapper() {
 
       updateCount(id, {action: 'UPDATE_CAMPAIGN_CLICKCOUNT'})
     } else {
-      console.log('🚀 ~ file: UserCampaignWrapper.tsx ~ line 30 ~ useEffect ~ id', id)
       navigate('/error')
       logout()
     }
   }, [])
 
-  const discardChanges = () => {
-    console.log('discraf')
-  }
-
   const navigateToUserDetailsForm = () => {
-    console.log(
-      '🚀 ~ file: UserCampaignWrapper.tsx ~ line 72 ~ navigateToUserDetailsForm ~ reward',
-      reward
-    )
-    if (reward || reward === 0) {
+    console.log(prizeIndex, 'reward')
+    if (prizeIndex || prizeIndex === 0) {
       navigate('/question')
       dispatch({
         type: TRIGGER_PRIZE_DETAILS,
-        prizeDetails: campaignDetails?.winning_values[reward],
+        prizeDetails: campaignDetails?.winning_values[prizeIndex],
+      })
+    } else {
+      let msg
+      {
+        campaignDetails.type === typeOfCampaigns.SCRATCH_THE_CARD
+          ? (msg = 'Please Scratch The Card')
+          : campaignDetails.type === typeOfCampaigns.SPIN_THE_WHEEL
+          ? (msg = 'Please Spin The Wheel')
+          : (msg = 'Please Choose the Box')
+      }
+      ToastMessage(msg, 'error')
+    }
+  }
+
+  const redirectUser = () => {
+    showModal(false)
+    logout()
+    handleReset()
+    navigate(`verify-mobile?campaignId=${id}`)
+  }
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate({
+        pathname: '/verify-mobile',
+        search: `?campaignId=${campaignDetails._id}`,
       })
     }
+  }, [])
+
+  const setPrizeDetails = (reward) => {
+    console.log('🚀 ~ file: UserCampaignWrapper.tsx ~ line 108 ~ setPrizeDetails ~ reward', reward)
+    dispatch({
+      type: TRIGGER_PRIZE_INDEX,
+      prizeIndex: reward,
+    })
+    setReward(reward)
+    setPrizePopup(true)
   }
 
   return (
@@ -85,7 +136,11 @@ export default function UserCampaignWrapper() {
           }}
         >
           <div className='logo-wrapper'>
-            <img alt='logo' className='logo' src={campaignDetails?.logo_url} />
+            <div
+              className='logo'
+              style={{backgroundImage: `url(${campaignDetails?.logo_url})`}}
+            ></div>
+            {/* <img alt='logo' className='logo' src={campaignDetails?.logo_url} /> */}
           </div>
           <div
             style={{color: campaignDetails?.forecolor}}
@@ -97,6 +152,7 @@ export default function UserCampaignWrapper() {
               ? 'Spin the Wheel'
               : 'Choose the Box'}
           </div>
+
           {/* <ReactRouterPrompt when={(!isSubmitted && id!==null && id!==undefined)}>
             {({isActive, onConfirm, onCancel}) =>
               isActive && (
@@ -127,10 +183,29 @@ export default function UserCampaignWrapper() {
               )
             }
           </ReactRouterPrompt> */}
+          <h1 style={{color: campaignDetails?.forecolor}} className='text-dark fs-15 text-center'>
+            {campaignDetails.type === typeOfCampaigns.SCRATCH_THE_CARD
+              ? 'Please Scratch The Card'
+              : campaignDetails.type === typeOfCampaigns.SPIN_THE_WHEEL
+              ? 'Please Tap On The Wheel'
+              : 'Please Choose the Box'}
+          </h1>
 
           {campaignDetails && campaignDetails.type === 'SPIN_THE_WHEEL' && (
-            <SpinTheWheel details={campaignDetails} setReward={setReward} />
+            <SpinTheWheel
+              details={campaignDetails}
+              setReward={(data) => {
+                setPrizeDetails(data)
+              }}
+              userDetails={currentUser}
+              prizeIndex={prizeIndex}
+            />
           )}
+          {campaignDetails && campaignDetails.type === typeOfCampaigns.SCRATCH_THE_CARD && (
+            <ScratchCardWrapper image={getThemeStyle(campaignDetails.template).scratchCardImage} />
+          )}
+
+<PickTheBox />
           <div className='row justify-content-center my-10'>
             <button
               className='btn btn-block btn-primary  btn-lg col-md-5 col-xxl-3 col-xl-3 col-lg-3 col-sm-5 col-4'
@@ -166,6 +241,31 @@ export default function UserCampaignWrapper() {
           )}
         </div>
       )}
+
+      <ToastContainer />
+
+      <Modal
+        show={modal}
+        onHide={() => redirectUser()}
+        dialogClassName='modal-90w'
+        aria-labelledby='example-custom-modal-styling-title'
+        centered
+      >
+        <Modal.Header closeButton>
+          {/* <Modal.Title id='example-custom-modal-styling-title'></Modal.Title> */}
+        </Modal.Header>
+        <Modal.Body className='text-center'>
+          <h1>You have already Exceeded the limit!</h1>
+        </Modal.Body>
+      </Modal>
+
+      {/* <Modal show={prizePopup} size='lg' aria-labelledby='contained-modal-title-vcenter' centered>
+        <Modal.Header closeButton>
+          <Modal.Title id='contained-modal-title-vcenter'>You won</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{campaignDetails.winning_values[reward]['label']}</Modal.Body>
+
+      </Modal> */}
     </>
   )
 }
