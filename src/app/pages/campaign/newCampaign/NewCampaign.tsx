@@ -283,6 +283,7 @@ const NewCampaign: React.FC<Props> = () => {
   const patchForm = () => {
     let obj: any = location.state
     let winningValues = obj[formFields.WINNING_VALUES]
+
     winningValues.map((item) => {
       delete item.day_count
       delete item.key
@@ -419,6 +420,7 @@ const NewCampaign: React.FC<Props> = () => {
         isSubmitting,
         initialErrors,
       }) => {
+        console.log('🚀 ~ file: NewCampaign.tsx ~ line 423 ~ onSubmit={ ~ values', values)
         return (
           <form>
             <div>
@@ -431,7 +433,7 @@ const NewCampaign: React.FC<Props> = () => {
                   <div className='col-xxl-4 col-xl-4 col-lg-5 col-md-5 col-sm-6  col-sm-6 col-12'>
                     <div className='mb-10'>
                       <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
-                        Campaign Company
+                        Campaign Company<sup className='text-danger'>*</sup>
                       </label>
                       <input
                         type='text'
@@ -451,7 +453,7 @@ const NewCampaign: React.FC<Props> = () => {
 
                     <div className='mb-10'>
                       <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
-                        Title of Campaign
+                        Title of Campaign<sup className='text-danger'>*</sup>
                       </label>
                       <input
                         type='text'
@@ -473,7 +475,7 @@ const NewCampaign: React.FC<Props> = () => {
 
                     <div className='mb-10'>
                       <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
-                        Select Type of the campaign
+                        Select Type of the campaign<sup className='text-danger'>*</sup>
                       </label>
 
                       <Form.Select
@@ -504,7 +506,7 @@ const NewCampaign: React.FC<Props> = () => {
 
                     <div className='mb-10'>
                       <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
-                        Number of Selection per user per day
+                        Number of Selection per user per day<sup className='text-danger'>*</sup>
                       </label>
                       <input
                         min={1}
@@ -512,6 +514,7 @@ const NewCampaign: React.FC<Props> = () => {
                         name={formFields.MAX_PLAY_USER}
                         onChange={handleChange}
                         value={values[formFields.MAX_PLAY_USER]}
+                        disabled={id ? true : false}
                         className={clsx(
                           'form-control ',
                           {
@@ -527,7 +530,7 @@ const NewCampaign: React.FC<Props> = () => {
                     </div>
                     <div>
                       <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
-                        Dates
+                        Dates<sup className='text-danger'>*</sup>
                       </label>
                       <div className='row mb-10'>
                         <div className='col-xxl-6 col-lg-12 gy-lg-5 gy-md-5 gy-sm-5 gy-5 col-md-12'>
@@ -587,7 +590,7 @@ const NewCampaign: React.FC<Props> = () => {
                   <div className='col-xxl-5 col-xl-6 col-lg-7 col-md-7 col-sm-6 offset-xxl-2 col-12'>
                     <div className='mb-10'>
                       <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
-                        Select Template
+                        Select Template<sup className='text-danger'>*</sup>
                       </label>
                       <Form.Select
                         name={formFields.TEMPLATE_TYPE}
@@ -735,7 +738,10 @@ const NewCampaign: React.FC<Props> = () => {
                   <div className='col-xxl-8 col-xl-8 col-lg-10 col-md-8 col-sm-12'>
                     <div className='row'>
                       <div className='col-xxl-3 col-lg-4 col-md-4 col-sm-4 col-4'>
-                        <div className='form-label fw-bold mb-5'> Logo of campaign</div>
+                        <div className='form-label fw-bold mb-5'>
+                          {' '}
+                          Logo of campaign<sup className='text-danger'>*</sup>
+                        </div>
                         <FileUpload
                           fileData={logoOfCampaign}
                           setFileData={setLogoOfCampaign}
@@ -744,6 +750,7 @@ const NewCampaign: React.FC<Props> = () => {
                           setFieldValue={(file) => {
                             setFieldValue(formFields.LOGO, file)
                           }}
+                          fieldValue={values.logo_url}
                         />
                         {touched.logo_url && errors.logo_url && (
                           <p className='text-danger'>Please select logo</p>
@@ -759,6 +766,7 @@ const NewCampaign: React.FC<Props> = () => {
                           setFieldValue={(file) => {
                             setFieldValue(formFields.BANNER1, file)
                           }}
+                          fieldValue={values.banner1_url}
                         />
                         {/* {!banner1.path && isSubmitted && (
                           <p className='text-danger'>Please select Banner 1</p>
@@ -774,6 +782,7 @@ const NewCampaign: React.FC<Props> = () => {
                           setFieldValue={(file) => {
                             setFieldValue(formFields.BANNER2, file)
                           }}
+                          fieldValue={values.banner2_url}
                         />
                         {/* {!banner2.path && isSubmitted && (
                           <p className='text-danger'>Please select Banner 2</p>
@@ -907,7 +916,7 @@ const NewCampaign: React.FC<Props> = () => {
                     <div className='col-xxl-12 col-xl-12 col-md-12 col-lg-12 col-sm-12 col-12'>
                       <div className='col-xxl-3 col-xl-3 col-md-6 col-lg-4 col-sm-6 col-6'>
                         <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
-                          Difficulty Level
+                          Difficulty Level<sup className='text-danger'>*</sup>
                         </label>
                         <Form.Select
                           placeholder='Spin the Wheel'
@@ -933,7 +942,7 @@ const NewCampaign: React.FC<Props> = () => {
 
                       <div className='col-xxl-7 col-xl-7 col-md-7 col-lg-10 col-sm-7 col-7 mt-10'>
                         <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
-                          Terms & Conditions
+                          Terms & Conditions<sup className='text-danger'>*</sup>
                         </label>
                         <textarea
                           id='floatingTextarea'

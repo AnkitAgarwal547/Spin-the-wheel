@@ -64,3 +64,30 @@
 
     }
 }
+
+
+@media (max-width:980px) {
+
+    .verify-screens .sub-div {
+        width: 90%;
+        position: absolute;
+        left: 5%;
+        top: 25%;
+        transform: translate(0);
+        margin: 0 auto;
+    }
+
+    .verify-screens .sub-div .heading {
+        font-size: 20px;
+        margin-top: 45px;
+    }
+
+
+}
+
+@media (max-width:479px) {
+    .form-group.mt-15.for-mobile {
+        margin-top: 15px !important;
+    }
+
+}

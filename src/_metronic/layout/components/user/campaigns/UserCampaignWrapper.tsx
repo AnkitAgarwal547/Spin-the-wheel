@@ -44,9 +44,18 @@ export default function UserCampaignWrapper() {
   const [modal, showModal] = useState(false)
   const [prizePopup, setPrizePopup] = useState(prizeIndex || prizeIndex === 0 ? true : false)
   const [handleReset] = useReset()
+  console.log(
+    '🚀 ~ file: UserCampaignWrapper.tsx ~ line 50 ~ checkIfAlreadyPlayed ~ currentUser',
+    currentUser
+  )
 
   const checkIfAlreadyPlayed = () => {
     if (currentUser?.['play_count']['campaign_id'] === id) {
+      console.log(
+        campaignDetails.maxplay_peruser_perday,
+        currentUser?.['play_count']['played_today'],
+        currentUser?.['play_count']['campaign_id']
+      )
       if (campaignDetails.maxplay_peruser_perday <= currentUser?.['play_count']['played_today']) {
         showModal(true)
       }
@@ -181,7 +190,7 @@ export default function UserCampaignWrapper() {
               )
             }
           </ReactRouterPrompt> */}
-          <h1 style={{color: campaignDetails?.forecolor}} className='text-dark fs-15 text-center'>
+          <h1 className='action-message fs-15 text-center'>
             {campaignDetails.type === typeOfCampaigns.SCRATCH_THE_CARD
               ? 'Please Scratch The Card'
               : campaignDetails.type === typeOfCampaigns.SPIN_THE_WHEEL

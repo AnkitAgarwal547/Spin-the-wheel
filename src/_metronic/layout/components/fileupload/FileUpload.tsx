@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import React, {useEffect, useRef} from 'react'
 import {Button} from 'react-bootstrap'
+import {useParams} from 'react-router'
 import {getUploadUrl, uploadFile} from '../../../../app/modules/auth/core/_requests'
 import {getBase64} from '../../../../app/utils/common'
 import {KTSVG} from '../../../helpers'
@@ -12,8 +13,11 @@ export default function FileUpload({
   showError,
   setBinaryData,
   setFieldValue,
+  fieldValue,
 }) {
+  console.log('🚀 ~ file: FileUpload.tsx ~ line 10 ~ FileUpload ~ fieldValue', fieldValue)
   const inputRef = useRef<HTMLInputElement>(null)
+  const {id} = useParams()
 
   const reader = new FileReader()
 
@@ -37,7 +41,7 @@ export default function FileUpload({
   const handleFileChange = async (event: any) => {
     const fileObj = event.target.files && event.target.files[0]
     let file = event.target.files[0]
-    setFieldValue(file)
+    // setFieldValue(file)
 
     let binary = await getBinaryFromFile(file)
 
@@ -81,6 +85,7 @@ export default function FileUpload({
 
   const removeFile = () => {
     setFileData({details: null, path: ''})
+    setFieldValue('')
   }
 
   return (
@@ -119,6 +124,26 @@ export default function FileUpload({
             {/* <img className='h-20px w-20px mr-1 ' src={fileData.path} alt='logo' /> */}
             <div className='file-name'>
               <small>{fileData?.details?.name}</small>
+            </div>
+            <div>
+              <i
+                className='bi bi-x-lg text-dark fw-600 cursor-pointer'
+                onClick={() => {
+                  removeFile()
+                }}
+              ></i>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {fieldValue && id && !fileData?.details && !fileData?.path && (
+        <div className='card border py-2 px-0 mt-2'>
+          <div className='d-flex justify-content-around align-items-center'>
+            <div className='file-thumbnail' style={{backgroundImage: `url(${fieldValue})`}} />
+            {/* <img className='h-20px w-20px mr-1 ' src={fileData.path} alt='logo' /> */}
+            <div className='file-name'>
+              <small>{fieldValue}</small>
             </div>
             <div>
               <i

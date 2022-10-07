@@ -38,8 +38,6 @@ export default function PickTheBox() {
   ]
   const [boxes, setBoxes] = useState<any>(boxesList)
 
-
-
   const [reward, setReward] = useState(prizeIndex)
   const selectReward = (index) => {
     console.log('🚀 ~ file: PickTheBox.tsx ~ line 53 ~ selectReward ~ prizeIndex', prizeIndex)
@@ -76,10 +74,10 @@ export default function PickTheBox() {
         selectedBoxIndex: index,
       })
 
-         updateCount(campaignDetails?._id, {
-           action: 'UPDATE_CAMPAIGN_WINNINGVALUE',
-           winninglabel_key: campaignDetails.winning_values[selectedItem]['key'],
-         })
+      updateCount(campaignDetails?._id, {
+        action: 'UPDATE_CAMPAIGN_WINNINGVALUE',
+        winninglabel_key: campaignDetails.winning_values[selectedItem]['key'],
+      })
     }
   }
   return (
@@ -106,7 +104,11 @@ export default function PickTheBox() {
                 {selectedBoxIndex === i ? (
                   <div className='center text-light'>
                     <small>
-                      You got "{campaignDetails['winning_values'][prizeIndex]['label']}" reward
+                      You got "
+                      {(prizeIndex ||
+                        prizeIndex === 0 )&&
+                          campaignDetails['winning_values'][prizeIndex]['label']}
+                      " reward
                     </small>
                   </div>
                 ) : (

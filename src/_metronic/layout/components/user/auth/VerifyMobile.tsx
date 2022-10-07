@@ -21,7 +21,7 @@ import {
   TRIGGER_PRIZE_INDEX,
 } from '../../../../../app/redux/actions/actionTypes'
 import {useAuth} from '../../../../../app/modules/auth'
-import {Col, Row} from 'react-bootstrap'
+import {Col, Modal, Row} from 'react-bootstrap'
 
 export default function VerifyMobile() {
   const [loading, setLoading] = useState(false)
@@ -58,6 +58,7 @@ export default function VerifyMobile() {
     if (campaignId) {
       getUserCampaignDetailsRequest(campaignId)
         .then((resp) => {
+          console.log('🚀 ~ file: VerifyMobile.tsx ~ line 61 ~ .then ~ resp', resp)
           // setCampaignDetails(resp.data.data)
           dispatch({
             type: TRIGGER_CAMPAIGN_DETAILS,
@@ -72,6 +73,19 @@ export default function VerifyMobile() {
       // logout()
     }
   }, [])
+
+  useEffect(() => {
+    console.log(
+      '🚀 ~ file: VerifyMobile.tsx ~ line 80 ~ VerifyMobile ~ campaignDetails',
+      new Date(campaignDetails.end_date).setHours(0, 0),
+      new Date().setHours(0, 0)
+    )
+
+    let endDate = new Date(campaignDetails.end_date)
+    console.log('🚀 ~ file: VerifyMobile.tsx ~ line 85 ~ useEffect ~ endDate', endDate)
+    let currentDate = new Date()
+    console.log('🚀 ~ file: VerifyMobile.tsx ~ line 87 ~ useEffect ~ currentDate', currentDate)
+  }, [campaignDetails])
 
   const formik = useFormik({
     initialValues,
@@ -210,6 +224,18 @@ export default function VerifyMobile() {
         </div>
       </div>
       <ToastContainer />
+
+      <Modal
+        centered
+        show={
+          campaignDetails && new Date(campaignDetails.end_date).getTime() < new Date().getTime()
+        }
+        onHide={() => {}}
+      >
+        <Modal.Body className='text-center'>
+          <h1 className='mb-0'>This campaign has been expired!</h1>
+        </Modal.Body>
+      </Modal>
     </div>
   )
 }

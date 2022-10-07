@@ -78,3 +78,40 @@
         margin-top: 20px;
     }
 }
+
+
+
+@media (max-width:980px) {
+
+    .terms-and-conditions .sub-div {
+        position: relative;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        width: 90%;
+        background-color: #ffffff;
+        padding: 50px 0 0 0;
+        transform: translate(0%, 0);
+        left: auto;
+        top: -20%;
+        min-height: 480px;
+        margin: 0 auto;
+    }
+
+}
+
+
+@media (max-width:480px) {
+
+    .terms-and-conditions .sub-div {
+        position: relative;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        width: 90%;
+        background-color: #ffffff;
+        padding: 50px 0 0 0;
+        transform: translate(0%, 0);
+        left: auto;
+        top: -40%;
+        min-height: 480px;
+        margin: 0 auto;
+    }
+
+}

@@ -67,7 +67,7 @@ export default function ScratchCardWrapper({image}) {
   }
 
   return (
-    <div>
+    <div className='my'>
       {prizeIndex === 0 || prizeIndex ? (
         <div className='scratch-card'>
           <div className='center'>

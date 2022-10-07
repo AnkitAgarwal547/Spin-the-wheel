@@ -25,13 +25,13 @@ export default function Question() {
     answerDetails,
     isAnswerCorrect,
   } = useAppSelector((state) => state.userReducer)
-  console.log('🚀 ~ file: Question.tsx ~ line 28 ~ Question ~ questionDetails', questionDetails)
+  console.log('🚀 ~ file: Question.tsx ~ line 28 ~ Question ~ answerDetails', answerDetails)
   console.log('🚀 ~ file: Question.tsx ~ line 27 ~ Question ~ isAnswerCorrect', isAnswerCorrect)
   const {currentUser} = useAuth()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false)
-  const [answer, setAnswer] = useState(answerDetails)
+  // const [answer, setAnswer] = useState()
   const [question, setQuestion] = useState<any>(questionDetails)
 
   useEffect(() => {
@@ -62,11 +62,6 @@ export default function Question() {
         .catch(() => {
           setLoading(false)
         })
-
-      dispatch({
-        type: TRIGGER_ANSWER_DETAILS,
-        answerDetails: '',
-      })
     } else {
       // navigate('/error')
     }
@@ -74,8 +69,8 @@ export default function Question() {
 
   const selectAnswer = (item, index) => {
     if (!answerDetails) {
-      setAnswer(item)
-      console.log('answr', answer)
+      // setAnswer(item)
+      console.log('answr', answerDetails)
       dispatch({
         type: TRIGGER_END_TIME,
         endTime: new Date().getTime(),
@@ -85,6 +80,8 @@ export default function Question() {
         type: TRIGGER_ANSWER_DETAILS,
         answerDetails: item,
       })
+
+      console.log('answerDetails', answerDetails)
       let i = questionDetails['options'].findIndex((el) => el === item)
       if (i !== -1) {
         if (
@@ -108,7 +105,7 @@ export default function Question() {
   }
 
   const submitAnswer = () => {
-    if (answer) {
+    if (answerDetails) {
       navigate('/user-details')
     }
   }
@@ -119,10 +116,10 @@ export default function Question() {
       Number(questionDetails.answer) - 1,
       index
     )
-    let i = questionDetails['options'].findIndex((item) => item === answer)
+    let i = questionDetails['options'].findIndex((item) => item === answerDetails)
 
-    console.log(i)
-    if (answer) {
+    console.log(i, answerDetails)
+    if (answerDetails) {
       if (Number(questionDetails.answer) - 1 == index) {
         return 'active'
       } else {
@@ -166,8 +163,8 @@ export default function Question() {
                         </h2>
                         {/* {answer}
                       <br /> */}
-                        {answer &&
-                        questionDetails?.options.findIndex((item) => item === answer) + 1 !=
+                        {answerDetails &&
+                        questionDetails?.options.findIndex((item) => item === answerDetails) + 1 !=
                           questionDetails?.answer ? (
                           <h4 className='text-center  my-3'>
                             Oops you missed the chance this time, play again
@@ -214,7 +211,7 @@ export default function Question() {
                       <button
                         className='btn btn-primary btn-block w-100 mt-10'
                         type='submit'
-                        disabled={answer === ''}
+                        disabled={answerDetails === ''}
                         onClick={() => submitAnswer()}
                       >
                         Next

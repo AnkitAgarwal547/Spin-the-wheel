@@ -47,6 +47,14 @@
     //     border-radius: 20px;
     // }
 
+    .action-message {
+        background-color: white;
+        width: fit-content;
+        padding: 5px 15px 5px 15px;
+        margin: auto;
+        color: #4C4E52;
+    }
+
     .banner1 {
         height: 60px;
         width: 40%;
@@ -64,5 +72,15 @@
     }
 
 
+
+}
+
+@media (max-width:980px) {
+
+    .user-campaign-spin-wheel .logo-wrapper {
+
+        margin-top: 80px;
+
+    }
 
 }
