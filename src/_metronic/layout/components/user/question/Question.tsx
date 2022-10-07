@@ -25,8 +25,6 @@ export default function Question() {
     answerDetails,
     isAnswerCorrect,
   } = useAppSelector((state) => state.userReducer)
-  console.log('🚀 ~ file: Question.tsx ~ line 28 ~ Question ~ answerDetails', answerDetails)
-  console.log('🚀 ~ file: Question.tsx ~ line 27 ~ Question ~ isAnswerCorrect', isAnswerCorrect)
   const {currentUser} = useAuth()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -70,7 +68,6 @@ export default function Question() {
   const selectAnswer = (item, index) => {
     if (!answerDetails) {
       // setAnswer(item)
-      console.log('answr', answerDetails)
       dispatch({
         type: TRIGGER_END_TIME,
         endTime: new Date().getTime(),
@@ -81,7 +78,6 @@ export default function Question() {
         answerDetails: item,
       })
 
-      console.log('answerDetails', answerDetails)
       let i = questionDetails['options'].findIndex((el) => el === item)
       if (i !== -1) {
         if (
@@ -111,14 +107,7 @@ export default function Question() {
   }
 
   const checkIfAnswerIsCorrect = (index) => {
-    console.log(
-      '🚀 ~ file: Question.tsx ~ line 110 ~ checkIfAnswerIsCorrect ~ answer',
-      Number(questionDetails.answer) - 1,
-      index
-    )
     let i = questionDetails['options'].findIndex((item) => item === answerDetails)
-
-    console.log(i, answerDetails)
     if (answerDetails) {
       if (Number(questionDetails.answer) - 1 == index) {
         return 'active'
