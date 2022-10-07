@@ -19,6 +19,7 @@ import {
   TRIGGER_MOBILE,
   TRIGGER_OTP,
   TRIGGER_PRIZE_INDEX,
+  TRIGGER_QUESTION_DETAILS,
 } from '../../../../../app/redux/actions/actionTypes'
 import {useAuth} from '../../../../../app/modules/auth'
 import {Col, Modal, Row} from 'react-bootstrap'
@@ -72,6 +73,11 @@ export default function VerifyMobile() {
       navigate('/error')
       // logout()
     }
+
+    dispatch({
+      type: TRIGGER_QUESTION_DETAILS,
+      questionDetails: '',
+    })
   }, [])
 
   useEffect(() => {

@@ -266,8 +266,8 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                               style={{width: '100px'}}
                               target='_blank'
                               className='text-primary'
-                              href={`https://fedicoms.net/verify-mobile?campaignId=${item._id}`}
-                            >{`https://fedicoms.net/verify-mobile?campaignId=${item._id}`}</a>
+                              href={`http://localhost:3011/verify-mobile?campaignId=${item._id}`}
+                            >{`http://localhost:3011/verify-mobile?campaignId=${item._id}`}</a>
                           </div>
                         </td>
                         <td className='text-center'>
@@ -286,18 +286,19 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                             </Link>
 
                             <Link
-                              to={`/campaign-details/${item._id}`}
+                              to={{pathname: `/campaign-details/${item._id}`}}
+                              state={item.title}
                               className='btn btn-sm btn-dark'
                             >
                               View
                             </Link>
-                            {/* <button
+                            <button
                               type='button'
                               className='btn edit-questionnaire'
                               onClick={() => deleteCampaign(item._id)}
                             >
                               <KTSVG className='svg-icon-2 mr-0' path='/media/icons/delete.svg' />
-                            </button> */}
+                            </button>
                           </div>
                         </td>
                       </tr>

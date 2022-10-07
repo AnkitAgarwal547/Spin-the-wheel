@@ -509,7 +509,6 @@ const NewCampaign: React.FC<Props> = () => {
                         Number of Selection per user per day<sup className='text-danger'>*</sup>
                       </label>
                       <input
-                        min={1}
                         type='number'
                         name={formFields.MAX_PLAY_USER}
                         onChange={handleChange}

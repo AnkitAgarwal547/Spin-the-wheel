@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useEffect, useRef, useState} from 'react'
 import {CSVLink} from 'react-csv'
-import {useParams} from 'react-router'
+import {useLocation, useParams} from 'react-router'
 import {
   generateWinner,
   getCampaignUsers,
@@ -27,6 +27,7 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
   const [userList, setUserList] = useState([])
   const [details, setDetails] = useState<any>()
   const [error, setError] = useState(false)
+  const location: any = useLocation()
 
   const {id} = useParams()
 
@@ -118,7 +119,7 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
             <>
               <div className='d-flex flex-wrap flex-stack mb-6'>
                 <div className='d-flex flex-wrap  align-items-center'>
-                  <h2 className='mb-0'>Tata AIG User Details</h2>
+                  <h2 className='mb-0'>{location.state}</h2>
                   {userList?.length !== 0 && (
                     <button
                       className='btn btn-primary btn-sm bumper-btn'
