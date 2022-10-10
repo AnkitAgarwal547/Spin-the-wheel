@@ -34,6 +34,8 @@ export default function UserDetails() {
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
+  const pincode = /^\d{6}$/
+
   const schema = Yup.object().shape({
     name: Yup.string().required('required'),
     mobile_no: Yup.string()
@@ -41,7 +43,11 @@ export default function UserDetails() {
       .matches(phoneRegExp, 'Phone number is not valid')
       .min(10, 'to short')
       .max(10, 'to long'),
-    comments: Yup.number().required('required'),
+    comments: Yup.string()
+      .required('required')
+      .matches(pincode, 'Pin code is not valid')
+      .min(6, 'to short')
+      .max(6, 'to long'),
 
     email: Yup.string()
       .email('Wrong email format')
@@ -181,6 +187,9 @@ export default function UserDetails() {
                   )}
                   value={formik.values.comments}
                 />
+                {formik.touched.comments && formik.errors.comments && (
+                  <p className='text-danger'>Please enter 6 numbers!</p>
+                )}
 
                 {/* <textarea
                   rows={5}

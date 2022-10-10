@@ -2,12 +2,14 @@ import clsx from 'clsx'
 import React, {useEffect, useState} from 'react'
 import {Col, Row} from 'react-bootstrap'
 import {useDispatch} from 'react-redux'
+import {useAuth} from '../../../../../../../app/modules/auth'
 import {getToken, updateCount} from '../../../../../../../app/modules/auth/core/_requests'
 import {
   TRIGGER_PRIZE_INDEX,
   TRIGGER_SELECTED_BOX_INDEX,
 } from '../../../../../../../app/redux/actions/actionTypes'
 import {useAppSelector} from '../../../../../../../app/redux/hooks/hooks'
+import authReducer from '../../../../../../../app/redux/reducers/authReducer'
 import './PickTheBox.scss'
 
 export default function PickTheBox() {
@@ -21,6 +23,7 @@ export default function PickTheBox() {
   console.log('🚀 ~ file: PickTheBox.tsx ~ line 12 ~ PickTheBox ~ prizeIndex', prizeIndex)
   console.log('🚀 ~ file: PickTheBox.tsx ~ line 10 ~ PickTheBox ~ campaignDetails', campaignDetails)
   const dispatch = useDispatch()
+  const {currentUser} = useAuth()
 
   const boxesList = [
     {
@@ -43,7 +46,7 @@ export default function PickTheBox() {
     console.log('🚀 ~ file: PickTheBox.tsx ~ line 53 ~ selectReward ~ prizeIndex', prizeIndex)
     const payload = {
       action: 'UPDATE_USER_PLAYEDGAME',
-      user_id: campaignDetails?._id,
+      user_id: currentUser?._id,
       access_token: getToken(),
     }
     updateCount(campaignDetails?._id, payload)
@@ -92,7 +95,8 @@ export default function PickTheBox() {
                 lg={6}
                 md={6}
                 sm={6}
-                kye={i}
+                col={3}
+                key={i}
                 className={clsx(
                   'position-relative ',
                   {'border-start': i == 1 || i == 3},
@@ -101,13 +105,12 @@ export default function PickTheBox() {
                   }
                 )}
               >
-                {selectedBoxIndex === i ? (
+                {selectedBoxIndex === i && (prizeIndex || prizeIndex === 0) ? (
                   <div className='center text-light'>
                     <small>
                       You got "
-                      {(prizeIndex ||
-                        prizeIndex === 0 )&&
-                          campaignDetails['winning_values'][prizeIndex]['label']}
+                      {(prizeIndex || prizeIndex === 0) &&
+                        campaignDetails['winning_values'][prizeIndex]['label']}
                       " reward
                     </small>
                   </div>

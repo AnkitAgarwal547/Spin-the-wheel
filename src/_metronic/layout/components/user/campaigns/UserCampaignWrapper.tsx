@@ -50,14 +50,19 @@ export default function UserCampaignWrapper() {
   )
 
   const checkIfAlreadyPlayed = () => {
-    if (currentUser?.['play_count']['campaign_id'] === id) {
-      console.log(
-        campaignDetails.maxplay_peruser_perday,
-        currentUser?.['play_count']['played_today'],
-        currentUser?.['play_count']['campaign_id']
-      )
-      if (campaignDetails.maxplay_peruser_perday <= currentUser?.['play_count']['played_today']) {
-        showModal(true)
+    let index = currentUser?.['play_count'].findIndex((item) => item.campaign_id === id)
+    console.log(
+      '🚀 ~ file: UserCampaignWrapper.tsx ~ line 54 ~ checkIfAlreadyPlayed ~ index',
+      index
+    )
+    if (index !== -1) {
+      if (currentUser?.['play_count'][index]['campaign_id'] === id) {
+        if (
+          campaignDetails.maxplay_peruser_perday <=
+          currentUser?.['play_count'][index]['played_today']
+        ) {
+          showModal(true)
+        }
       }
     }
   }
@@ -127,8 +132,8 @@ export default function UserCampaignWrapper() {
       type: TRIGGER_PRIZE_INDEX,
       prizeIndex: reward,
     })
-    setReward(reward)
-    setPrizePopup(true)
+    // setReward(reward)
+    // setPrizePopup(true)
   }
 
   return (
@@ -261,11 +266,8 @@ export default function UserCampaignWrapper() {
         aria-labelledby='example-custom-modal-styling-title'
         centered
       >
-        <Modal.Header closeButton>
-          {/* <Modal.Title id='example-custom-modal-styling-title'></Modal.Title> */}
-        </Modal.Header>
         <Modal.Body className='text-center'>
-          <h1>You have already Exceeded the limit!</h1>
+          <h1>You have already Exceeded the playing limit!</h1>
         </Modal.Body>
       </Modal>
 

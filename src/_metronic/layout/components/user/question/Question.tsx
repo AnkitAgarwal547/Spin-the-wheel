@@ -31,6 +31,7 @@ export default function Question() {
   const [loading, setLoading] = useState(false)
   // const [answer, setAnswer] = useState()
   const [question, setQuestion] = useState<any>(questionDetails)
+  console.log('isAnswerCorrect', isAnswerCorrect)
 
   useEffect(() => {
     if (campaignDetails?._id && (questionDetails === '' || !questionDetails)) {
@@ -78,7 +79,7 @@ export default function Question() {
         answerDetails: item,
       })
 
-      let i = questionDetails['options'].findIndex((el) => el === item)
+      let i = questionDetails['options']?.findIndex((el) => el === item)
       if (i !== -1) {
         if (
           questionDetails['options'][Number(questionDetails.answer)] !==
@@ -107,22 +108,13 @@ export default function Question() {
   }
 
   const checkIfAnswerIsCorrect = (index) => {
-    let i = questionDetails['options'].findIndex((item) => item === answerDetails)
     if (answerDetails) {
       if (Number(questionDetails.answer) - 1 == index) {
-        return 'active'
+        return true
       } else {
-        return 'wrong-answer'
+        return false
       }
     }
-    // console.log(questionDetails['options'][Number(questionDetails.answer) - 1])
-    // if (i !== -1) {
-    //   if (questionDetails['options'][Number(questionDetails.answer) - 1] == answer) {
-    //     return 'active'
-    //   } else {
-    //     return 'wrong-anwer'
-    //   }
-    // }
   }
 
   return (
@@ -153,7 +145,7 @@ export default function Question() {
                         {/* {answer}
                       <br /> */}
                         {answerDetails &&
-                        questionDetails?.options.findIndex((item) => item === answerDetails) + 1 !=
+                        questionDetails?.options?.findIndex((item) => item === answerDetails) + 1 !=
                           questionDetails?.answer ? (
                           <h4 className='text-center  my-3'>
                             Oops you missed the chance this time, play again
@@ -178,8 +170,18 @@ export default function Question() {
                               {/* {answer} */}
 
                               <div
-                                className={clsx('answer-div ', checkIfAnswerIsCorrect(i))}
+                                className={clsx(
+                                  'answer-div ',
+                                  answerDetails ? (checkIfAnswerIsCorrect(i) ? 'active' : '') : ''
+                                )}
                                 onClick={() => selectAnswer(item, i)}
+                                style={{
+                                  backgroundColor:
+                                    answerDetails == item && !isAnswerCorrect ? 'red' : '',
+                                  color: answerDetails == item && !isAnswerCorrect ? 'white' : '',
+                                  fontWeight:
+                                    answerDetails == item && !isAnswerCorrect ? '600' : '',
+                                }}
                                 // style={{
                                 //   backgroundColor:
                                 //     (answer === 0 && Number(questionDetails.answer) == i) ||

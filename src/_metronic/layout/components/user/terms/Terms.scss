@@ -91,9 +91,14 @@
         padding: 50px 0 0 0;
         transform: translate(0%, 0);
         left: auto;
-        top: -20%;
+        top: -80%;
         min-height: 480px;
         margin: 0 auto;
+    }
+
+    .terms-and-conditions {
+        position: relative;
+        height: 100%;
     }
 
 }
@@ -109,7 +114,7 @@
         padding: 50px 0 0 0;
         transform: translate(0%, 0);
         left: auto;
-        top: -40%;
+        top: -80%;
         min-height: 480px;
         margin: 0 auto;
     }

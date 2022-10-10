@@ -324,7 +324,7 @@ const NewCampaign: React.FC<Props> = () => {
   return (
     <Formik
       initialValues={initialData}
-      enableReinitialize
+      enableReinitialize={id ? true : false}
       validationSchema={validationSchema}
       onSubmit={async (values, {setSubmitting, resetForm}) => {
         console.log('🚀 ~ file: NewCampaign.tsx ~ line 319 ~ onSubmit={ ~ values', values)
@@ -441,6 +441,7 @@ const NewCampaign: React.FC<Props> = () => {
                         name={formFields.COMPANY_NAME}
                         value={values[formFields.COMPANY_NAME]}
                         onChange={handleChange}
+                        disabled={id ? true : false}
                         className={clsx(
                           'form-control ',
                           {'is-invalid': touched.company_name && errors.company_name},
@@ -462,6 +463,7 @@ const NewCampaign: React.FC<Props> = () => {
                         name={formFields.TITLE}
                         onChange={handleChange}
                         value={values[formFields.TITLE]}
+                        disabled={id ? true : false}
                         // {...formik.getFieldProps(formFields.TITLE)}
                         className={clsx(
                           'form-control ',
@@ -482,6 +484,7 @@ const NewCampaign: React.FC<Props> = () => {
                         aria-label='Default select example'
                         placeholder='Spin the Wheel'
                         name={formFields.TYPE}
+                        disabled={id ? true : false}
                         onChange={(e) => {
                           setFieldValue(formFields.TYPE, e.target.value)
                           setFieldValue(
@@ -886,6 +889,7 @@ const NewCampaign: React.FC<Props> = () => {
                                       name={`${formFields.WINNING_VALUES}.${index}.${formFields.LABEL}`}
                                       onChange={handleChange}
                                       value={item[formFields.LABEL]}
+                                      disabled={id ? true : false}
                                     />
                                   </div>
                                   <div className='col-xxl-5 col-xl-5 col-lg-5 col-md-5 col-sm-5 col-6'>
@@ -897,6 +901,7 @@ const NewCampaign: React.FC<Props> = () => {
                                         className='form-control'
                                         value={item[formFields.MAX_PERDAY]}
                                         onChange={handleChange}
+                                        disabled={id ? true : false}
                                       />
                                       <div className='input-group-append'>
                                         <span className='input-group-text' id='basic-addon2'>

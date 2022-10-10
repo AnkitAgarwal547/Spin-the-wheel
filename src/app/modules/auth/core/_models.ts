@@ -53,7 +53,7 @@ export interface UserSocialNetworksModel {
 }
 
 export interface UserModel {
-  id: number
+  _id: number
   username: string
   password: string | undefined
   email: string

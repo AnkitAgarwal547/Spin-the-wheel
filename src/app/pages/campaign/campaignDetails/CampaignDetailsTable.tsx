@@ -276,7 +276,7 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
                   <th className='max-w-100px'>MOBILE</th>
                   {/* <th className='min-w-100px text-center'>TOTAL USER ATTEMTS</th>
                 <th className='min-w-100px'>GIFT</th> */}
-                  <th className='min-w-100px text-center'>Comment</th>
+                  <th className='min-w-100px text-center'>Pincode</th>
                 </tr>
               </thead>
               <tbody>

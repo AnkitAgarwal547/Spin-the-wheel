@@ -5,6 +5,7 @@ import {useAppSelector} from '../../../../app/redux/hooks/hooks'
 import {getToken, updateCount} from '../../../../app/modules/auth/core/_requests'
 import {TRIGGER_PRIZE_INDEX} from '../../../../app/redux/actions/actionTypes'
 import {useDispatch} from 'react-redux'
+import {useAuth} from '../../../../app/modules/auth'
 
 export default function ScratchCardWrapper({image}) {
   const {campaignDetails, prizeIndex} = useAppSelector((state) => state.userReducer)
@@ -15,6 +16,7 @@ export default function ScratchCardWrapper({image}) {
 
   console.log('🚀 ~ file: ScratchCard.tsx ~ line 6 ~ ScratchCardWrapper ~ image', image)
   const ref = useRef<ScratchCard>(null)
+  const {currentUser} = useAuth()
 
   useEffect(() => {
     ref.current && ref.current.reset()
@@ -27,7 +29,7 @@ export default function ScratchCardWrapper({image}) {
     onComplete: () => {
       const payload = {
         action: 'UPDATE_USER_PLAYEDGAME',
-        user_id: campaignDetails?._id,
+        user_id: currentUser?._id,
         access_token: getToken(),
       }
       updateCount(campaignDetails?._id, payload)
