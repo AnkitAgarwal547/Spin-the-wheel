@@ -166,19 +166,19 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.DIFFICULTY]: Yup.string().required(),
     [formFields.START_DATE]: yup.string().required(),
     [formFields.END_DATE]: Yup.string().required(),
-    [formFields.LOGO]: Yup.string().required(),
+    [formFields.LOGO]: Yup.string(),
     [formFields.BANNER1]: Yup.string(),
     [formFields.BANNER2]: Yup.string(),
     [formFields.WHEEL_BACKGROUNDCOLOR]: Yup.string(),
     [formFields.TITLE]: Yup.string().required(),
     [formFields.TYPE]: Yup.string().required(),
     [formFields.TERMS]: Yup.string().required(),
-    [formFields.MAX_PLAY_USER]: Yup.number().min(1).required(),
+    [formFields.MAX_PLAY_USER]: Yup.string().required(),
     [formFields.TEMPLATE_TYPE]: Yup.string().required(),
     [formFields.FONT_COLOR]: Yup.string(),
     [formFields.WINNING_VALUES]: Yup.array().of(
       Yup.object().shape({
-        [formFields.MAX_PERDAY]: Yup.number().min(1).required(),
+        [formFields.MAX_PERDAY]: Yup.string().required(),
         [formFields.LABEL]: Yup.string().required(),
       })
     ),
@@ -194,6 +194,7 @@ const NewCampaign: React.FC<Props> = () => {
   const [banner1, setBanner1] = useState(initialValueOfImages)
   const [banner2, setBanner2] = useState(initialValueOfImages)
   const [initialData, setInitialData] = useState(initialValues)
+  console.log('🚀 ~ file: NewCampaign.tsx ~ line 197 ~ initialData', initialData)
 
   const getWinningValuesLabel = (values) => {
     return values.map((a) => a.label)
@@ -219,6 +220,7 @@ const NewCampaign: React.FC<Props> = () => {
   }
 
   const [url, setUrl] = useState('')
+  var numberRegex = /^\d+$/
 
   const resetImages = () => {
     setUrl('')
@@ -283,6 +285,7 @@ const NewCampaign: React.FC<Props> = () => {
   const patchForm = () => {
     let obj: any = location.state
     let winningValues = obj[formFields.WINNING_VALUES]
+    console.log('patch')
 
     winningValues.map((item) => {
       delete item.day_count
@@ -321,6 +324,8 @@ const NewCampaign: React.FC<Props> = () => {
     }
   }, [])
 
+  const numberRegEx = /\-?\d*\.?\d{1,2}/
+
   return (
     <Formik
       initialValues={initialData}
@@ -335,10 +340,14 @@ const NewCampaign: React.FC<Props> = () => {
         payload['end_date'] = moment(values['end_date']).format(format)
         payload['prop_color'] = [values['prop_color']]
         if (
-          new Date(values[formFields.END_DATE]).getTime() >
-          new Date(values[formFields.START_DATE]).getTime()
+          (new Date(values[formFields.END_DATE]).getTime() >
+            new Date(values[formFields.START_DATE]).getTime() &&
+            logoOfCampaign.path &&
+            logoBinary) ||
+          values.logo_url
         ) {
           setIsLoading(true)
+          console.log(logoOfCampaign.path && logoBinary)
 
           axios
             .all([
@@ -420,7 +429,7 @@ const NewCampaign: React.FC<Props> = () => {
         isSubmitting,
         initialErrors,
       }) => {
-        console.log('🚀 ~ file: NewCampaign.tsx ~ line 423 ~ onSubmit={ ~ values', values)
+        console.log('🚀 ~ file: NewCampaign.tsx ~ line 423 ~ onSubmit={ ~ values', touched, errors)
         return (
           <form>
             <div>
@@ -512,9 +521,24 @@ const NewCampaign: React.FC<Props> = () => {
                         Number of Selection per user per day<sup className='text-danger'>*</sup>
                       </label>
                       <input
-                        type='number'
+                        type='text'
                         name={formFields.MAX_PLAY_USER}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          console.log(e.target.value, numberRegex.test(e.target.value))
+
+                          if (e.target.value) {
+                            if (numberRegex.test(e.target.value)) {
+                              setFieldValue(formFields.MAX_PLAY_USER, e.target.value)
+                            } else {
+                              setFieldValue(
+                                formFields.MAX_PLAY_USER,
+                                values[formFields.MAX_PLAY_USER]
+                              )
+                            }
+                          } else {
+                            setFieldValue(formFields.MAX_PLAY_USER, '')
+                          }
+                        }}
                         value={values[formFields.MAX_PLAY_USER]}
                         disabled={id ? true : false}
                         className={clsx(
@@ -634,7 +658,11 @@ const NewCampaign: React.FC<Props> = () => {
                             <img
                               alt='logo'
                               className='logo'
-                              src={values.logo_url ? values.logo_url : logoOfCampaign.path}
+                              src={
+                                values.logo_url && !logoOfCampaign.path
+                                  ? values.logo_url
+                                  : logoOfCampaign.path
+                              }
                             />
                           ) : (
                             <img
@@ -747,16 +775,22 @@ const NewCampaign: React.FC<Props> = () => {
                         <FileUpload
                           fileData={logoOfCampaign}
                           setFileData={setLogoOfCampaign}
-                          showError={touched.logo_url && errors.logo_url}
+                          showError={
+                            touched.logo_url &&
+                            ((!id && !logoOfCampaign.path) ||
+                              (id && !logoOfCampaign.path && !values.logo_url))
+                          }
                           setBinaryData={setLogoBinary}
                           setFieldValue={(file) => {
                             setFieldValue(formFields.LOGO, file)
                           }}
                           fieldValue={values.logo_url}
                         />
-                        {touched.logo_url && errors.logo_url && (
-                          <p className='text-danger'>Please select logo</p>
-                        )}
+                        {touched.logo_url &&
+                          ((!id && !logoOfCampaign.path) ||
+                            (id && !logoOfCampaign.path && !values.logo_url)) && (
+                            <p className='text-danger'>Please select logo</p>
+                          )}
                       </div>
                       <div className='col-xxl-3 offset-xxl-1 col-lg-4 col-md-4 col-sm-4 col-4'>
                         <div className='form-label fw-bold mb-5'>Banner 1</div>
@@ -896,12 +930,45 @@ const NewCampaign: React.FC<Props> = () => {
                                     <div className='input-group mb-3'>
                                       <input
                                         min={1}
-                                        type='number'
+                                        type='text'
                                         name={`${formFields.WINNING_VALUES}.${index}.${formFields.MAX_PERDAY}`}
                                         className='form-control'
                                         value={item[formFields.MAX_PERDAY]}
-                                        onChange={handleChange}
+                                        // onChange={handleChange}
                                         disabled={id ? true : false}
+                                        onChange={(e) => {
+                                          console.log(
+                                            e.target.value,
+                                            numberRegex.test(e.target.value)
+                                          )
+                                          if (e.target.value) {
+                                            if (numberRegex.test(e.target.value)) {
+                                              setFieldValue(
+                                                `${formFields.WINNING_VALUES}.${index}.${formFields.MAX_PERDAY}`,
+                                                e.target.value
+                                              )
+                                            } else {
+                                              setFieldValue(
+                                                `${formFields.WINNING_VALUES}.${index}.${formFields.MAX_PERDAY}`,
+                                                item[formFields.MAX_PERDAY]
+                                              )
+                                            }
+                                          } else {
+                                            setFieldValue(
+                                              `${formFields.WINNING_VALUES}.${index}.${formFields.MAX_PERDAY}`,
+                                              ''
+                                            )
+                                          }
+                                        }}
+                                        //              className={clsx(
+                                        //   'form-control ',
+                                        //   {
+                                        //     'is-invalid': touched.start_date && errors.start_date,
+                                        //   },
+                                        //   {
+                                        //     'is-valid': touched.start_date && !errors.start_date,
+                                        //   }
+                                        // )}
                                       />
                                       <div className='input-group-append'>
                                         <span className='input-group-text' id='basic-addon2'>

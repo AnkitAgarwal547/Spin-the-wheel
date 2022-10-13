@@ -3,7 +3,7 @@ import Pagination from 'react-bootstrap/Pagination'
 import './Pagination.scss'
 
 export default function PaginationWrappper(props: any) {
-  const {totalPosts, currentPage, setCurrentPage, data = [], postsPerPage} = props
+  const {totalPosts, currentPage, setCurrentPage, data = [], postsPerPage, currentData} = props
 
   const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber)

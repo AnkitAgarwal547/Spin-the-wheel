@@ -25,7 +25,6 @@ export default function VerifyOTP() {
   const search = useLocation().search
   const otpid = new URLSearchParams(search).get('otpid')
   const campaignId = new URLSearchParams(search).get('campaignId')
-  const {currentUser} = useAuth()
   const navigate = useNavigate()
   const {campaignDetails, mobileDetails} = useAppSelector((state) => state.userReducer)
   const {otpDetails} = useAppSelector((state) => state.authReducer)
@@ -45,7 +44,6 @@ export default function VerifyOTP() {
   }, [])
 
   useEffect(() => {
-    console.log('🚀 ~ file: VerifyOTP.tsx ~ line 48 ~ useEffect ~ otpDetails', otpDetails)
     if (!otpDetails) {
       navigate({
         pathname: '/verify-mobile',
@@ -74,10 +72,6 @@ export default function VerifyOTP() {
           setSubmitting(false)
           setLoading(false)
           ToastMessage(auth?.message, 'error')
-          // navigate({
-          //   pathname: '/verify-mobile',
-          //   search: `?campaignId=${campaignId}`,
-          // })
         } else {
           saveAuth(auth.data)
           setToken(auth.data.token)
@@ -88,7 +82,10 @@ export default function VerifyOTP() {
             pathname: '/campaign',
             search: `?id=${campaignId}`,
           })
-          updateCount(campaignId, {action: 'UPDATE_CAMPAIGN_CLICKCOUNT'})
+          updateCount(campaignId, {
+            action: 'UPDATE_CAMPAIGN_CLICKCOUNT',
+            user_id: auth?.data?._id,
+          })
 
           setCurrentUser(auth.data)
         }

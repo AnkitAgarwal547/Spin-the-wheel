@@ -61,3 +61,11 @@ th:last-of-type {
   transform: translate(-50%, -50%);
   position: absolute;
 }
+
+@media (max-width:980px) {
+  .pick-the-box .sub-div .row .position-relative.col-xxl-6.col-xl-6.col-lg-6.col-md-6.col-sm-6 {
+    width: 50% !important;
+    flex: 0 0 auto !important;
+  }
+
+}

@@ -9,12 +9,8 @@ import {useAuth} from '../../../../app/modules/auth'
 
 export default function ScratchCardWrapper({image}) {
   const {campaignDetails, prizeIndex} = useAppSelector((state) => state.userReducer)
-  console.log('🚀 ~ file: ScratchCard.tsx ~ line 11 ~ ScratchCardWrapper ~ prizeIndex', prizeIndex)
   const [reward, setReward] = useState(prizeIndex)
   const dispatch = useDispatch()
-  console.log('🚀 ~ file: ScratchCard.tsx ~ line 10 ~ ScratchCardWrapper ~ reward', reward)
-
-  console.log('🚀 ~ file: ScratchCard.tsx ~ line 6 ~ ScratchCardWrapper ~ image', image)
   const ref = useRef<ScratchCard>(null)
   const {currentUser} = useAuth()
 
@@ -35,10 +31,6 @@ export default function ScratchCardWrapper({image}) {
       updateCount(campaignDetails?._id, payload)
       let selectedItem
       if (!prizeIndex) {
-        console.log(
-          '🚀 ~ file: ScratchCard.tsx ~ line 36 ~ ScratchCardWrapper ~ prizeIndex',
-          prizeIndex
-        )
         selectedItem = Math.floor(Math.random() * campaignDetails?.winning_values.length)
         if (
           campaignDetails.winning_values[selectedItem]['day_count'] >=
@@ -55,25 +47,21 @@ export default function ScratchCardWrapper({image}) {
           action: 'UPDATE_CAMPAIGN_WINNINGVALUE',
           winninglabel_key: campaignDetails.winning_values[selectedItem]['key'],
         })
+
+        dispatch({
+          type: TRIGGER_PRIZE_INDEX,
+          prizeIndex: selectedItem,
+        })
       }
-      dispatch({
-        type: TRIGGER_PRIZE_INDEX,
-        prizeIndex: selectedItem,
-      })
-      console.log(
-        '🚀 ~ file: ScratchCard.tsx ~ line 38 ~ ScratchCardWrapper ~ selectedItem',
-        selectedItem
-      )
-      console.log('The card is now clear!')
     },
   }
 
   return (
     <div className='my'>
-      {prizeIndex === 0 || prizeIndex ? (
+      {prizeIndex === 0 || prizeIndex !== '' ? (
         <div className='scratch-card'>
           <div className='center'>
-            You got "{campaignDetails.winning_values[prizeIndex]?.label}" reward
+            You got "{campaignDetails?.winning_values[prizeIndex]?.label}" reward
           </div>
         </div>
       ) : (

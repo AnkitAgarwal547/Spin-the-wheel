@@ -25,13 +25,10 @@ export default function Question() {
     answerDetails,
     isAnswerCorrect,
   } = useAppSelector((state) => state.userReducer)
-  const {currentUser} = useAuth()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false)
-  // const [answer, setAnswer] = useState()
   const [question, setQuestion] = useState<any>(questionDetails)
-  console.log('isAnswerCorrect', isAnswerCorrect)
 
   useEffect(() => {
     if (campaignDetails?._id && (questionDetails === '' || !questionDetails)) {
@@ -81,19 +78,16 @@ export default function Question() {
 
       let i = questionDetails['options']?.findIndex((el) => el === item)
       if (i !== -1) {
-        if (
-          questionDetails['options'][Number(questionDetails.answer)] !==
-          questionDetails['options'][index]
-        ) {
+        if (Number(questionDetails.answer) !== index + 1) {
           dispatch({
             type: TRIGGER_IS_ANSWER_CORRECT,
-            isAnswerCorrect: true,
+            isAnswerCorrect: false,
           })
           return 'active'
         } else {
           dispatch({
             type: TRIGGER_IS_ANSWER_CORRECT,
-            isAnswerCorrect: false,
+            isAnswerCorrect: true,
           })
           return 'wrong-anwer'
         }
@@ -136,11 +130,23 @@ export default function Question() {
                   </div>
                   <div className='postion-relative'>
                     <div className='sub-div'>
-                      <div className='heading'>Your Special Rewards Has Been Unblocked !</div>
+                      <div className='heading'>
+                        Congratulations you have been rewarded with special Gift Voucher
+                      </div>
                       <div>
                         <h2 className='text-center text-primary my-3'>
-                          {' '}
-                          You got "{campaignDetails?.winning_values[prizeIndex]['label']}" Reward
+                          {campaignDetails?.winning_values[prizeIndex]['key'] ===
+                            'getfreeservice' && 'You got free service'}
+                          {campaignDetails?.winning_values[prizeIndex]['key'].replace(/\D/g, '') &&
+                            'You got ' +
+                              campaignDetails?.winning_values[prizeIndex]['key'].replace(
+                                /\D/g,
+                                ''
+                              ) +
+                              '% off'}
+
+                          {campaignDetails?.winning_values[prizeIndex]['key'] ===
+                            'betterlucknexttime' && 'Oops Please try your luck again'}
                         </h2>
                         {/* {answer}
                       <br /> */}
@@ -160,7 +166,7 @@ export default function Question() {
                       )} */}
                       </div>
 
-                      <p>Answer the question below to continue</p>
+                      <p>Please answer the below question to get the voucher code</p>
                       <div className='question'>{question?.question}</div>
                       <Row className='gx-10'>
                         {question?.options?.map((item, i) => {

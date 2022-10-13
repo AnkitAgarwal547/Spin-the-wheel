@@ -15,11 +15,9 @@ export default function FileUpload({
   setFieldValue,
   fieldValue,
 }) {
-  console.log('🚀 ~ file: FileUpload.tsx ~ line 10 ~ FileUpload ~ fieldValue', fieldValue)
   const inputRef = useRef<HTMLInputElement>(null)
   const {id} = useParams()
 
-  const reader = new FileReader()
 
   const handleClick = () => {
     if (inputRef.current) {
@@ -41,7 +39,9 @@ export default function FileUpload({
   const handleFileChange = async (event: any) => {
     const fileObj = event.target.files && event.target.files[0]
     let file = event.target.files[0]
+    // if (!id) {
     // setFieldValue(file)
+    // }
 
     let binary = await getBinaryFromFile(file)
 
@@ -57,11 +57,11 @@ export default function FileUpload({
           .then((res) => res.blob())
           .then((blob) => {
             setBinaryData(blob)
-            getUploadUrl(payload).then((response) => {
-              uploadFile(response.data.data.aws_signed_url, blob).then((resp) => {
-                setFieldValue(response.data.data.aws_signed_url.split('?')[0])
-              })
-            })
+            // getUploadUrl(payload).then((response) => {
+            //   uploadFile(response.data.data.aws_signed_url, blob).then((resp) => {
+            //     setFieldValue(response.data.data.aws_signed_url.split('?')[0])
+            //   })
+            // })
           })
       })
       .catch((err) => {

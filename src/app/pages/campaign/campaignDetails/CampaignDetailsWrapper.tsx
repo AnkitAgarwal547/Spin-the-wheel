@@ -4,6 +4,7 @@ import {CSVLink} from 'react-csv'
 import {useLocation, useParams} from 'react-router'
 import {
   generateWinner,
+  getCampaignClickedUsers,
   getCampaignUsers,
   getRequest,
   getTotalUsers,
@@ -12,6 +13,7 @@ import Loader from '../../../shared/Loader'
 import {CampaignDetailsTable} from './CampaignDetailsTable'
 import './CampaignDetailsWrapper.scss'
 import {useAppSelector} from '../../../redux/hooks/hooks'
+import moment from 'moment'
 
 type Props = {
   className?: string
@@ -28,6 +30,7 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
   const [details, setDetails] = useState<any>()
   const [error, setError] = useState(false)
   const location: any = useLocation()
+  const [userWithClicks, setUsersWithClicks] = useState([])
 
   const {id} = useParams()
 
@@ -44,6 +47,14 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
           setIsLoadingDetails(false)
           setError(true)
         })
+
+      getCampaignClickedUsers(id).then((resp) => {
+        setUsersWithClicks(resp?.data?.data)
+        console.log(
+          '🚀 ~ file: CampaignDetailsWrapper.tsx ~ line 52 ~ getCampaignClickedUsers ~ resp?.data?.data',
+          resp?.data?.data
+        )
+      })
     }
   }, [id])
 
@@ -127,7 +138,7 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
                       disabled={isBumperWinnerLoading}
                     >
                       <span className='indicator-progress' style={{display: 'block'}}>
-                        Generate Bumpur Winner
+                        Generate Bumper Winner
                         {isBumperWinnerLoading && (
                           <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
                         )}
@@ -135,7 +146,7 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
                     </button>
                   )}
                 </div>
-                {userList?.length !== 0 && (
+                {/* {userList?.length !== 0 && (
                   <div className='d-flex flex-wrap my-2'>
                     <CSVLink
                       data={userList}
@@ -146,18 +157,42 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
                       Export
                     </CSVLink>
                   </div>
-                )}
+                )} */}
               </div>
               <div>
                 <div className='d-flex flex-wrap  mb-6 border px-4 pt-3 pb-1 campaign-details-sub-header'>
                   <div className='px-4'>
                     <div className='label'>Total Clicks On The Campaign</div>
-                    <div className='value'>{details?.click_count || 0}</div>
+                    <div className='value text-dark'>
+                      {' '}
+                      <CSVLink
+                        className='text-dark'
+                        data={userWithClicks}
+                        filename={`CampaignTotalClicksDetails${moment
+                          .utc()
+                          .format('DD-MM-YY')}.csv`}
+                        target='_blank'
+                      >
+                        {details?.click_count || 0}
+                      </CSVLink>
+                    </div>
                   </div>
                   <div className='vr'></div>
                   <div className='px-4'>
                     <div className='label'>Total Attempts On The Campaign</div>
-                    <div className='value'>{details?.attempt_count || 0}</div>
+                    <div className='value'>
+                      {' '}
+                      <CSVLink
+                        className='text-dark'
+                        data={userList}
+                        filename={`CampaignTotalAttemptsDetails${moment
+                          .utc()
+                          .format('DD-MM-YY')}.csv`}
+                        target='_blank'
+                      >
+                        {details?.attempt_count || 0}
+                      </CSVLink>
+                    </div>
                   </div>
                   {bumperWinnerDetails && (
                     <>
@@ -171,9 +206,7 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
                       <div className='vr'></div>
                       <div className='px-4'>
                         <div className='label'>Avg Shortest Time Taken</div>
-                        <div className='value'>
-                          {(bumperWinnerDetails?.avg_timetaken % 60000) / 1000} Sec
-                        </div>
+                        <div className='value'>{bumperWinnerDetails?.avg_timetaken} Sec</div>
                       </div>
                     </>
                   )}

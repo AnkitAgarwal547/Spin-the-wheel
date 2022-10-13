@@ -21,7 +21,7 @@ const initialState = {
   startTime: null,
   endTime: null,
   mobileDetails: '',
-  prizeIndex: '',
+  prizeIndex: null,
   isAnswerCorrect: false,
   selectedBoxIndex: '',
 }

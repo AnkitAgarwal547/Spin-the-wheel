@@ -292,13 +292,13 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                             >
                               View
                             </Link>
-                            <button
+                            {/* <button
                               type='button'
                               className='btn edit-questionnaire'
                               onClick={() => deleteCampaign(item._id)}
                             >
                               <KTSVG className='svg-icon-2 mr-0' path='/media/icons/delete.svg' />
-                            </button>
+                            </button> */}
                           </div>
                         </td>
                       </tr>

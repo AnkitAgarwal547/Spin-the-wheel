@@ -25,7 +25,7 @@ export function useReset() {
 
     dispatch({
       type: TRIGGER_PRIZE_INDEX,
-      prizeIndex: '',
+      prizeIndex: null,
     })
     dispatch({
       type: TRIGGER_OTP,

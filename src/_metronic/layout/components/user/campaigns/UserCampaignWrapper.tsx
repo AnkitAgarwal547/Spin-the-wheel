@@ -30,10 +30,6 @@ export default function UserCampaignWrapper() {
   const search = useLocation().search
   const id = new URLSearchParams(search).get('id')
   const {campaignDetails, prizeIndex} = useAppSelector((state) => state.userReducer)
-  console.log(
-    '🚀 ~ file: UserCampaignWrapper.tsx ~ line 32 ~ UserCampaignWrapper ~ prizeIndex',
-    prizeIndex
-  )
   const [loading, setLoading] = useState(false)
   const {currentUser} = useAuth()
 
@@ -44,17 +40,15 @@ export default function UserCampaignWrapper() {
   const [modal, showModal] = useState(false)
   const [prizePopup, setPrizePopup] = useState(prizeIndex || prizeIndex === 0 ? true : false)
   const [handleReset] = useReset()
-  console.log(
-    '🚀 ~ file: UserCampaignWrapper.tsx ~ line 50 ~ checkIfAlreadyPlayed ~ currentUser',
-    currentUser
-  )
+  document.title =
+    campaignDetails.type === typeOfCampaigns.SCRATCH_THE_CARD
+      ? 'Scratch and win'
+      : campaignDetails.type === typeOfCampaigns.SPIN_THE_WHEEL
+      ? 'Spin the Wheel'
+      : 'Choose the Box'
 
   const checkIfAlreadyPlayed = () => {
     let index = currentUser?.['play_count'].findIndex((item) => item.campaign_id === id)
-    console.log(
-      '🚀 ~ file: UserCampaignWrapper.tsx ~ line 54 ~ checkIfAlreadyPlayed ~ index',
-      index
-    )
     if (index !== -1) {
       if (currentUser?.['play_count'][index]['campaign_id'] === id) {
         if (
@@ -90,7 +84,6 @@ export default function UserCampaignWrapper() {
   }, [])
 
   const navigateToUserDetailsForm = () => {
-    console.log(prizeIndex, 'reward')
     if (prizeIndex || prizeIndex === 0) {
       navigate('/question')
       dispatch({
@@ -127,13 +120,10 @@ export default function UserCampaignWrapper() {
   }, [])
 
   const setPrizeDetails = (reward) => {
-    console.log('🚀 ~ file: UserCampaignWrapper.tsx ~ line 108 ~ setPrizeDetails ~ reward', reward)
     dispatch({
       type: TRIGGER_PRIZE_INDEX,
       prizeIndex: reward,
     })
-    // setReward(reward)
-    // setPrizePopup(true)
   }
 
   return (

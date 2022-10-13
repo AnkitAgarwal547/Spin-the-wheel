@@ -22,10 +22,6 @@ export default function UserDetails() {
     endTime,
     mobileDetails,
   } = useAppSelector((state) => state.userReducer)
-  console.log(
-    '🚀 ~ file: UserDetails.tsx ~ line 17 ~ UserDetails ~ questionDetails',
-    questionDetails
-  )
 
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
@@ -63,13 +59,11 @@ export default function UserDetails() {
     comments: '',
     email: '',
   }
-  console.log('🚀 ~ file: UserDetails.tsx ~ line 56 ~ UserDetails ~ mobileDetails', mobileDetails)
 
   const formik = useFormik({
     initialValues,
     validationSchema: schema,
     onSubmit: async (values, {setStatus, setSubmitting}) => {
-      console.log('answerDetails', answerDetails)
       const payload = {
         ques_id: questionDetails?._id,
         answer_selected: questionDetails?.options.findIndex((item) => item === answerDetails) + 1,
@@ -89,7 +83,6 @@ export default function UserDetails() {
         answer_timetaken: Math.abs(endTime - startTime),
       }
 
-      console.log('payload', payload)
       setLoading(true)
       try {
         const {data} = await submitAnswer(payload, campaignDetails._id)

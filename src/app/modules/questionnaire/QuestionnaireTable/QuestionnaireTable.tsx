@@ -53,101 +53,6 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
   //   },
   // ]
 
-  const dummyData = [
-    {
-      id: 1,
-      question: 'Lorem Ipsum',
-      option1: 'lorem',
-      option2: 'ipsum',
-      difficultyLevel: 'easy',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-    },
-    {
-      id: 2,
-      question: 'Lorem Ipsum',
-      option1: 'lorem',
-      option2: 'ipsum',
-      difficultyLevel: 'difficult',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-    },
-    {
-      id: 3,
-      question: 'Lorem Ipsum',
-      option1: 'lorem',
-      option2: 'ipsum',
-      difficultyLevel: 'medium',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-      userClicks: 10,
-      totalAttempts: 10,
-    },
-    {
-      id: 4,
-      question: 'Lorem Ipsum',
-      option1: 'lorem',
-      option2: 'ipsum',
-      difficultyLevel: 'easy',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-    },
-    {
-      id: 5,
-      question: 'Lorem Ipsum',
-      option1: 'lorem',
-      option2: 'ipsum',
-      difficultyLevel: 'easy',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-    },
-    {
-      id: 5,
-      question: 'Lorem Ipsum',
-      option1: 'lorem',
-      option2: 'ipsum',
-      difficultyLevel: 'easy',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-    },
-
-    {
-      id: 5,
-      question: 'Lorem Ipsum',
-      option1: 'lorem',
-      option2: 'ipsum',
-      difficultyLevel: 'easy',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-    },
-
-    {
-      id: 5,
-      question: 'Lorem Ipsum',
-      option1: 'lorem',
-      option2: 'ipsum',
-      difficultyLevel: 'easy',
-      type: 'Spin The Wheel',
-      url: 'https://getbootstra',
-      qrCode:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png',
-    },
-  ]
-
   const [posts, setPosts] = useState<any[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
@@ -162,7 +67,6 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
   const [error, setError] = useState(false)
   const [currentData, setCurrentData] = useState(currrentQuestionnaireList)
   const dispatch = useDispatch()
-
   const loginSchema = Yup.object().shape({
     question: Yup.string().required('Question is required'),
     type: Yup.string().required('Type is required'),
@@ -629,7 +533,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                 </tbody>
               </table>
             </form>
-            {posts.length > postsPerPage && searchKey && (
+            {posts.length > postsPerPage && !searchKey && (
               <PaginationWrappper
                 postsPerPage={postsPerPage}
                 totalPosts={posts.length}

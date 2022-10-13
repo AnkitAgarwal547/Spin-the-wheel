@@ -161,8 +161,13 @@ export async function getCampaignUsers(id) {
 }
 
 
+
+export async function getCampaignClickedUsers(id) {
+  return axios.get(GET_CAMPAIGNS_USERS + '/campaigns/' + id + '/users?clicks=1', header)
+}
+
 export async function generateWinner(id) {
-  return axios.patch(GET_CAMPAIGNS_USERS + '/campaigns/' + id + '/generate-winner', header)
+  return axios.patch(GET_CAMPAIGNS_USERS + '/campaigns/' + id + '/generate-winner')
 }
 
 

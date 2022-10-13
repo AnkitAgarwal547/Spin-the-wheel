@@ -36,8 +36,8 @@ export default class SpinTheWheel extends Component<any, any> {
 
   selectItem() {
     let selectedItem
-    console.log('this.props.prizeIndex ', this.props.prizeIndex)
-    if (this.state.selectedItem === null && !this.props.prizeIndex && this.props.prizeIndex !== 0) {
+
+    if (!this.state.selectedItem && !this.props.prizeIndex && this.props.prizeIndex !== 0) {
       const payload = {
         action: 'UPDATE_USER_PLAYEDGAME',
         user_id: this?.props.userDetails?._id,
@@ -54,10 +54,6 @@ export default class SpinTheWheel extends Component<any, any> {
           (item) => item['day_count'] <= item['max_perday']
         )
         selectedItem = index
-        console.log(
-          '🚀 ~ file: SpinTheWheel.tsx ~ line 57 ~ SpinTheWheel ~ selectItem ~ index',
-          index
-        )
       }
 
       if (this.props.onSelectItem) {
@@ -65,25 +61,18 @@ export default class SpinTheWheel extends Component<any, any> {
       }
 
       this.setState({selectedItem})
-      console.log(
-        '🚀 ~ file: SpinTheWheel.tsx ~ line 64 ~ SpinTheWheel ~ selectItem ~ selectedItem',
-        selectedItem
-      )
     } else {
-      // this.setState({selectedItem: null})
-      // setTimeout(this.selectItem, 500)
       ToastMessage('You have already played', 'error')
     }
 
     setTimeout(() => {
-      if (selectedItem) {
+      if (selectedItem || selectedItem === 0) {
         this.props.setReward(selectedItem)
         updateCount(this?.props.details?._id, {
           action: 'UPDATE_CAMPAIGN_WINNINGVALUE',
           winninglabel_key: this.props.details.winning_values[selectedItem]['key'],
         })
       }
-      // alert('test')
     }, 4000)
   }
   h1Styles: CSS.Properties = {
@@ -105,10 +94,6 @@ export default class SpinTheWheel extends Component<any, any> {
       backgroundColor: details?.prop_color,
       borderColor: details?.prop_color,
     }
-    console.log(
-      '🚀 ~ file: SpinTheWheel.tsx ~ line 100 ~ SpinTheWheel ~ render ~ details?.prop_color',
-      details?.prop_color
-    )
 
     const spinning = this.state.selectedItem !== null ? 'spinning' : ''
 

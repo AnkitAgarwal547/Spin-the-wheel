@@ -12,3 +12,15 @@
 // Layout
 @import "./core/layout/base";
 @import "layout/layout";
+
+@media (max-width:980px) {
+
+    div#root {
+        height: 100% !important;
+    }
+
+    .user-details {
+        height: 100%;
+
+    }
+}

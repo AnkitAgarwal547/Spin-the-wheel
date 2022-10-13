@@ -16,12 +16,7 @@ export default function PickTheBox() {
   const {campaignDetails, prizeIndex, selectedBoxIndex} = useAppSelector(
     (state) => state.userReducer
   )
-  console.log(
-    '🚀 ~ file: PickTheBox.tsx ~ line 12 ~ PickTheBox ~ selectedBoxIndex',
-    selectedBoxIndex
-  )
-  console.log('🚀 ~ file: PickTheBox.tsx ~ line 12 ~ PickTheBox ~ prizeIndex', prizeIndex)
-  console.log('🚀 ~ file: PickTheBox.tsx ~ line 10 ~ PickTheBox ~ campaignDetails', campaignDetails)
+
   const dispatch = useDispatch()
   const {currentUser} = useAuth()
 
@@ -43,7 +38,6 @@ export default function PickTheBox() {
 
   const [reward, setReward] = useState(prizeIndex)
   const selectReward = (index) => {
-    console.log('🚀 ~ file: PickTheBox.tsx ~ line 53 ~ selectReward ~ prizeIndex', prizeIndex)
     const payload = {
       action: 'UPDATE_USER_PLAYEDGAME',
       user_id: currentUser?._id,
@@ -52,10 +46,6 @@ export default function PickTheBox() {
     updateCount(campaignDetails?._id, payload)
     let selectedItem
     if (!prizeIndex) {
-      console.log(
-        '🚀 ~ file: ScratchCard.tsx ~ line 36 ~ ScratchCardWrapper ~ prizeIndex',
-        prizeIndex
-      )
       selectedItem = Math.floor(Math.random() * campaignDetails?.winning_values.length)
       if (
         campaignDetails.winning_values[selectedItem]['day_count'] >=
@@ -105,24 +95,30 @@ export default function PickTheBox() {
                   }
                 )}
               >
-                {selectedBoxIndex === i && (prizeIndex || prizeIndex === 0) ? (
-                  <div className='center text-light'>
-                    <small>
-                      You got "
-                      {(prizeIndex || prizeIndex === 0) &&
-                        campaignDetails['winning_values'][prizeIndex]['label']}
-                      " reward
-                    </small>
-                  </div>
-                ) : (
+                <div className='position-relative'>
                   <img
+                    style={{
+                      opacity:
+                        selectedBoxIndex === i && (prizeIndex || prizeIndex === 0) ? '0.2' : '',
+                    }}
                     className='p-3 cursor-pointer'
                     src={item.img}
                     onClick={() => {
                       selectReward(i)
                     }}
                   ></img>
-                )}
+                  {selectedBoxIndex === i && (prizeIndex || prizeIndex === 0) && (
+                    <div className='center text-light fadeIn' style={{fontWeight: 600}}>
+                      <small>
+                        You got "
+                        {(prizeIndex || prizeIndex === 0) &&
+                          campaignDetails['winning_values'][prizeIndex]['label']}
+                        " reward
+                      </small>
+                    </div>
+                  )}
+                </div>
+                {/* )} */}
               </Col>
             )
           })}
