@@ -13,6 +13,7 @@ import {AuthModel, UserModel} from './_models'
 import * as authHelper from './AuthHelpers'
 import {getUserByToken, getUserType, removeToken, removeUserType, setToken} from './_requests'
 import {WithChildren} from '../../../../_metronic/helpers'
+import {useReset} from '../../../shared/hooks/useReset'
 
 type AuthContextProps = {
   auth: undefined
@@ -39,6 +40,7 @@ const useAuth = () => {
 const AuthProvider: FC<WithChildren> = ({children}) => {
   const [auth, setAuth] = useState(authHelper.getAuth())
   const [currentUser, setCurrentUser] = useState<UserModel | undefined>()
+  const [handleReset] = useReset()
 
   const saveAuth = (auth: undefined) => {
     setAuth(auth)
@@ -51,10 +53,11 @@ const AuthProvider: FC<WithChildren> = ({children}) => {
 
   const logout = () => {
     const userType = getUserType()
-      saveAuth(undefined)
-      setCurrentUser(undefined)
-      removeToken()
-      removeUserType()
+    saveAuth(undefined)
+    setCurrentUser(undefined)
+    removeToken()
+    removeUserType()
+    handleReset()
   }
 
   return (

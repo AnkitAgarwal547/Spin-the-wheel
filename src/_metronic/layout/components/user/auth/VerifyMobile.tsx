@@ -24,15 +24,21 @@ import {
 import {useAuth} from '../../../../../app/modules/auth'
 import {Col, Modal, Row} from 'react-bootstrap'
 import {typeOfCampaigns} from '../../../../../app/modules/campaign/CampaignTable'
+import moment from 'moment'
 
 export default function VerifyMobile() {
   const [loading, setLoading] = useState(false)
   const search = useLocation().search
   const campaignId = new URLSearchParams(search).get('campaignId')
   const {campaignDetails} = useAppSelector((state) => state.userReducer)
+  console.log(
+    '🚀 ~ file: VerifyMobile.tsx ~ line 34 ~ VerifyMobile ~ campaignDetails',
+    campaignDetails
+  )
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const {currentUser} = useAuth()
+  const [campaignStatus, setCampaignStatus] = useState(false)
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
@@ -88,17 +94,20 @@ export default function VerifyMobile() {
     })
   }, [])
 
-  useEffect(() => {
-    console.log(
-      '🚀 ~ file: VerifyMobile.tsx ~ line 80 ~ VerifyMobile ~ campaignDetails',
-      new Date(campaignDetails.end_date).setHours(0, 0),
-      new Date().setHours(0, 0)
-    )
+  function removeTime(date = new Date()) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+  }
 
-    let endDate = new Date(campaignDetails.end_date)
-    console.log('🚀 ~ file: VerifyMobile.tsx ~ line 85 ~ useEffect ~ endDate', endDate)
-    let currentDate = new Date()
-    console.log('🚀 ~ file: VerifyMobile.tsx ~ line 87 ~ useEffect ~ currentDate', currentDate)
+  useEffect(() => {
+    const date1 = new Date(campaignDetails.end_date)
+    const date2 = new Date()
+
+    date1.setHours(0, 0, 0, 0)
+    date2.setHours(0, 0, 0, 0)
+
+    if (campaignDetails !== '' && date1.getTime() < date2.getTime()) {
+      setCampaignStatus(true)
+    }
   }, [campaignDetails])
 
   const formik = useFormik({
@@ -144,10 +153,23 @@ export default function VerifyMobile() {
   })
 
   return (
-    <div className='verify-screens'>
-      <div className='user-details-sub-div '></div>
+    <div
+      className='verify-screens'
+      style={{backgroundImage: `url(${campaignDetails?.frontend_img})`}}
+    >
+      <div
+        className='user-details-sub-div'
+        style={{
+          backgroundImage: !campaignDetails?.frontend_img
+            ? `url(
+              'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/background.png'
+            )`
+            : `url(${campaignDetails?.frontend_img})`,
+        }}
+      ></div>
       <div className='sub-div'>
         <div className='text-center heading'>Mobile Number Verification</div>
+
         <div className='px-10'>
           <form onSubmit={formik.handleSubmit}>
             <Row>
@@ -239,13 +261,7 @@ export default function VerifyMobile() {
       </div>
       <ToastContainer />
 
-      <Modal
-        centered
-        show={
-          campaignDetails && new Date(campaignDetails.end_date).getTime() < new Date().getTime()
-        }
-        onHide={() => {}}
-      >
+      <Modal centered show={campaignStatus} onHide={() => {}}>
         <Modal.Body className='text-center'>
           <h1 className='mb-0'>This campaign has been expired!</h1>
         </Modal.Body>

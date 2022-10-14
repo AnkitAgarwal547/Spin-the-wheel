@@ -22,7 +22,10 @@ import {Formik, useFormik} from 'formik'
 import * as Yup from 'yup'
 import clsx from 'clsx'
 import {ToastMessage} from '../../../shared/ToastMessage'
-import {TRIGGER_SEARCH_KEYWORD} from '../../../redux/actions/actionTypes'
+import {
+  TRIGGER_QUESTIONNAIRE_CURRENT_PAGE,
+  TRIGGER_SEARCH_KEYWORD,
+} from '../../../redux/actions/actionTypes'
 import {useDispatch} from 'react-redux'
 
 type Props = {
@@ -54,7 +57,8 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
   // ]
 
   const [posts, setPosts] = useState<any[]>([])
-  const [currentPage, setCurrentPage] = useState(1)
+  const {questionnaireCurrentPage} = useAppSelector((state) => state.paginationReducer)
+  const [currentPage, setCurrentPage] = useState(questionnaireCurrentPage || 1)
   const [isLoading, setIsLoading] = useState(false)
   const [isLoadingEdit, setIsLoadingEdit] = useState(false)
   const [isLoadingAdd, setIsLoadingAdd] = useState(false)
@@ -66,7 +70,6 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
   const {searchKey} = useAppSelector((state) => state.searchReducer)
   const [error, setError] = useState(false)
   const [currentData, setCurrentData] = useState(currrentQuestionnaireList)
-  // console.log('🚀 ~ file: QuestionnaireTable.tsx ~ line 69 ~ currentData', currentData)
   const dispatch = useDispatch()
   const loginSchema = Yup.object().shape({
     question: Yup.string().required('Question is required'),
@@ -219,6 +222,10 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
         console.log('currentData', currentData)
         if (currentData.length === 1 && currentPage !== 1) {
           setCurrentPage(currentPage - 1)
+          dispatch({
+            type: TRIGGER_QUESTIONNAIRE_CURRENT_PAGE,
+            questionnaireCurrentPage: currentPage,
+          })
         }
         getQuestionnaireList()
       })
@@ -547,6 +554,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                 data={posts}
                 indexOfLastPost={indexOfLastPost}
                 indexOfFirstPost={indexOfFirstPost}
+                type='questionnaire'
               />
             )}
           </div>

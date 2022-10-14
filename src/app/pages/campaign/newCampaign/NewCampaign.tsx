@@ -86,7 +86,14 @@ const NewCampaign: React.FC<Props> = () => {
     binaryData: '',
   })
 
+  const [frontendBackground, setFrontendBackground] = useState({
+    details: {name: ''},
+    path: '',
+    binaryData: '',
+  })
+
   const [campaignBgBinary, setCampaignBgBinary] = useState()
+  const [frontendBgBinary, setFrontendBgBinary] = useState()
   const [logoBinary, setLogoBinary] = useState('')
   console.log('🚀 ~ file: NewCampaign.tsx ~ line 91 ~ logoBinary', logoBinary)
   const [banner1Binary, setBanner1Binary] = useState('')
@@ -115,6 +122,7 @@ const NewCampaign: React.FC<Props> = () => {
     WINNING_VALUES: 'winning_values',
     LABEL: 'label',
     MAX_PERDAY: 'max_perday',
+    FRONTEND_IMG: 'frontend_img',
   }
 
   const initialWinningValues = [
@@ -160,6 +168,7 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.LOGO]: '',
     [formFields.WINNING_VALUES]: initialWinningValues,
     [formFields.WHEEL_BACKGROUNDCOLOR]: '#da3768',
+    [formFields.FRONTEND_IMG]: '',
   }
 
   const validationSchema = Yup.object().shape({
@@ -176,6 +185,7 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.TERMS]: Yup.string().required(),
     [formFields.MAX_PLAY_USER]: Yup.string().required(),
     [formFields.TEMPLATE_TYPE]: Yup.string().required(),
+    [formFields.FRONTEND_IMG]: Yup.string(),
     [formFields.FONT_COLOR]: Yup.string(),
     [formFields.WINNING_VALUES]: Yup.array().of(
       Yup.object().shape({
@@ -253,7 +263,7 @@ const NewCampaign: React.FC<Props> = () => {
     return url.split('?')[0]
   }
 
-  const handleFileChange = (event: any) => {
+  const handleFileChange = (event: any, type) => {
     const fileObj = event.target.files && event.target.files[0]
     let fileExtension = event.target.files[0].name.split('.').pop()
 
@@ -268,18 +278,30 @@ const NewCampaign: React.FC<Props> = () => {
         fetch(result as string)
           .then((res) => res.blob())
           .then((blob) => {
-            setCampaignBgBinary(blob as any)
+            if (type === 'frontendBg') {
+              setFrontendBgBinary(blob as any)
+            } else {
+              setCampaignBgBinary(blob as any)
+            }
           })
       })
       .catch((err) => {
         console.log(err)
       })
 
-    setCampaignBackground({
-      details: event.target.files[0],
-      path: URL.createObjectURL(event.target.files[0]),
-      binaryData: campaignBackground.binaryData,
-    })
+    if (type === 'frontendBg') {
+      setFrontendBackground({
+        details: event.target.files[0],
+        path: URL.createObjectURL(event.target.files[0]),
+        binaryData: frontendBackground.binaryData,
+      })
+    } else {
+      setCampaignBackground({
+        details: event.target.files[0],
+        path: URL.createObjectURL(event.target.files[0]),
+        binaryData: campaignBackground.binaryData,
+      })
+    }
 
     event.target.value = null
   }
@@ -314,6 +336,7 @@ const NewCampaign: React.FC<Props> = () => {
       [formFields.WHEEL_BACKGROUNDCOLOR]: obj[formFields.WHEEL_BACKGROUNDCOLOR]?.length
         ? obj[formFields.WHEEL_BACKGROUNDCOLOR][0]
         : obj[formFields.WHEEL_BACKGROUNDCOLOR],
+      [formFields.FRONTEND_IMG]: obj[formFields.FRONTEND_IMG],
     }
 
     setInitialData(newObj)
@@ -355,6 +378,12 @@ const NewCampaign: React.FC<Props> = () => {
               !campaignBackground.path
                 ? (payload['backimg'] = getThemeStyle(values.template).backgroundImage)
                 : (payload['backimg'] = await getImageUrl(campaignBackground, campaignBgBinary)),
+              !frontendBackground.path
+                ? delete payload['frontend_img']
+                : (payload['frontend_img'] = await getImageUrl(
+                    frontendBackground,
+                    frontendBgBinary
+                  )),
               logoOfCampaign.path &&
                 logoBinary &&
                 (payload['logo_url'] = await getImageUrl(logoOfCampaign, logoBinary)),
@@ -366,51 +395,54 @@ const NewCampaign: React.FC<Props> = () => {
                 (payload['banner2_url'] = await getImageUrl(banner2, banner2Binary)),
             ])
             .then(
-              axios.spread((firstResponse, secondResponse, thirdResponse, forthResponse) => {
-                if (id) {
-                  putCampaign(payload, id)
-                    .then((resp) => {
-                      if (resp) {
-                        ToastMessage('Campaign updated successfully', 'success')
+              axios.spread(
+                (firstResponse, secondResponse, thirdResponse, forthResponse, fifthResponse) => {
+                  if (id) {
+                    if (payload)
+                      putCampaign(payload, id)
+                        .then((resp) => {
+                          if (resp) {
+                            ToastMessage('Campaign updated successfully', 'success')
+                            setIsLoading(false)
+                            resetForm()
+                            resetImages()
+                            setIsSubmitted(false)
+                            navigate('/campaigns')
+                          }
+                        })
+                        .catch((error) => {
+                          if (error?.response?.data?.message) {
+                            ToastMessage(error?.response?.data?.message, 'error')
+                          } else {
+                            ToastMessage('Something went wrong!', 'error')
+                          }
+                          setIsLoading(false)
+                          setIsSubmitted(false)
+                        })
+                  } else {
+                    postCampaign(payload)
+                      .then((resp) => {
+                        if (resp) {
+                          ToastMessage('Campaign updated successfully', 'success')
+                          setIsLoading(false)
+                          resetForm()
+                          resetImages()
+                          setIsSubmitted(false)
+                          navigate('/campaigns')
+                        }
+                      })
+                      .catch((error) => {
+                        if (error?.response?.data?.message) {
+                          ToastMessage(error?.response?.data?.message, 'error')
+                        } else {
+                          ToastMessage('Something went wrong!', 'error')
+                        }
                         setIsLoading(false)
-                        resetForm()
-                        resetImages()
                         setIsSubmitted(false)
-                        navigate('/campaigns')
-                      }
-                    })
-                    .catch((error) => {
-                      if (error?.response?.data?.message) {
-                        ToastMessage(error?.response?.data?.message, 'error')
-                      } else {
-                        ToastMessage('Something went wrong!', 'error')
-                      }
-                      setIsLoading(false)
-                      setIsSubmitted(false)
-                    })
-                } else {
-                  postCampaign(payload)
-                    .then((resp) => {
-                      if (resp) {
-                        ToastMessage('Campaign updated successfully', 'success')
-                        setIsLoading(false)
-                        resetForm()
-                        resetImages()
-                        setIsSubmitted(false)
-                        navigate('/campaigns')
-                      }
-                    })
-                    .catch((error) => {
-                      if (error?.response?.data?.message) {
-                        ToastMessage(error?.response?.data?.message, 'error')
-                      } else {
-                        ToastMessage('Something went wrong!', 'error')
-                      }
-                      setIsLoading(false)
-                      setIsSubmitted(false)
-                    })
+                      })
+                  }
                 }
-              })
+              )
             )
             .catch((error) => {
               ToastMessage('Something went wrong!', 'error')
@@ -827,7 +859,7 @@ const NewCampaign: React.FC<Props> = () => {
                       </div>
                     </div>
                   </div>
-                  <div className='row mt-10'>
+                  <div className='row mt-10 gy-5'>
                     <div className='col-xxl-5 col-xl-6 col-lg-8 col-md-6 col-sm-6 col-12 row align-items-center'>
                       <div className='col-xxl-6 col-xl- col-lg-5 col-md-5 col-sm-5 col-5'>
                         <label className='form-label fw-bold'>Change Background Image</label>
@@ -845,7 +877,7 @@ const NewCampaign: React.FC<Props> = () => {
                               </div>
                               <div>
                                 <i
-                                  className='bi bi-x-lg text-dark fw-600 cursor-pointer'
+                                  className='bi bi-x-lg text-dark fw-600 cursor-pointer cancel-icon'
                                   onClick={() => {
                                     setCampaignBackground({
                                       details: {name: ''},
@@ -862,7 +894,7 @@ const NewCampaign: React.FC<Props> = () => {
                             type='file'
                             accept='image/*'
                             ref={inputRef}
-                            onChange={handleFileChange}
+                            onChange={(e) => handleFileChange(e, 'campaignBg')}
                           />
                         )}
                       </div>
@@ -892,6 +924,95 @@ const NewCampaign: React.FC<Props> = () => {
                           value={values[formFields.WHEEL_BACKGROUNDCOLOR]}
                           onChange={handleChange}
                         />
+                      </div>
+                    </div>
+
+                    <div className='col-xxl-6 col-xl-7 col-lg-8 col-md-6 col-sm-6 col-12 row align-items-center mt-5'>
+                      <div className='col-xxl-6 col-xl- col-lg-5 col-md-5 col-sm-5 col-5'>
+                        <label className='form-label fw-bold'>
+                          Change Frontend Background Image
+                        </label>
+                      </div>
+                      <div className='col-xxl-6 col-xl-4 col-lg-5 col-md-5 col-sm-5 col-5'>
+                        {!frontendBackground?.details?.name &&
+                          !frontendBackground.path &&
+                          !values.frontend_img && (
+                            <input
+                              type='file'
+                              accept='image/*'
+                              ref={inputRef}
+                              onChange={(e) => handleFileChange(e, 'frontendBg')}
+                            />
+                          )}
+
+                        {!frontendBackground?.details?.name &&
+                          !frontendBackground.path &&
+                          id &&
+                          values.frontend_img && (
+                            <div
+                              className='card border py-2 px-0 mt-2'
+                              style={{width: 'fit-content'}}
+                            >
+                              <div className='d-flex justify-content-around align-items-center'>
+                                <div
+                                  className='file-thumbnail'
+                                  style={{
+                                    backgroundImage: `url(${values.frontend_img})`,
+                                  }}
+                                />
+                                <div className='file-name'>
+                                  <small>{values.frontend_img}</small>
+                                </div>
+                                <div>
+                                  <i
+                                    className='bi bi-x-lg text-dark fw-600 cursor-pointer cancel-icon'
+                                    onClick={() => {
+                                      setFrontendBackground({
+                                        details: {name: ''},
+                                        path: '',
+                                        binaryData: '',
+                                      })
+                                      setFieldValue(formFields.FRONTEND_IMG, '')
+                                      console.log('dgha', frontendBackground)
+                                    }}
+                                  ></i>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+
+                        {frontendBackground?.details && frontendBackground.path && (
+                          <div
+                            className='card border py-2 px-0 mt-2'
+                            style={{width: 'fit-content'}}
+                          >
+                            <div className='d-flex justify-content-around align-items-center'>
+                              <div
+                                className='file-thumbnail'
+                                style={{
+                                  backgroundImage: `url(${frontendBackground.path})`,
+                                }}
+                              />
+                              <div className='file-name'>
+                                <small>{frontendBackground?.details?.name}</small>
+                              </div>
+                              <div>
+                                <i
+                                  className='bi bi-x-lg text-dark fw-600 cursor-pointer cancel-icon'
+                                  onClick={() => {
+                                    setFrontendBackground({
+                                      details: {name: ''},
+                                      path: '',
+                                      binaryData: '',
+                                    })
+                                    setFieldValue(formFields.FRONTEND_IMG, '')
+                                    console.log('dgha')
+                                  }}
+                                ></i>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

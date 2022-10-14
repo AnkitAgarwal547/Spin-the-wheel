@@ -104,8 +104,20 @@ export default function UserDetails() {
   }, [])
 
   return (
-    <div className='user-details'>
-      <div className='user-details-sub-div '></div>
+    <div
+      className='user-details'
+      style={{backgroundImage: `url(${campaignDetails?.frontend_img})`}}
+    >
+      <div
+        className='user-details-sub-div '
+        style={{
+          backgroundImage: !campaignDetails?.frontend_img
+            ? `url(
+              'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/background.png'
+            )`
+            : `url(${campaignDetails?.frontend_img})`,
+        }}
+      ></div>
       <div className='sub-div'>
         <div className='text-center heading'>Share your Details to Claim your Prize</div>
         <hr className='mt-1 mb-10' />

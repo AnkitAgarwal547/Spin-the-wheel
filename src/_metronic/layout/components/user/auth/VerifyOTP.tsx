@@ -103,8 +103,20 @@ export default function VerifyOTP() {
           <div className='col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12'></div>
         </div>
       </div>
-      <div className='verify-screens'>
-        <div className='user-details-sub-div '></div>
+      <div
+        className='verify-screens'
+        style={{backgroundImage: `url(${campaignDetails?.frontend_img})`}}
+      >
+        <div
+          className='user-details-sub-div '
+          style={{
+            backgroundImage: !campaignDetails?.frontend_img
+              ? `url(
+              'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/background.png'
+            )`
+              : `url(${campaignDetails?.frontend_img})`,
+          }}
+        ></div>
         <div className='sub-div'>
           <div className='text-center heading'>Enter OTP</div>
           <div className='px-10'>

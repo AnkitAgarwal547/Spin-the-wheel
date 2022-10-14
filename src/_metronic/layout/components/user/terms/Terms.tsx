@@ -31,8 +31,21 @@ export default function Terms() {
   // }, [])
 
   return (
-    <div className='terms-and-conditions'>
-      <div className='user-details-sub-div '></div> {/* <Row className='justify-content-center'> */}
+    <div
+      className='terms-and-conditions'
+      style={{backgroundImage: `url(${campaignDetails?.frontend_img})`}}
+    >
+      <div
+        className='user-details-sub-div '
+        style={{
+          backgroundImage: !campaignDetails?.frontend_img
+            ? `url(
+              'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/background.png'
+            )`
+            : `url(${campaignDetails?.frontend_img})`,
+        }}
+      ></div>{' '}
+      {/* <Row className='justify-content-center'> */}
       {/* <Col sm={8} xxl={8} xl={8} lg={8} className='rounded  p-10'> */}
       <div className='sub-div'>
         <div className='text-center heading'>Thanks for Submitting!</div>

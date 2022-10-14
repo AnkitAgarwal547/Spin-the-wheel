@@ -3,12 +3,15 @@ import {useDispatch} from 'react-redux'
 import {
   TRIGGER_ANSWER_DETAILS,
   TRIGGER_CAMPAIGN_DETAILS,
+  TRIGGER_CAMPAIGN_DETAILS_CURRENT_PAGE,
+  TRIGGER_CAMPAIGN_TABLE_CURRENT_PAGE,
   TRIGGER_END_TIME,
   TRIGGER_IS_ANSWER_CORRECT,
   TRIGGER_MOBILE,
   TRIGGER_OTP,
   TRIGGER_PRIZE_DETAILS,
   TRIGGER_PRIZE_INDEX,
+  TRIGGER_QUESTIONNAIRE_CURRENT_PAGE,
   TRIGGER_QUESTION_DETAILS,
   TRIGGER_SELECTED_BOX_INDEX,
   TRIGGER_START_TIME,
@@ -70,6 +73,21 @@ export function useReset() {
     dispatch({
       type: TRIGGER_SELECTED_BOX_INDEX,
       selectedBoxIndex: '',
+    })
+
+    dispatch({
+      type: TRIGGER_CAMPAIGN_TABLE_CURRENT_PAGE,
+      campaignTableCurrentPage: 1,
+    })
+
+    dispatch({
+      type: TRIGGER_QUESTIONNAIRE_CURRENT_PAGE,
+      questionnaireCurrentPage: 1,
+    })
+
+    dispatch({
+      type: TRIGGER_CAMPAIGN_DETAILS_CURRENT_PAGE,
+      campaignDetailsTableCurrentPage: 1,
     })
   }
 

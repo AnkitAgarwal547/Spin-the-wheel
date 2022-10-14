@@ -10,7 +10,10 @@ import {deleteCampaignRequest, getCampaigns, getRequest} from '../auth/core/_req
 import './CompaignTable.scss'
 import {useAuth} from '../auth'
 import _, {debounce} from 'lodash'
-import {TRIGGER_SEARCH_KEYWORD} from '../../redux/actions/actionTypes'
+import {
+  TRIGGER_CAMPAIGN_DETAILS_CURRENT_PAGE,
+  TRIGGER_SEARCH_KEYWORD,
+} from '../../redux/actions/actionTypes'
 import {useDispatch} from 'react-redux'
 import moment from 'moment'
 
@@ -27,8 +30,9 @@ export const typeOfCampaigns = {
 
 const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
   const {searchKey} = useAppSelector((state) => state.searchReducer)
+  const {campaignTableCurrentPage} = useAppSelector((state) => state.paginationReducer)
   const [campaigns, setCampaigns] = useState<any[]>([])
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(campaignTableCurrentPage || 1)
   const [campaignsPerPage, setCampaignsPerPage] = useState(5)
   const indexOfLastCampaign = currentPage * campaignsPerPage
   const indexOfFirstCampaign = indexOfLastCampaign - campaignsPerPage
@@ -45,98 +49,6 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
       getCampaignList()
     }
   }, [currentUser])
-
-  const columns = [
-    {
-      id: 1,
-      name: 'SR NO.',
-      selector: (row: any) => row.id,
-      maxWidth: '80px',
-      minWidth: '80px',
-      left: true,
-    },
-    {
-      id: 2,
-      name: 'COMPANY NAME',
-      selector: (row: any) => row.companyName,
-      minWidth: '180px',
-    },
-    {
-      id: 3,
-      name: 'COMPAIGN TITLE',
-      selector: (row: any) => row.companyDetails,
-      minWidth: '200px',
-    },
-
-    {
-      id: 4,
-      name: 'TYPE',
-      selector: (row: any) => row.type,
-      left: true,
-      reorder: true,
-      minWidth: '150px',
-    },
-
-    {
-      id: 5,
-      name: 'URL',
-      selector: (row: any) => row.url,
-      cell: (row: any) => (
-        <Link to={row.url} className='text-dark'>
-          {row.url}
-        </Link>
-      ),
-      left: true,
-      reorder: true,
-      maxWidth: '150px',
-    },
-
-    {
-      id: 6,
-      name: 'QR CODE',
-      image: true,
-      grow: 0,
-      cell: (row: any) => <img className='h-40px me-3' alt={row.name} src={row.qrCode} />,
-      center: true,
-      reorder: true,
-      maxWidth: '100px',
-    },
-
-    {
-      id: 7,
-      name: 'USER CLICKS',
-      selector: (row: any) => row.userClicks,
-      center: true,
-      reorder: true,
-      minWidth: '60px',
-    },
-
-    {
-      id: 8,
-      name: 'TOTAL ATTEMPTS',
-      selector: (row: any) => row.totalAttempts,
-      center: true,
-      reorder: true,
-      maxWidth: '170px',
-    },
-
-    {
-      id: 9,
-      name: 'ACTION',
-      maxWidth: '110px',
-      minWidth: '110px',
-      button: true,
-      cell: (row: any) => (
-        <div className='d-flex action-btns w-100 justify-content-between'>
-          <button className='btn btn-sm btn-outline-dark mr-2'>Edit</button>
-
-          <Link to={`/campaign/${row.id}`} className='btn btn-sm btn-dark'>
-            View
-          </Link>
-        </div>
-      ),
-    },
-  ]
 
   const getCampaignList = () => {
     setIsLoading(true)
@@ -267,8 +179,8 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                               style={{width: '100px'}}
                               target='_blank'
                               className='text-primary'
-                              href={`https://fedicoms.net/verify-mobile?campaignId=${item._id}`}
-                            >{`https://fedicoms.net/verify-mobile?campaignId=${item._id}`}</a>
+                              href={`http://localhost:3011/verify-mobile?campaignId=${item._id}`}
+                            >{`http://localhost:3011/verify-mobile?campaignId=${item._id}`}</a>
                           </div>
                         </td>
                         <td className='text-center'>
@@ -290,6 +202,12 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                               to={{pathname: `/campaign-details/${item._id}`}}
                               state={item.title}
                               className='btn btn-sm btn-dark'
+                              onClick={() => {
+                                dispatch({
+                                  type: TRIGGER_CAMPAIGN_DETAILS_CURRENT_PAGE,
+                                  campaignDetailsTableCurrentPage: 1,
+                                })
+                              }}
                             >
                               View
                             </Link>
@@ -322,6 +240,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                 data={campaigns}
                 indexOfLastPost={indexOfLastCampaign}
                 indexOfFirstPost={indexOfFirstCampaign}
+                type='campaignTableDashboard'
               />
             )}
           </div>

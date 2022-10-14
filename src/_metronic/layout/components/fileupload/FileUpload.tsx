@@ -144,7 +144,7 @@ export default function FileUpload({
             </div>
             <div>
               <i
-                className='bi bi-x-lg text-dark fw-600 cursor-pointer'
+                className='bi bi-x-lg text-dark fw-600 cursor-pointer cancel-icon'
                 onClick={() => {
                   removeFile()
                 }}
@@ -164,7 +164,7 @@ export default function FileUpload({
             </div>
             <div>
               <i
-                className='bi bi-x-lg text-dark fw-600 cursor-pointer'
+                className='bi bi-x-lg text-dark fw-600 cursor-pointer cancel-icon'
                 onClick={() => {
                   removeFile()
                 }}

@@ -146,18 +146,6 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
                     </button>
                   )}
                 </div>
-                {/* {userList?.length !== 0 && (
-                  <div className='d-flex flex-wrap my-2'>
-                    <CSVLink
-                      data={userList}
-                      className='btn btn-outline-dark btn-sm rounded-pill'
-                      filename={'CampaignDetails.csv'}
-                      target='_blank'
-                    >
-                      Export
-                    </CSVLink>
-                  </div>
-                )} */}
               </div>
               <div>
                 <div className='d-flex flex-wrap  mb-6 border px-4 pt-3 pb-1 campaign-details-sub-header'>

@@ -6,7 +6,10 @@ import {useParams} from 'react-router'
 import PaginationWrappper from '../../../../_metronic/layout/components/pagination/PaginationWrapper'
 import {useAppSelector} from '../../../redux/hooks/hooks'
 import _, {debounce} from 'lodash'
-import {TRIGGER_SEARCH_KEYWORD} from '../../../redux/actions/actionTypes'
+import {
+  TRIGGER_CAMPAIGN_DETAILS_CURRENT_PAGE,
+  TRIGGER_SEARCH_KEYWORD,
+} from '../../../redux/actions/actionTypes'
 
 type Props = {
   data?: any
@@ -16,105 +19,8 @@ type Props = {
 
 const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
   const {searchKey} = useAppSelector((state) => state.searchReducer)
+  const {campaignDetailsTableCurrentPage} = useAppSelector((state) => state.paginationReducer)
   const {type} = useParams()
-
-  const dummyData = [
-    {
-      id: 1,
-      name: 'John serben',
-      date: '7-8-2022',
-      email: 'abc@gmail.com',
-      mobile: 9821169216,
-      gift: 'Get 5% off',
-      answer: 'correct',
-      totalAttempts: 10,
-    },
-    {
-      id: 2,
-      name: 'John serben',
-      date: '7-8-2022',
-      email: 'abc@gmail.com',
-      mobile: 9821169216,
-      gift: 'Get 50% off',
-      answer: 'correct',
-      totalAttempts: 10,
-    },
-    {
-      id: 3,
-      name: 'John serben',
-      date: '7-8-2022',
-      email: 'abc@gmail.com',
-      mobile: 9821169216,
-      gift: 'Get 50% off',
-      userClicks: 10,
-      totalAttempts: 10,
-      answer: 'Incorrect',
-    },
-    {
-      id: 4,
-      name: 'John serben',
-      date: '7-8-2022',
-      email: 'abc@gmail.com',
-      mobile: 9821169216,
-      gift: 'Better luck next time',
-      answer: 'correct',
-      totalAttempts: 10,
-    },
-    {
-      id: 5,
-      name: 'John serben',
-      date: '7-8-2022',
-      email: 'abc@gmail.com',
-      mobile: 9821169216,
-      gift: 'Get 50% off',
-      answer: 'correct',
-      totalAttempts: 10,
-    },
-
-    {
-      id: 5,
-      name: 'John serben',
-      date: '7-8-2022',
-      email: 'abc@gmail.com',
-      mobile: 9821169216,
-      gift: 'Get 50% off',
-      answer: 'correct',
-      totalAttempts: 10,
-    },
-
-    {
-      id: 5,
-      name: 'John serben',
-      date: '7-8-2022',
-      email: 'abc@gmail.com',
-      mobile: 9821169216,
-      gift: 'Get 50% off',
-      answer: 'correct',
-      totalAttempts: 10,
-    },
-
-    {
-      id: 5,
-      name: 'John serben',
-      date: '7-8-2022',
-      email: 'abc@gmail.com',
-      mobile: 9821169216,
-      gift: 'Get 50% off',
-      answer: 'correct',
-      totalAttempts: 10,
-    },
-
-    {
-      id: 5,
-      name: 'John serben',
-      date: '7-8-2022',
-      email: 'abc@gmail.com',
-      mobile: 9821169216,
-      gift: 'Get 50% off',
-      answer: 'correct',
-      totalAttempts: 10,
-    },
-  ]
 
   const columns = useMemo(
     () => [
@@ -186,10 +92,8 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
     []
   )
 
-  useEffect(() => {})
-
   const [posts, setPosts] = useState(data || [])
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(campaignDetailsTableCurrentPage || 1)
   const [postsPerPage, setPostsPerPage] = useState(5)
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
@@ -316,6 +220,7 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
             data={posts}
             indexOfLastPost={indexOfLastPost}
             indexOfFirstPost={indexOfFirstPost}
+            type='campaignDetailsTable'
           />
         )}
       </div>

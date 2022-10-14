@@ -6,13 +6,15 @@
         height: 100vh;
         -webkit-clip-path: polygon(100% 0, 100% 30%, 50% 61%, 0 30%, 0 0);
         clip-path: polygon(100% 0, 100% 30%, 50% 61%, 0 30%, 0 0);
+
     }
 
 
 
     position: relative;
 
-
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 
     .sub-div {
         position: absolute;

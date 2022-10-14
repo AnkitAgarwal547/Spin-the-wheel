@@ -1,12 +1,45 @@
 import React, {useEffect, useState} from 'react'
 import Pagination from 'react-bootstrap/Pagination'
+import {useDispatch} from 'react-redux'
+import {
+  TRIGGER_CAMPAIGN_DETAILS_CURRENT_PAGE,
+  TRIGGER_CAMPAIGN_TABLE_CURRENT_PAGE,
+  TRIGGER_QUESTIONNAIRE_CURRENT_PAGE,
+} from '../../../../app/redux/actions/actionTypes'
+import {useAppDispatch} from '../../../../app/redux/hooks/hooks'
 import './Pagination.scss'
 
 export default function PaginationWrappper(props: any) {
-  const {totalPosts, currentPage, setCurrentPage, data = [], postsPerPage, currentData} = props
+  const {
+    totalPosts,
+    currentPage,
+    setCurrentPage,
+    data = [],
+    postsPerPage,
+    currentData,
+    type,
+  } = props
+  console.log('🚀 ~ file: PaginationWrapper.tsx ~ line 15 ~ PaginationWrappper ~ type', type)
+  const dispatch = useAppDispatch()
 
   const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber)
+    if (type === 'questionnaire') {
+      dispatch({
+        type: TRIGGER_QUESTIONNAIRE_CURRENT_PAGE,
+        questionnaireCurrentPage: pageNumber,
+      })
+    } else if (type === 'campaignTableDashboard') {
+      dispatch({
+        type: TRIGGER_CAMPAIGN_TABLE_CURRENT_PAGE,
+        campaignTableCurrentPage: pageNumber,
+      })
+    } else if (type === 'campaignDetailsTable') {
+      dispatch({
+        type: TRIGGER_CAMPAIGN_DETAILS_CURRENT_PAGE,
+        campaignDetailsTableCurrentPage: pageNumber,
+      })
+    }
   }
 
   const pageNumbers: any[] = []

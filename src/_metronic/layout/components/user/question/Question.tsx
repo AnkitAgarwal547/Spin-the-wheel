@@ -112,7 +112,16 @@ export default function Question() {
   }
 
   return (
-    <div className='question-wrapper'>
+    <div
+      className='question-wrapper'
+      style={{
+        backgroundImage: !campaignDetails?.frontend_img
+          ? `url(
+              'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/background.png'
+            )`
+          : `url(${campaignDetails?.frontend_img})`,
+      }}
+    >
       <Row className='justify-content-center'>
         <Col xxl={5} xl={5} lg={6} md={8} sm={8} col={10}>
           <div className='main-div'>
