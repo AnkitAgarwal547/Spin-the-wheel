@@ -40,12 +40,6 @@ export default function UserCampaignWrapper() {
   const [modal, showModal] = useState(false)
   const [prizePopup, setPrizePopup] = useState(prizeIndex || prizeIndex === 0 ? true : false)
   const [handleReset] = useReset()
-  document.title =
-    campaignDetails.type === typeOfCampaigns.SCRATCH_THE_CARD
-      ? 'Scratch and win'
-      : campaignDetails.type === typeOfCampaigns.SPIN_THE_WHEEL
-      ? 'Spin the Wheel'
-      : 'Choose the Box'
 
   const checkIfAlreadyPlayed = () => {
     let index = currentUser?.['play_count'].findIndex((item) => item.campaign_id === id)
@@ -146,7 +140,7 @@ export default function UserCampaignWrapper() {
           </div>
           <div
             style={{color: campaignDetails?.forecolor}}
-            className='text-light text-center my-10 campaign-type'
+            className='text-center my-10 campaign-type'
           >
             {campaignDetails.type === typeOfCampaigns.SCRATCH_THE_CARD
               ? 'Scratch the Card'
@@ -211,7 +205,7 @@ export default function UserCampaignWrapper() {
             <PickTheBox />
           )}
 
-          <div className='row justify-content-center my-10'>
+          <div className='row justify-content-center my-10 next-btn-div'>
             <button
               className='btn btn-block btn-light next-btn  btn-lg col-md-5 col-xxl-3 col-xl-3 col-lg-3 col-sm-5 col-4'
               style={{

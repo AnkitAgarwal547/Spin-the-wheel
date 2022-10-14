@@ -2922,6 +2922,11 @@
   "resolved" "https://registry.npmjs.org/big.js/-/big.js-5.2.2.tgz"
   "version" "5.2.2"
 
+"binary-converter@^1.0.5":
+  "integrity" "sha512-bHw4hk/oA7w6+p3tQNjvytgR0vmrUgNA91C+le4UKywqpc2q3xUSfAWawxwnrA4cHwvztO4S35gO8WXGwP8pEw=="
+  "resolved" "https://registry.npmjs.org/binary-converter/-/binary-converter-1.0.5.tgz"
+  "version" "1.0.5"
+
 "binary-extensions@^2.0.0":
   "integrity" "sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA=="
   "resolved" "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.2.0.tgz"

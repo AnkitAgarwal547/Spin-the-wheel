@@ -12,6 +12,7 @@ import {useAuth} from '../auth'
 import _, {debounce} from 'lodash'
 import {TRIGGER_SEARCH_KEYWORD} from '../../redux/actions/actionTypes'
 import {useDispatch} from 'react-redux'
+import moment from 'moment'
 
 type Props = {
   className: string
@@ -213,7 +214,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
               <CSVLink
                 data={campaigns}
                 className='btn btn-outline-dark btn-sm rounded-pill'
-                filename={'Campaigns.csv'}
+                filename={`Campaigns${moment.utc().format('DD-MM-YY')}.csv`}
                 target='_blank'
               >
                 Export

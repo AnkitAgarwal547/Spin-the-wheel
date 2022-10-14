@@ -21,17 +21,17 @@
             background-repeat: no-repeat;
             position: absolute;
             transform: translate(-50%, -50%);
-            top: 43%;
+            top: 50%;
             left: 50%;
         }
 
         text-align: center;
-        height: 130px;
-        width: 130px;
+        height: 140px;
+        width: 140px;
         position: relative;
         margin: auto;
-        margin-top: 70px;
-        border-radius: 50%;
+        margin-top: 100px;
+        // border-radius: 50%;
         background-color: #fff;
 
 
@@ -52,7 +52,7 @@
     }
 
     .banner1 {
-        height: 60px;
+        height: 100px;
         width: 40%;
         margin: 40px auto 40px auto;
         background-size: 100% 100%;
@@ -60,7 +60,7 @@
     }
 
     .banner2 {
-        height: 60px;
+        height: 100px;
         width: 60%;
         margin: 40px auto 40px auto;
         background-size: 100% 100%;
@@ -73,10 +73,53 @@
 
 @media (max-width:980px) {
 
-    .user-campaign-spin-wheel .logo-wrapper {
+    .user-campaign-spin-wheel {
 
-        margin-top: 80px;
 
+        overflow: hidden !important;
+
+        .logo-wrapper {
+
+            margin-top: 80px;
+            height: 100px;
+            width: 100px;
+
+            .logo {
+                height: 70px;
+                width: 70px;
+            }
+
+        }
+
+        .ScratchCard__Container {
+            width: 150px !important;
+            height: 150px !important;
+        }
+
+        .scratch-card {
+            width: 150px !important;
+            height: 150px !important;
+        }
+
+        .campaign-type {
+            margin: 10px auto !important;
+        }
+
+        .banner1 {
+            height: 35px !important;
+            margin: 20px auto !important;
+
+        }
+
+        .banner2 {
+            height: 35px !important;
+            margin: 20px auto !important;
+
+        }
+
+        .next-btn-div {
+            margin: 10px auto !important;
+        }
     }
 
 }

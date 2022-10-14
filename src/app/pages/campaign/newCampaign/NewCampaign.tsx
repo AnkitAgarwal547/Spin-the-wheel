@@ -88,6 +88,7 @@ const NewCampaign: React.FC<Props> = () => {
 
   const [campaignBgBinary, setCampaignBgBinary] = useState()
   const [logoBinary, setLogoBinary] = useState('')
+  console.log('🚀 ~ file: NewCampaign.tsx ~ line 91 ~ logoBinary', logoBinary)
   const [banner1Binary, setBanner1Binary] = useState('')
   const [banner2Binary, setBanner2Binary] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
@@ -191,6 +192,7 @@ const NewCampaign: React.FC<Props> = () => {
   }
 
   const [logoOfCampaign, setLogoOfCampaign] = useState(initialValueOfImages)
+  console.log('🚀 ~ file: NewCampaign.tsx ~ line 194 ~ logoOfCampaign', logoOfCampaign)
   const [banner1, setBanner1] = useState(initialValueOfImages)
   const [banner2, setBanner2] = useState(initialValueOfImages)
   const [initialData, setInitialData] = useState(initialValues)
@@ -339,12 +341,11 @@ const NewCampaign: React.FC<Props> = () => {
         payload['start_date'] = moment(values['start_date']).format(format)
         payload['end_date'] = moment(values['end_date']).format(format)
         payload['prop_color'] = [values['prop_color']]
+        console.log(logoBinary)
         if (
-          (new Date(values[formFields.END_DATE]).getTime() >
+          new Date(values[formFields.END_DATE]).getTime() >
             new Date(values[formFields.START_DATE]).getTime() &&
-            logoOfCampaign.path &&
-            logoBinary) ||
-          values.logo_url
+          (logoBinary || values.logo_url)
         ) {
           setIsLoading(true)
           console.log(logoOfCampaign.path && logoBinary)

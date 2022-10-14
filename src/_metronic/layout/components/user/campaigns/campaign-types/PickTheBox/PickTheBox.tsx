@@ -99,7 +99,7 @@ export default function PickTheBox() {
                   <img
                     style={{
                       opacity:
-                        selectedBoxIndex === i && (prizeIndex || prizeIndex === 0) ? '0.2' : '',
+                        selectedBoxIndex === i && (prizeIndex || prizeIndex === 0) ? '0.18' : '',
                     }}
                     className='p-3 cursor-pointer'
                     src={item.img}
@@ -108,13 +108,16 @@ export default function PickTheBox() {
                     }}
                   ></img>
                   {selectedBoxIndex === i && (prizeIndex || prizeIndex === 0) && (
-                    <div className='center text-light fadeIn' style={{fontWeight: 600}}>
-                      <small>
+                    <div
+                      className='center  fadeIn w-100'
+                      style={{fontWeight: 'bold', color: campaignDetails?.forecolor}}
+                    >
+                      <div>
                         You got "
                         {(prizeIndex || prizeIndex === 0) &&
                           campaignDetails['winning_values'][prizeIndex]['label']}
                         " reward
-                      </small>
+                      </div>
                     </div>
                   )}
                 </div>

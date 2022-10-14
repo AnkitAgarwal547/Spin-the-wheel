@@ -23,6 +23,7 @@ import {
 } from '../../../../../app/redux/actions/actionTypes'
 import {useAuth} from '../../../../../app/modules/auth'
 import {Col, Modal, Row} from 'react-bootstrap'
+import {typeOfCampaigns} from '../../../../../app/modules/campaign/CampaignTable'
 
 export default function VerifyMobile() {
   const [loading, setLoading] = useState(false)
@@ -34,6 +35,13 @@ export default function VerifyMobile() {
   const {currentUser} = useAuth()
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
+  document.title =
+    campaignDetails.type === typeOfCampaigns.SCRATCH_THE_CARD
+      ? 'Scratch and win'
+      : campaignDetails.type === typeOfCampaigns.SPIN_THE_WHEEL
+      ? 'Spin the Wheel'
+      : 'Choose the Box'
 
   const schema = Yup.object().shape({
     mobile_no: Yup.string()

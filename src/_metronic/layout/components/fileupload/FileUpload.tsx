@@ -2,7 +2,9 @@ import clsx from 'clsx'
 import React, {useEffect, useRef} from 'react'
 import {Button} from 'react-bootstrap'
 import {useParams} from 'react-router'
+import {ToastContainer} from 'react-toastify'
 import {getUploadUrl, uploadFile} from '../../../../app/modules/auth/core/_requests'
+import {ToastMessage} from '../../../../app/shared/ToastMessage'
 import {getBase64} from '../../../../app/utils/common'
 import {KTSVG} from '../../../helpers'
 import './FileUpload.scss'
@@ -17,7 +19,6 @@ export default function FileUpload({
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
   const {id} = useParams()
-
 
   const handleClick = () => {
     if (inputRef.current) {
@@ -44,17 +45,28 @@ export default function FileUpload({
     // }
 
     let binary = await getBinaryFromFile(file)
+    console.log(binary)
+
+    let reader = new FileReader()
 
     getBase64(file)
       .then((result) => {
+        console.log('🚀 ~ file: FileUpload.tsx ~ line 48 ~ handleFileChange ~ file', file)
         file['base64'] = result
+        console.log('🚀 ~ file: FileUpload.tsx ~ line 51 ~ .then ~ result', result)
         let payload = {
           usecase: 'CAMPAIGN_IMAGES',
           file_ext: fileExtension,
         }
 
+        const base64Response = fetch(`data:image/jpeg;base64,${result}`)
+        console.log('🚀 ~ file: FileUpload.tsx ~ line 65 ~ .then ~ base64Response', base64Response)
+
         fetch(result as string)
-          .then((res) => res.blob())
+          .then((res) => {
+            console.log('🚀 ~ file: FileUpload.tsx ~ line 58 ~ .then ~ res', res)
+            return res.blob()
+          })
           .then((blob) => {
             setBinaryData(blob)
             // getUploadUrl(payload).then((response) => {
@@ -63,9 +75,13 @@ export default function FileUpload({
             //   })
             // })
           })
+          .catch(() => {
+            ToastMessage('Something went wrong!', 'error')
+          })
       })
       .catch((err) => {
         console.log(err)
+        ToastMessage('Something went wrong!', 'error')
       })
     setFileData({
       details: event.target.files[0],
@@ -107,6 +123,7 @@ export default function FileUpload({
           style={{display: 'none'}}
         />
 
+        <ToastContainer />
         <Button
           onClick={handleClick}
           variant='outline-dark'

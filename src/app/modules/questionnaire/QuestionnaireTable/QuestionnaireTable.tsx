@@ -66,6 +66,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
   const {searchKey} = useAppSelector((state) => state.searchReducer)
   const [error, setError] = useState(false)
   const [currentData, setCurrentData] = useState(currrentQuestionnaireList)
+  // console.log('🚀 ~ file: QuestionnaireTable.tsx ~ line 69 ~ currentData', currentData)
   const dispatch = useDispatch()
   const loginSchema = Yup.object().shape({
     question: Yup.string().required('Question is required'),
@@ -215,6 +216,10 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
         setIsLoadingDelete(false)
         setSelectedToDelete(0)
         ToastMessage('Question deleted successfully!', 'success')
+        console.log('currentData', currentData)
+        if (currentData.length === 1 && currentPage !== 1) {
+          setCurrentPage(currentPage - 1)
+        }
         getQuestionnaireList()
       })
       .catch(() => {
@@ -426,7 +431,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentData.length > 0 && !error ? (
+                  {currentData.length > 0 && posts.length && !error ? (
                     currentData.map((item, i) => {
                       return (
                         <tr key={i}>
@@ -527,7 +532,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
                     <div className='center no-data'>No data</div>
                   )}
 
-                  {!error && !currrentQuestionnaireList.length && (
+                  {error && !currrentQuestionnaireList.length && !posts.length && (
                     <div className='center no-data'>Unable to fetch data</div>
                   )}
                 </tbody>
