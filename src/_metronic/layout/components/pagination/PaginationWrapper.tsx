@@ -19,7 +19,6 @@ export default function PaginationWrappper(props: any) {
     currentData,
     type,
   } = props
-  console.log('🚀 ~ file: PaginationWrapper.tsx ~ line 15 ~ PaginationWrappper ~ type', type)
   const dispatch = useAppDispatch()
 
   const paginate = (pageNumber: number) => {

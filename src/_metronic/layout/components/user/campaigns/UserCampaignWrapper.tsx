@@ -9,7 +9,7 @@ import SpinTheWheel from './campaign-types/SpinTheWheel/SpinTheWheel'
 import './UserCampaignWrapper.scss'
 import Loader from '../../../../../app/shared/Loader'
 import {typeOfCampaigns} from '../../../../../app/modules/campaign/CampaignTable'
-import {getThemeStyle} from '../../../../../app/pages/campaign/newCampaign/NewCampaign'
+import {getThemeStyle, isImage} from '../../../../../app/pages/campaign/newCampaign/NewCampaign'
 import ReactRouterPrompt from 'react-router-prompt'
 import Modal from 'react-bootstrap/Modal'
 import {Button} from 'react-bootstrap'
@@ -198,7 +198,13 @@ export default function UserCampaignWrapper() {
             />
           )}
           {campaignDetails && campaignDetails.type === typeOfCampaigns.SCRATCH_THE_CARD && (
-            <ScratchCardWrapper image={getThemeStyle(campaignDetails.template).scratchCardImage} />
+            <ScratchCardWrapper
+              image={
+                isImage(campaignDetails?.prop_color[0])
+                  ? campaignDetails?.prop_color[0]
+                  : getThemeStyle(campaignDetails.template).scratchCardImage
+              }
+            />
           )}
 
           {campaignDetails && campaignDetails.type === typeOfCampaigns.CHOOSE_THE_BOX && (

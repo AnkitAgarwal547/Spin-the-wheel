@@ -7909,16 +7909,6 @@
   "resolved" "https://registry.npmjs.org/react-scratchcard-v2/-/react-scratchcard-v2-1.1.1.tgz"
   "version" "1.1.1"
 
-"react-scratchcard-v3@^1.1.6":
-  "integrity" "sha512-1ROmubAnkZ9pV/0UduMfjMht4wFqRH3dcXulUJwx8CV4Gvq2YAfvEgmrb1mCcHGAFqVimcZuMMUV0bFuqpFm7Q=="
-  "resolved" "https://registry.npmjs.org/react-scratchcard-v3/-/react-scratchcard-v3-1.1.6.tgz"
-  "version" "1.1.6"
-
-"react-scratchcard-v4@^1.1.6":
-  "integrity" "sha512-QvRiOkd74eszQNO6FoSyrbk3+nEsqbjy2aS8OOk8IE4V/GgCJOBOGQQxWLcQSy9FJpZI68JPjBLP3faY/tBcEQ=="
-  "resolved" "https://registry.npmjs.org/react-scratchcard-v4/-/react-scratchcard-v4-1.1.6.tgz"
-  "version" "1.1.6"
-
 "react-scratchcard@^1.1.2":
   "integrity" "sha512-RbnO2pDLpGoz/vOMRTX/Ojhno2co5pcqWJ5osoaUlW3S28u1209X4wC+iNU2ugvm2ThZPbG61bXo37SsWjGPZw=="
   "resolved" "https://registry.npmjs.org/react-scratchcard/-/react-scratchcard-1.1.2.tgz"

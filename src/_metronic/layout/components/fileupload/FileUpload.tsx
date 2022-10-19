@@ -51,20 +51,11 @@ export default function FileUpload({
 
     getBase64(file)
       .then((result) => {
-        console.log('🚀 ~ file: FileUpload.tsx ~ line 48 ~ handleFileChange ~ file', file)
         file['base64'] = result
-        console.log('🚀 ~ file: FileUpload.tsx ~ line 51 ~ .then ~ result', result)
-        let payload = {
-          usecase: 'CAMPAIGN_IMAGES',
-          file_ext: fileExtension,
-        }
-
         const base64Response = fetch(`data:image/jpeg;base64,${result}`)
-        console.log('🚀 ~ file: FileUpload.tsx ~ line 65 ~ .then ~ base64Response', base64Response)
 
         fetch(result as string)
           .then((res) => {
-            console.log('🚀 ~ file: FileUpload.tsx ~ line 58 ~ .then ~ res', res)
             return res.blob()
           })
           .then((blob) => {
@@ -80,7 +71,6 @@ export default function FileUpload({
           })
       })
       .catch((err) => {
-        console.log(err)
         ToastMessage('Something went wrong!', 'error')
       })
     setFileData({

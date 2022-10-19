@@ -1,10 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useEffect, useRef, useState} from 'react'
 import {Button, Form} from 'react-bootstrap'
-import {useForm} from 'react-hook-form'
 import * as Yup from 'yup'
 import FileUpload from '../../../../_metronic/layout/components/fileupload/FileUpload'
-import ScratchCardWrapper from '../../../../_metronic/layout/components/scratchCard/ScratchCard'
 import SpinningWheel from '../../../../_metronic/layout/components/SpinningWheel/SpinningWheel'
 import './NewCampaign.scss'
 import * as yup from 'yup'
@@ -12,7 +10,6 @@ import {toAbsoluteUrl} from '../../../../_metronic/helpers'
 import {
   getUploadUrl,
   postCampaign,
-  postRequest,
   putCampaign,
   uploadFile,
 } from '../../../modules/auth/core/_requests'
@@ -27,8 +24,13 @@ import moment from 'moment'
 import axios from 'axios'
 import {useLocation, useNavigate, useParams} from 'react-router'
 import {Link} from 'react-router-dom'
+import PickTheBox from '../../../../_metronic/layout/components/PickTheBox/PickTheBox'
 
 type Props = {}
+
+export function isImage(url) {
+  return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url)
+}
 
 export const getThemeStyle = (type) => {
   let backgroundImage = ''
@@ -36,7 +38,7 @@ export const getThemeStyle = (type) => {
   let color = ''
   let buttonBackgroundColor = ''
   let pickTheBox =
-    'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/pick_the_box/box_group.png'
+    'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/pick_the_box/gift_box.png'
   switch (type) {
     case 'TEMPLATE_1':
       backgroundImage =
@@ -92,12 +94,18 @@ const NewCampaign: React.FC<Props> = () => {
     binaryData: '',
   })
 
+  const [scratchBoxBackground, setScratchBoxBackground] = useState({
+    details: {name: ''},
+    path: '',
+    binaryData: '',
+  })
+
   const [campaignBgBinary, setCampaignBgBinary] = useState()
   const [frontendBgBinary, setFrontendBgBinary] = useState()
   const [logoBinary, setLogoBinary] = useState('')
-  console.log('🚀 ~ file: NewCampaign.tsx ~ line 91 ~ logoBinary', logoBinary)
   const [banner1Binary, setBanner1Binary] = useState('')
   const [banner2Binary, setBanner2Binary] = useState('')
+  const [scratchBoxBinary, setScratchBoxBinary] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
   const formFields = {
@@ -123,34 +131,57 @@ const NewCampaign: React.FC<Props> = () => {
     LABEL: 'label',
     MAX_PERDAY: 'max_perday',
     FRONTEND_IMG: 'frontend_img',
+    TEMPLATE_ID: 'template_id',
+    COUPON_CODE: 'coupon_code',
+    SMS_CONTENT: 'sms_content',
+    SMS_TNC: 'sms_tnc',
+    ScratchBoxBackground: 'scratchBox_bg',
   }
 
   const initialWinningValues = [
     {
       label: 'Better luck next time',
       max_perday: 70,
+      sms_content: '',
+      coupon_code: '',
+      template_id: '',
     },
     {
       label: 'Get 20% off',
       max_perday: 10,
+      sms_content: '',
+      coupon_code: '',
+      template_id: '',
     },
     {
       label: 'Get 10% off',
       max_perday: 5,
+      sms_content: '',
+      coupon_code: '',
+      template_id: '',
     },
     {
       label: 'Get 5% off',
       max_perday: 5,
+      sms_content: '',
+      coupon_code: '',
+      template_id: '',
     },
 
     {
       label: 'Get Free Service',
       max_perday: 5,
+      sms_content: '',
+      coupon_code: '',
+      template_id: '',
     },
 
     {
       label: 'Get 60% off',
       max_perday: 5,
+      sms_content: '',
+      coupon_code: '',
+      template_id: '',
     },
   ]
 
@@ -169,6 +200,7 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.WINNING_VALUES]: initialWinningValues,
     [formFields.WHEEL_BACKGROUNDCOLOR]: '#da3768',
     [formFields.FRONTEND_IMG]: '',
+    [formFields.SMS_TNC]: '',
   }
 
   const validationSchema = Yup.object().shape({
@@ -187,10 +219,15 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.TEMPLATE_TYPE]: Yup.string().required(),
     [formFields.FRONTEND_IMG]: Yup.string(),
     [formFields.FONT_COLOR]: Yup.string(),
+    [formFields.SMS_TNC]: Yup.string().required(),
     [formFields.WINNING_VALUES]: Yup.array().of(
       Yup.object().shape({
         [formFields.MAX_PERDAY]: Yup.string().required(),
         [formFields.LABEL]: Yup.string().required(),
+        [formFields.TEMPLATE_ID]: Yup.string().required(),
+        [formFields.TEMPLATE_ID]: Yup.string().required(),
+        [formFields.COUPON_CODE]: Yup.string().required(),
+        [formFields.SMS_CONTENT]: Yup.string().required(),
       })
     ),
   })
@@ -202,11 +239,9 @@ const NewCampaign: React.FC<Props> = () => {
   }
 
   const [logoOfCampaign, setLogoOfCampaign] = useState(initialValueOfImages)
-  console.log('🚀 ~ file: NewCampaign.tsx ~ line 194 ~ logoOfCampaign', logoOfCampaign)
   const [banner1, setBanner1] = useState(initialValueOfImages)
   const [banner2, setBanner2] = useState(initialValueOfImages)
   const [initialData, setInitialData] = useState(initialValues)
-  console.log('🚀 ~ file: NewCampaign.tsx ~ line 197 ~ initialData', initialData)
 
   const getWinningValuesLabel = (values) => {
     return values.map((a) => a.label)
@@ -280,6 +315,8 @@ const NewCampaign: React.FC<Props> = () => {
           .then((blob) => {
             if (type === 'frontendBg') {
               setFrontendBgBinary(blob as any)
+            } else if (type === 'prop_color') {
+              setScratchBoxBinary(blob as any)
             } else {
               setCampaignBgBinary(blob as any)
             }
@@ -295,6 +332,12 @@ const NewCampaign: React.FC<Props> = () => {
         path: URL.createObjectURL(event.target.files[0]),
         binaryData: frontendBackground.binaryData,
       })
+    } else if (type === 'prop_color') {
+      setScratchBoxBackground({
+        details: event.target.files[0],
+        path: URL.createObjectURL(event.target.files[0]),
+        binaryData: scratchBoxBackground.binaryData,
+      })
     } else {
       setCampaignBackground({
         details: event.target.files[0],
@@ -309,13 +352,12 @@ const NewCampaign: React.FC<Props> = () => {
   const patchForm = () => {
     let obj: any = location.state
     let winningValues = obj[formFields.WINNING_VALUES]
-    console.log('patch')
-
-    winningValues.map((item) => {
+    winningValues = winningValues.map((item) => {
       delete item.day_count
       delete item.key
       return item
     })
+    console.log('🚀 ~ file: NewCampaign.tsx ~ line 317 ~ patchForm ~ winningValues', winningValues)
 
     let newObj = {
       [formFields.COMPANY_NAME]: obj[formFields.COMPANY_NAME],
@@ -337,6 +379,8 @@ const NewCampaign: React.FC<Props> = () => {
         ? obj[formFields.WHEEL_BACKGROUNDCOLOR][0]
         : obj[formFields.WHEEL_BACKGROUNDCOLOR],
       [formFields.FRONTEND_IMG]: obj[formFields.FRONTEND_IMG],
+      [formFields.SMS_TNC]: obj[formFields.SMS_TNC],
+      [formFields.ScratchBoxBackground]: obj[formFields.ScratchBoxBackground],
     }
 
     setInitialData(newObj)
@@ -354,25 +398,21 @@ const NewCampaign: React.FC<Props> = () => {
   return (
     <Formik
       initialValues={initialData}
-      enableReinitialize={id ? true : false}
+      enableReinitialize
       validationSchema={validationSchema}
       onSubmit={async (values, {setSubmitting, resetForm}) => {
-        console.log('🚀 ~ file: NewCampaign.tsx ~ line 319 ~ onSubmit={ ~ values', values)
         setIsSubmitted(true)
         const format = 'YYYY-MM-DD'
         const payload = {...values}
         payload['start_date'] = moment(values['start_date']).format(format)
         payload['end_date'] = moment(values['end_date']).format(format)
         payload['prop_color'] = [values['prop_color']]
-        console.log(logoBinary)
         if (
           new Date(values[formFields.END_DATE]).getTime() >
             new Date(values[formFields.START_DATE]).getTime() &&
           (logoBinary || values.logo_url)
         ) {
           setIsLoading(true)
-          console.log(logoOfCampaign.path && logoBinary)
-
           axios
             .all([
               !campaignBackground.path
@@ -393,10 +433,22 @@ const NewCampaign: React.FC<Props> = () => {
               banner2.path &&
                 banner2Binary &&
                 (payload['banner2_url'] = await getImageUrl(banner2, banner2Binary)),
+              values.type !== typeOfCampaigns.SPIN_THE_WHEEL &&
+                scratchBoxBackground.path &&
+                (payload['prop_color'] = [
+                  await getImageUrl(scratchBoxBackground, scratchBoxBinary),
+                ]),
             ])
             .then(
               axios.spread(
-                (firstResponse, secondResponse, thirdResponse, forthResponse, fifthResponse) => {
+                (
+                  firstResponse,
+                  secondResponse,
+                  thirdResponse,
+                  forthResponse,
+                  fifthResponse,
+                  sixthResponse
+                ) => {
                   if (id) {
                     if (payload)
                       putCampaign(payload, id)
@@ -462,7 +514,7 @@ const NewCampaign: React.FC<Props> = () => {
         isSubmitting,
         initialErrors,
       }) => {
-        console.log('🚀 ~ file: NewCampaign.tsx ~ line 423 ~ onSubmit={ ~ values', touched, errors)
+        console.log('🚀 ~ file: NewCampaign.tsx ~ line 484 ~ touched', touched, errors)
         return (
           <form>
             <div>
@@ -533,6 +585,26 @@ const NewCampaign: React.FC<Props> = () => {
                             formFields.WINNING_VALUES,
                             getInitialWinningValues(e.target.value)
                           )
+
+                          // if (e.target.value === typeOfCampaigns.SPIN_THE_WHEEL) {
+                          //   setFieldValue(
+                          //     formFields.WHEEL_BACKGROUNDCOLOR,
+                          //     initialData[formFields.WHEEL_BACKGROUNDCOLOR]
+                          //   )
+                          // } else if (e.target.value === typeOfCampaigns.CHOOSE_THE_BOX) {
+                          //   console.log('change')
+                          //   // setFieldValue(
+                          //   //   formFields.WHEEL_BACKGROUNDCOLOR,
+                          //   //   getThemeStyle(values[formFields.TYPE]).pickTheBox
+                          //   // )
+                          // } else {
+                          //   // setFieldValue(
+                          //   //   formFields.WHEEL_BACKGROUNDCOLOR,
+                          //   //   getThemeStyle(values[formFields.TYPE]).scratchCardImage
+                          //   // )
+                          // }
+
+                          console.log('*', values)
                         }}
                         value={values[formFields.TYPE]}
                         className={clsx(
@@ -557,8 +629,6 @@ const NewCampaign: React.FC<Props> = () => {
                         type='text'
                         name={formFields.MAX_PLAY_USER}
                         onChange={(e) => {
-                          console.log(e.target.value, numberRegex.test(e.target.value))
-
                           if (e.target.value) {
                             if (numberRegex.test(e.target.value)) {
                               setFieldValue(formFields.MAX_PLAY_USER, e.target.value)
@@ -723,8 +793,16 @@ const NewCampaign: React.FC<Props> = () => {
                         {values.type === typeOfCampaigns.SCRATCH_THE_CARD ? (
                           <div className='my-2'>
                             <img
-                              height={'120px'}
-                              src={getThemeStyle(values.template).scratchCardImage}
+                              height='120px'
+                              width='120px'
+                              style={{borderRadius: '10px'}}
+                              src={
+                                scratchBoxBackground.path
+                                  ? scratchBoxBackground.path
+                                  : isImage(values.prop_color)
+                                  ? values.prop_color
+                                  : getThemeStyle(values.template).scratchCardImage
+                              }
                             />
                           </div>
                         ) : // <ScratchCardWrapper
@@ -741,7 +819,23 @@ const NewCampaign: React.FC<Props> = () => {
                           </p>
                         ) : (
                           <div className='my-2'>
-                            <img src={getThemeStyle(values.template).pickTheBox} />
+                            <PickTheBox
+                              img={
+                                scratchBoxBackground.path
+                                  ? scratchBoxBackground.path
+                                  : isImage(values.prop_color)
+                                  ? values.prop_color
+                                  : getThemeStyle(values.template).pickTheBox
+                              }
+                            />
+
+                            {/* <img
+                              src={
+                                scratchBoxBackground.path
+                                  ? scratchBoxBackground.path
+                                  : values.prop_color || getThemeStyle(values.template).pickTheBox
+                              }
+                            /> */}
                           </div>
                         )}
                         <button
@@ -837,9 +931,6 @@ const NewCampaign: React.FC<Props> = () => {
                           }}
                           fieldValue={values.banner1_url}
                         />
-                        {/* {!banner1.path && isSubmitted && (
-                          <p className='text-danger'>Please select Banner 1</p>
-                        )} */}
                       </div>
                       <div className='col-xxl-3 offset-xxl-1 col-lg-4 col-md-4 col-sm-4 col-4'>
                         <div className='form-label fw-bold mb-5'>Banner 2 </div>
@@ -853,9 +944,6 @@ const NewCampaign: React.FC<Props> = () => {
                           }}
                           fieldValue={values.banner2_url}
                         />
-                        {/* {!banner2.path && isSubmitted && (
-                          <p className='text-danger'>Please select Banner 2</p>
-                        )} */}
                       </div>
                     </div>
                   </div>
@@ -914,17 +1002,114 @@ const NewCampaign: React.FC<Props> = () => {
                     </div>
 
                     <div className='col-xxl-4 col-xl-6 col-md-3 col-lg-4 col-sm-3 col-12 row align-items-center'>
-                      <div className='col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8'>
-                        <label className='form-label fw-bold'>Change Wheel Background Color</label>
-                      </div>
-                      <div className='col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4'>
-                        <input
-                          type='color'
-                          name={formFields.WHEEL_BACKGROUNDCOLOR}
-                          value={values[formFields.WHEEL_BACKGROUNDCOLOR]}
-                          onChange={handleChange}
-                        />
-                      </div>
+                      {values.type === typeOfCampaigns.SPIN_THE_WHEEL ? (
+                        <>
+                          {' '}
+                          <div className='col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8'>
+                            <label className='form-label fw-bold'>
+                              Change Wheel Background Color
+                            </label>
+                          </div>
+                          <div className='col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4'>
+                            <input
+                              type='color'
+                              name={formFields.WHEEL_BACKGROUNDCOLOR}
+                              value={values[formFields.WHEEL_BACKGROUNDCOLOR]}
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          {' '}
+                          <div className='col-xxl-6 col-xl- col-lg-5 col-md-5 col-sm-5 col-5'>
+                            <label className='form-label fw-bold'>
+                              Change
+                              {values.type === typeOfCampaigns.SCRATCH_THE_CARD && ' Scratch Card'}
+                              {values.type === typeOfCampaigns.CHOOSE_THE_BOX && ' Box'} Background
+                              Image
+                            </label>
+                          </div>
+                          <div className='col-xxl-6 col-xl-4 col-lg-5 col-md-5 col-sm-5 col-5'>
+                            {!scratchBoxBackground?.details?.name &&
+                              !scratchBoxBackground.path &&
+                              !isImage(values.prop_color) && (
+                                <input
+                                  type='file'
+                                  accept='image/*'
+                                  ref={inputRef}
+                                  onChange={(e) => handleFileChange(e, 'prop_color')}
+                                />
+                              )}
+
+                            {!scratchBoxBackground?.details?.name &&
+                              !scratchBoxBackground.path &&
+                              isImage(values.prop_color) && (
+                                <div
+                                  className='card border py-2 px-0 mt-2'
+                                  style={{width: '150px'}}
+                                >
+                                  <div className='d-flex justify-content-around align-items-center'>
+                                    <div
+                                      className='file-thumbnail'
+                                      style={{
+                                        backgroundImage: `url(${values.prop_color})`,
+                                      }}
+                                    />
+                                    <div className='file-name'>
+                                      <small>{values.prop_color}</small>
+                                    </div>
+                                    <div>
+                                      <i
+                                        className='bi bi-x-lg text-dark fw-600 cursor-pointer cancel-icon'
+                                        onClick={() => {
+                                          setScratchBoxBackground({
+                                            details: {name: ''},
+                                            path: '',
+                                            binaryData: '',
+                                          })
+                                          setFieldValue(formFields.WHEEL_BACKGROUNDCOLOR, '')
+                                        }}
+                                      ></i>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+
+                            {scratchBoxBackground?.details && scratchBoxBackground.path && (
+                              <div
+                                className='card border py-2 px-0 mt-2'
+                                style={{width: 'fit-content'}}
+                              >
+                                <div className='d-flex justify-content-around align-items-center'>
+                                  <div
+                                    className='file-thumbnail'
+                                    style={{
+                                      backgroundImage: `url(${scratchBoxBackground.path})`,
+                                    }}
+                                  />
+                                  <div className='file-name'>
+                                    <small>{scratchBoxBackground?.details?.name}</small>
+                                  </div>
+                                  <div>
+                                    <i
+                                      className='bi bi-x-lg text-dark fw-600 cursor-pointer cancel-icon'
+                                      onClick={() => {
+                                        setScratchBoxBackground({
+                                          details: {name: ''},
+                                          path: '',
+                                          binaryData: '',
+                                        })
+                                        setFieldValue(formFields.WHEEL_BACKGROUNDCOLOR, '')
+                                      }}
+                                    ></i>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </>
+                      )}
                     </div>
 
                     <div className='col-xxl-6 col-xl-7 col-lg-8 col-md-6 col-sm-6 col-12 row align-items-center mt-5'>
@@ -973,7 +1158,6 @@ const NewCampaign: React.FC<Props> = () => {
                                         binaryData: '',
                                       })
                                       setFieldValue(formFields.FRONTEND_IMG, '')
-                                      console.log('dgha', frontendBackground)
                                     }}
                                   ></i>
                                 </div>
@@ -1006,7 +1190,6 @@ const NewCampaign: React.FC<Props> = () => {
                                       binaryData: '',
                                     })
                                     setFieldValue(formFields.FRONTEND_IMG, '')
-                                    console.log('dgha')
                                   }}
                                 ></i>
                               </div>
@@ -1033,10 +1216,10 @@ const NewCampaign: React.FC<Props> = () => {
                               values.winning_values.length &&
                               values.winning_values.map((item, index) => (
                                 <div
-                                  className='col-xxl-7 col-xl-8 col-lg-10 col-md-10 col-sm-12 col-12 row mb-5'
+                                  className='col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 row mb-5'
                                   key={index}
                                 >
-                                  <div className='col-xl-7 col-xl-7 col-lg-7 col-md-7 col-sm-7 col-6 d-flex align-items-center'>
+                                  <div className='col-xl-3 col-xl-3 col-lg-5 col-md-5 col-sm-5 col-6 d-flex align-items-center'>
                                     <div className='fw-bold px-3'>{index + 1}.</div>
                                     <input
                                       type='text'
@@ -1048,7 +1231,9 @@ const NewCampaign: React.FC<Props> = () => {
                                       disabled={id ? true : false}
                                     />
                                   </div>
-                                  <div className='col-xxl-5 col-xl-5 col-lg-5 col-md-5 col-sm-5 col-6'>
+                                  <div className='col-xxl-2 col-xl-3 col-lg-4 col-md-2 col-sm-2 col-6'>
+                                    <label className='form-label fw-bold mb-6'></label>
+
                                     <div className='input-group mb-3'>
                                       <input
                                         min={1}
@@ -1059,10 +1244,6 @@ const NewCampaign: React.FC<Props> = () => {
                                         // onChange={handleChange}
                                         disabled={id ? true : false}
                                         onChange={(e) => {
-                                          console.log(
-                                            e.target.value,
-                                            numberRegex.test(e.target.value)
-                                          )
                                           if (e.target.value) {
                                             if (numberRegex.test(e.target.value)) {
                                               setFieldValue(
@@ -1082,15 +1263,6 @@ const NewCampaign: React.FC<Props> = () => {
                                             )
                                           }
                                         }}
-                                        //              className={clsx(
-                                        //   'form-control ',
-                                        //   {
-                                        //     'is-invalid': touched.start_date && errors.start_date,
-                                        //   },
-                                        //   {
-                                        //     'is-valid': touched.start_date && !errors.start_date,
-                                        //   }
-                                        // )}
                                       />
                                       <div className='input-group-append'>
                                         <span className='input-group-text' id='basic-addon2'>
@@ -1098,6 +1270,101 @@ const NewCampaign: React.FC<Props> = () => {
                                         </span>
                                       </div>
                                     </div>
+                                  </div>
+                                  <div className='col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 col-6'>
+                                    <label className='form-label fw-bold'>Template ID</label>
+                                    <input
+                                      min={1}
+                                      type='text'
+                                      name={`${formFields.WINNING_VALUES}.${index}.${formFields.TEMPLATE_ID}`}
+                                      // className='form-control'
+                                      value={item[formFields.TEMPLATE_ID]}
+                                      onChange={handleChange}
+                                      className={clsx(
+                                        'form-control ',
+                                        {
+                                          'is-invalid':
+                                            touched &&
+                                            touched['winning_values'] &&
+                                            errors &&
+                                            errors?.['winning_values'] &&
+                                            errors?.['winning_values'][index]?.template_id,
+                                        },
+
+                                        {
+                                          'is-valid':
+                                            touched &&
+                                            touched['winning_values'] &&
+                                            touched?.['winning_values'][index]?.template_id &&
+                                            errors &&
+                                            errors?.['winning_values'] &&
+                                            !errors?.['winning_values'][index]?.template_id,
+                                        }
+                                      )}
+                                    />
+                                  </div>
+                                  <div className='col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 col-6'>
+                                    <label className='form-label fw-bold'>Coupon Code</label>
+                                    <input
+                                      min={1}
+                                      type='text'
+                                      name={`${formFields.WINNING_VALUES}.${index}.${formFields.COUPON_CODE}`}
+                                      className={clsx(
+                                        'form-control ',
+                                        {
+                                          'is-invalid':
+                                            touched &&
+                                            touched['winning_values'] &&
+                                            errors &&
+                                            errors?.['winning_values'] &&
+                                            errors?.['winning_values'][index]?.coupon_code,
+                                        },
+
+                                        {
+                                          'is-valid':
+                                            touched &&
+                                            touched['winning_values'] &&
+                                            touched?.['winning_values'][index]?.coupon_code &&
+                                            errors &&
+                                            errors?.['winning_values'] &&
+                                            !errors?.['winning_values'][index]?.coupon_code,
+                                        }
+                                      )}
+                                      value={item[formFields.COUPON_CODE]}
+                                      onChange={handleChange}
+                                    />
+                                  </div>
+                                  <div className='col-xxl-3 col-xl-2 col-lg-3 col-md-3 col-sm-3 col-6'>
+                                    <label className='form-label fw-bold'>SMS Content</label>
+                                    <textarea
+                                      className={clsx(
+                                        'form-control ',
+                                        {
+                                          'is-invalid':
+                                            touched &&
+                                            touched['winning_values'] &&
+                                            errors &&
+                                            errors?.['winning_values'] &&
+                                            errors?.['winning_values'][index]?.sms_content,
+                                        },
+
+                                        {
+                                          'is-valid':
+                                            touched &&
+                                            touched['winning_values'] &&
+                                            touched?.['winning_values'][index]?.sms_content &&
+                                            errors &&
+                                            errors?.['winning_values'] &&
+                                            !errors?.['winning_values'][index]?.sms_content,
+                                        }
+                                      )}
+                                      name={`${formFields.WINNING_VALUES}.${index}.${formFields.SMS_CONTENT}`}
+                                      value={item[formFields.SMS_CONTENT]}
+                                      onChange={handleChange}
+                                      defaultValue={item[formFields.SMS_CONTENT]}
+                                    >
+                                      {' '}
+                                    </textarea>
                                   </div>
                                 </div>
                               ))}
@@ -1132,25 +1399,46 @@ const NewCampaign: React.FC<Props> = () => {
                           <option value='DIFFICULT'>Difficult</option>
                         </Form.Select>
                       </div>
+                      <div className='row'>
+                        <div className='col-xxl-7 col-xl-7 col-md-7 col-lg-10 col-sm-7 col-7 mt-10'>
+                          <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
+                            Terms & Conditions<sup className='text-danger'>*</sup>
+                          </label>
+                          <textarea
+                            id='floatingTextarea'
+                            rows={5}
+                            name={formFields.TERMS}
+                            value={values[formFields.TERMS]}
+                            onChange={handleChange}
+                            className={clsx(
+                              'form-control ',
+                              {'is-invalid': touched.tnc && errors.tnc},
+                              {
+                                'is-valid': touched.tnc && !errors.tnc,
+                              }
+                            )}
+                          ></textarea>
+                        </div>
 
-                      <div className='col-xxl-7 col-xl-7 col-md-7 col-lg-10 col-sm-7 col-7 mt-10'>
-                        <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
-                          Terms & Conditions<sup className='text-danger'>*</sup>
-                        </label>
-                        <textarea
-                          id='floatingTextarea'
-                          rows={5}
-                          name={formFields.TERMS}
-                          value={values[formFields.TERMS]}
-                          onChange={handleChange}
-                          className={clsx(
-                            'form-control ',
-                            {'is-invalid': touched.tnc && errors.tnc},
-                            {
-                              'is-valid': touched.tnc && !errors.tnc,
-                            }
-                          )}
-                        ></textarea>
+                        <div className='col-xxl-5 col-xl-5 col-md-5 col-lg-10 col-sm-5 col-5 mt-10'>
+                          <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
+                            SMS Terms & Conditions<sup className='text-danger'>*</sup>
+                          </label>
+                          <textarea
+                            id='floatingTextarea'
+                            rows={5}
+                            name={formFields.SMS_TNC}
+                            value={values[formFields.SMS_TNC]}
+                            onChange={handleChange}
+                            className={clsx(
+                              'form-control ',
+                              {'is-invalid': touched.sms_tnc && errors.sms_tnc},
+                              {
+                                'is-valid': touched.sms_tnc && !errors.sms_tnc,
+                              }
+                            )}
+                          ></textarea>
+                        </div>
                       </div>
                     </div>
                   </>

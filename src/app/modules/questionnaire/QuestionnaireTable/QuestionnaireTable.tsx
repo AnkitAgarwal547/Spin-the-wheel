@@ -219,7 +219,6 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
         setIsLoadingDelete(false)
         setSelectedToDelete(0)
         ToastMessage('Question deleted successfully!', 'success')
-        console.log('currentData', currentData)
         if (currentData.length === 1 && currentPage !== 1) {
           setCurrentPage(currentPage - 1)
           dispatch({
@@ -315,7 +314,6 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
             )}
             checked={formik.values.answer2}
             onChange={(e) => {
-              console.log(e.target.checked)
               formik.setFieldValue('answer2', e.target.checked)
               formik.setFieldValue('answer1', !e.target.checked)
             }}

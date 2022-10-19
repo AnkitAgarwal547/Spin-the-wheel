@@ -31,16 +31,14 @@ export default function VerifyMobile() {
   const search = useLocation().search
   const campaignId = new URLSearchParams(search).get('campaignId')
   const {campaignDetails} = useAppSelector((state) => state.userReducer)
-  console.log(
-    '🚀 ~ file: VerifyMobile.tsx ~ line 34 ~ VerifyMobile ~ campaignDetails',
-    campaignDetails
-  )
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const {currentUser} = useAuth()
   const [campaignStatus, setCampaignStatus] = useState(false)
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
+  var regName = /^[a-zA-Z ]{2,30}$/
 
   document.title =
     campaignDetails.type === typeOfCampaigns.SCRATCH_THE_CARD
@@ -55,8 +53,8 @@ export default function VerifyMobile() {
       .matches(phoneRegExp, 'Phone number is not valid')
       .min(10, 'to short')
       .max(10, 'to long'),
-    first_name: Yup.string().required('required'),
-    last_name: Yup.string().required('required'),
+    first_name: Yup.string().required('required').matches(regName, 'First name is not valid'),
+    last_name: Yup.string().required('required').matches(regName, 'Last name is not valid'),
   })
 
   const initialValues = {
@@ -73,7 +71,6 @@ export default function VerifyMobile() {
     if (campaignId) {
       getUserCampaignDetailsRequest(campaignId)
         .then((resp) => {
-          console.log('🚀 ~ file: VerifyMobile.tsx ~ line 61 ~ .then ~ resp', resp)
           // setCampaignDetails(resp.data.data)
           dispatch({
             type: TRIGGER_CAMPAIGN_DETAILS,
@@ -191,7 +188,7 @@ export default function VerifyMobile() {
                   />
 
                   {formik.touched.first_name && formik.errors.first_name && (
-                    <p className='text-danger px-2 pt-1'>Please enter first name </p>
+                    <p className='text-danger px-2 pt-1'>Please enter valid first name </p>
                   )}
                 </div>
               </Col>
@@ -213,7 +210,7 @@ export default function VerifyMobile() {
                   />
 
                   {formik.touched.last_name && formik.errors.last_name && (
-                    <p className='text-danger px-2 pt-1'>Please enter last name </p>
+                    <p className='text-danger px-2 pt-1'>Please enter valid last name </p>
                   )}
                 </div>
               </Col>

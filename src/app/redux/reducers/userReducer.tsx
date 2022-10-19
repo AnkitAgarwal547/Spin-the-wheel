@@ -27,8 +27,6 @@ const initialState = {
 }
 
 const userReducer = function (state = initialState, action) {
-  console.log('🚀 ~ file: userReducer.tsx ~ line 113 ~ userReducer ~ state', state)
-
   switch (action.type) {
     case TRIGGER_CAMPAIGN_DETAILS: {
       return {

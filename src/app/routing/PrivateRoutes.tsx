@@ -15,6 +15,7 @@ import VerifyOTP from '../../_metronic/layout/components/user/auth/VerifyOTP'
 import UserCampaignWrapper from '../../_metronic/layout/components/user/campaigns/UserCampaignWrapper'
 import {getUserType} from '../modules/auth/core/_requests'
 import Question from '../../_metronic/layout/components/user/question/Question'
+import SmsTerms from '../../_metronic/layout/components/user/sms-terms/SmsTerms'
 
 const role = getUserType()
 const PrivateRoutes = () => {
@@ -42,6 +43,7 @@ const PrivateRoutes = () => {
         <Route path='/verify-otp' element={<VerifyOTP />} />
         <Route path='/campaign' element={<UserCampaignWrapper />} />
         <Route path='/question' element={<Question />} />
+        <Route path='/sms-terms/:id' element={<SmsTerms />} />
       </Route>
     </Routes>
   )

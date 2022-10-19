@@ -65,7 +65,7 @@ export default function ScratchCardWrapper({image}) {
           </div>
         </div>
       ) : (
-        <ScratchCard {...settings} image={image} ref={ref}>
+        <ScratchCard {...settings} image={image}>
           <div className='center'>
             {/* You got "{campaignDetails.winning_values[prizeIndex]?.label}" reward */}
           </div>

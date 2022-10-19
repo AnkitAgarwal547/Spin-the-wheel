@@ -50,10 +50,6 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
 
       getCampaignClickedUsers(id).then((resp) => {
         setUsersWithClicks(resp?.data?.data)
-        console.log(
-          '🚀 ~ file: CampaignDetailsWrapper.tsx ~ line 52 ~ getCampaignClickedUsers ~ resp?.data?.data',
-          resp?.data?.data
-        )
       })
     }
   }, [id])
@@ -79,18 +75,6 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
         })
     }
   }, [type])
-
-  // useEffect(() => {
-  //   setIsLoadingDetails(true)
-  //   getCampaignDetailsRequest(id)
-  //     .then((resp) => {
-  //       setIsLoadingDetails(false)
-  //       console.log('🚀 ~ file: CampaignDetailsWrapper.tsx ~ line 34 ~ .then ~ resp', resp)
-  //     })
-  //     .catch(() => {
-  //       setIsLoadingDetails(false)
-  //     })
-  // }, [searchKey])
 
   const generateBumperWinner = () => {
     setBumperWinnerLoading(true)

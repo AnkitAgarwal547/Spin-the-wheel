@@ -4,36 +4,28 @@ import {Col, Row} from 'react-bootstrap'
 import {useDispatch} from 'react-redux'
 import {useAuth} from '../../../../../../../app/modules/auth'
 import {getToken, updateCount} from '../../../../../../../app/modules/auth/core/_requests'
+import {isImage} from '../../../../../../../app/pages/campaign/newCampaign/NewCampaign'
 import {
   TRIGGER_PRIZE_INDEX,
   TRIGGER_SELECTED_BOX_INDEX,
 } from '../../../../../../../app/redux/actions/actionTypes'
 import {useAppSelector} from '../../../../../../../app/redux/hooks/hooks'
 import authReducer from '../../../../../../../app/redux/reducers/authReducer'
+import {boxesList} from '../../../../PickTheBox/PickTheBox'
 import './PickTheBox.scss'
 
 export default function PickTheBox() {
   const {campaignDetails, prizeIndex, selectedBoxIndex} = useAppSelector(
     (state) => state.userReducer
   )
+  console.log(
+    '🚀 ~ file: PickTheBox.tsx ~ line 17 ~ PickTheBox ~ campaignDetails',
+    isImage(campaignDetails.prop_color)
+  )
 
   const dispatch = useDispatch()
   const {currentUser} = useAuth()
 
-  const boxesList = [
-    {
-      img: 'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/pick_the_box/box_1.png',
-    },
-    {
-      img: 'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/pick_the_box/box_2.png',
-    },
-    {
-      img: 'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/pick_the_box/box_3.png',
-    },
-    {
-      img: 'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/pick_the_box/box_4.png',
-    },
-  ]
   const [boxes, setBoxes] = useState<any>(boxesList)
 
   const [reward, setReward] = useState(prizeIndex)
@@ -74,7 +66,7 @@ export default function PickTheBox() {
     }
   }
   return (
-    <div className='pick-the-box'>
+    <div className='pick-the-box-user'>
       <div className='sub-div text-center my-5'>
         <Row gx={5} gy={5}>
           {boxes.map((item, i) => {
@@ -95,18 +87,33 @@ export default function PickTheBox() {
                   }
                 )}
               >
-                <div className='position-relative'>
+                <div
+                  className='position-relative'
+                  style={{
+                    marginTop: i == 2 || i == 3 ? '10px' : '',
+                  }}
+                >
                   <img
                     style={{
                       opacity:
                         selectedBoxIndex === i && (prizeIndex || prizeIndex === 0) ? '0.18' : '',
                     }}
                     className='p-3 cursor-pointer'
-                    src={item.img}
+                    src={
+                      isImage(campaignDetails.prop_color) ? campaignDetails.prop_color : item.img
+                    }
                     onClick={() => {
                       selectReward(i)
                     }}
                   ></img>
+                  <div
+                    className='text-dark index'
+                    style={{
+                      right: i == 1 || i == 3 ? '0%' : '',
+                    }}
+                  >
+                    <div className='index-text center'>{i + 1}</div>
+                  </div>
                   {selectedBoxIndex === i && (prizeIndex || prizeIndex === 0) && (
                     <div
                       className='center  fadeIn w-100'
