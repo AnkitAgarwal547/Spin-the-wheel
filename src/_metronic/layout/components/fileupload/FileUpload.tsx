@@ -26,28 +26,12 @@ export default function FileUpload({
     }
   }
 
-  function getBinaryFromFile(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-
-      reader.addEventListener('load', () => resolve(reader.result))
-      reader.addEventListener('error', (err) => reject(err))
-
-      reader.readAsBinaryString(file)
-    })
-  }
-
   const handleFileChange = async (event: any) => {
     const fileObj = event.target.files && event.target.files[0]
     let file = event.target.files[0]
     // if (!id) {
     // setFieldValue(file)
     // }
-
-    let binary = await getBinaryFromFile(file)
-    console.log(binary)
-
-    let reader = new FileReader()
 
     getBase64(file)
       .then((result) => {
@@ -60,11 +44,6 @@ export default function FileUpload({
           })
           .then((blob) => {
             setBinaryData(blob)
-            // getUploadUrl(payload).then((response) => {
-            //   uploadFile(response.data.data.aws_signed_url, blob).then((resp) => {
-            //     setFieldValue(response.data.data.aws_signed_url.split('?')[0])
-            //   })
-            // })
           })
           .catch(() => {
             ToastMessage('Something went wrong!', 'error')
@@ -77,7 +56,6 @@ export default function FileUpload({
       details: event.target.files[0],
       path: URL.createObjectURL(event.target.files[0]),
     })
-    let fileExtension = event.target.files[0].name.split('.').pop()
 
     const formData = new FormData()
     formData.append('file', event.target.files[0])

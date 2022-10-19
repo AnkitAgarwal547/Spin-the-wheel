@@ -357,7 +357,6 @@ const NewCampaign: React.FC<Props> = () => {
       delete item.key
       return item
     })
-    console.log('🚀 ~ file: NewCampaign.tsx ~ line 317 ~ patchForm ~ winningValues', winningValues)
 
     let newObj = {
       [formFields.COMPANY_NAME]: obj[formFields.COMPANY_NAME],
@@ -514,7 +513,6 @@ const NewCampaign: React.FC<Props> = () => {
         isSubmitting,
         initialErrors,
       }) => {
-        console.log('🚀 ~ file: NewCampaign.tsx ~ line 484 ~ touched', touched, errors)
         return (
           <form>
             <div>
@@ -603,8 +601,6 @@ const NewCampaign: React.FC<Props> = () => {
                           //   //   getThemeStyle(values[formFields.TYPE]).scratchCardImage
                           //   // )
                           // }
-
-                          console.log('*', values)
                         }}
                         value={values[formFields.TYPE]}
                         className={clsx(

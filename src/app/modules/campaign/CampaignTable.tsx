@@ -52,15 +52,17 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
 
   const getCampaignList = () => {
     setIsLoading(true)
-    getCampaigns()
-      .then((resp) => {
-        setIsLoading(false)
-        setCampaigns(resp.data.data)
-      })
-      .catch(() => {
-        setIsLoading(false)
-        setError(true)
-      })
+    setTimeout(() => {
+      getCampaigns()
+        .then((resp) => {
+          setIsLoading(false)
+          setCampaigns(resp.data.data)
+        })
+        .catch(() => {
+          setIsLoading(false)
+          setError(true)
+        })
+    }, 200)
   }
 
   const typeOfCampaign = (type) => {

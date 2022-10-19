@@ -24,7 +24,6 @@ import {
 import {useAuth} from '../../../../../app/modules/auth'
 import {Col, Modal, Row} from 'react-bootstrap'
 import {typeOfCampaigns} from '../../../../../app/modules/campaign/CampaignTable'
-import moment from 'moment'
 
 export default function VerifyMobile() {
   const [loading, setLoading] = useState(false)
@@ -33,7 +32,6 @@ export default function VerifyMobile() {
   const {campaignDetails} = useAppSelector((state) => state.userReducer)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const {currentUser} = useAuth()
   const [campaignStatus, setCampaignStatus] = useState(false)
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/

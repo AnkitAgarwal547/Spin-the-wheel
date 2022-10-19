@@ -1,9 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import axios from 'axios'
 import {FC} from 'react'
-import {useQuery} from 'react-query'
 import {useIntl} from 'react-intl'
-import {PageTitle} from '../../../_metronic/layout/core'
 import {CampaignTable} from '../../modules/campaign/CampaignTable'
 import {CountWidget} from '../../modules/campaign/countWidget/CountWidget'
 
