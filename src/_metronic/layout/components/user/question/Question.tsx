@@ -14,6 +14,7 @@ import {
 } from '../../../../../app/redux/actions/actionTypes'
 import {useAppDispatch, useAppSelector} from '../../../../../app/redux/hooks/hooks'
 import Loader from '../../../../../app/shared/Loader'
+import {Footer} from '../../Footer'
 import './Question.scss'
 
 export default function Question() {
@@ -125,11 +126,12 @@ export default function Question() {
       <Row className='justify-content-center'>
         <Col xxl={5} xl={5} lg={6} md={8} sm={8} col={10}>
           <div className='main-div'>
-            <div className='gift-outer-div'>
-              {loading ? (
-                <Loader size='10px' />
-              ) : (
-                <>
+            {/* {loading && <Loader size='10px' className='center' />} */}
+            {loading ? (
+              <Loader size='10px' className='center' />
+            ) : (
+              <>
+                <div className='gift-outer-div'>
                   <div className='gift-wrapper'>
                     <img
                       alt='logo'
@@ -244,12 +246,13 @@ export default function Question() {
                       </div>
                     </div>
                   </div>
-                </>
-              )}
-            </div>
+                </div>
+              </>
+            )}
           </div>
         </Col>
       </Row>
+      <Footer />
     </div>
   )
 }

@@ -2591,6 +2591,11 @@
     "svg.resize.js" "^1.4.3"
     "svg.select.js" "^3.0.1"
 
+"arc-text@^1.0.1":
+  "integrity" "sha512-cnK4gxPY2qm4PWdzA0PS2JkPEq1kSTgc04vLKuY0srOQNqfpSlFqJ4zalELeUPT+L5NXufHACCr8lsvgj4hnvQ=="
+  "resolved" "https://registry.npmjs.org/arc-text/-/arc-text-1.0.1.tgz"
+  "version" "1.0.1"
+
 "arg@^5.0.1":
   "integrity" "sha512-e0hDa9H2Z9AwFkk2qDlwhoMYE4eToKarchkQHovNdLTCYMHZHeRjI71crOh+dio4K6u1IcwubQqo79Ga4CyAQA=="
   "resolved" "https://registry.npmjs.org/arg/-/arg-5.0.1.tgz"

@@ -4,10 +4,12 @@ import {useAppDispatch, useAppSelector} from '../../../../../../app/redux/hooks/
 import './Search.scss'
 import debounce from 'lodash.debounce'
 import {KTSVG, toAbsoluteUrl} from '../../../../../helpers'
+import {useLocation} from 'react-router'
 
 export default function Search() {
   const {searchKey} = useAppSelector((state) => state.searchReducer)
   const dispatch = useAppDispatch()
+
   const handleChange = (e) => {
     dispatch({
       type: TRIGGER_SEARCH_KEYWORD,

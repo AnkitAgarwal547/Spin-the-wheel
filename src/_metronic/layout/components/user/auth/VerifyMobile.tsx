@@ -24,6 +24,7 @@ import {
 import {useAuth} from '../../../../../app/modules/auth'
 import {Col, Modal, Row} from 'react-bootstrap'
 import {typeOfCampaigns} from '../../../../../app/modules/campaign/CampaignTable'
+import {Footer} from '../../Footer'
 
 export default function VerifyMobile() {
   const [loading, setLoading] = useState(false)
@@ -160,6 +161,7 @@ export default function VerifyMobile() {
               'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/background.png'
             )`
             : `url(${campaignDetails?.frontend_img})`,
+          clipPath: campaignDetails?.frontend_img && 'polygon(100% 0, 0% 0%, 0% 0%, 0 0%, 0 0)',
         }}
       ></div>
       <div className='sub-div'>
@@ -261,6 +263,8 @@ export default function VerifyMobile() {
           <h1 className='mb-0'>This campaign has been expired!</h1>
         </Modal.Body>
       </Modal>
+
+      <Footer />
     </div>
   )
 }

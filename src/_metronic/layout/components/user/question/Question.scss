@@ -38,6 +38,14 @@
 
     }
 
+    @media (max-width:746px) {
+
+        .footer {
+            position: sticky;
+        }
+    }
+
+
     // .banner-div {
     //     margin-bottom: 100px;
 
@@ -155,4 +163,11 @@
         position: relative;
         width: 100%;
     }
+
+
+}
+
+.modal-90w {
+    width: 90%;
+    margin: auto;
 }

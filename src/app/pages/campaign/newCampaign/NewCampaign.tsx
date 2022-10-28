@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useEffect, useRef, useState} from 'react'
+import React, {createRef, useEffect, useRef, useState} from 'react'
 import {Button, Form} from 'react-bootstrap'
 import * as Yup from 'yup'
 import FileUpload from '../../../../_metronic/layout/components/fileupload/FileUpload'
@@ -29,7 +29,42 @@ import PickTheBox from '../../../../_metronic/layout/components/PickTheBox/PickT
 type Props = {}
 
 export function isImage(url) {
-  return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url)
+  return /\.(jpg|jpeg|png|webp|avif|gif|svg|jfif)$/.test(url)
+}
+
+export const ScrollToFieldError = ({isValid, submitCount, errors, logo}) => {
+  useEffect(() => {
+    if (isValid && logo.path) return
+    const fieldErrorNames = getFieldErrorNames(errors)
+    if (fieldErrorNames.length <= 0) return
+    const element = document.querySelector(`input[name='${fieldErrorNames[0]}']`)
+    if (!element || !logo) return
+
+    // Scroll to first known error into view
+    element.scrollIntoView({behavior: 'smooth', block: 'center'})
+  }, [submitCount]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return null
+}
+
+export const getFieldErrorNames = (formikErrors) => {
+  const transformObjectToDotNotation = (obj, prefix = '', result: any[] = []) => {
+    Object.keys(obj).forEach((key) => {
+      const value = obj[key]
+      if (!value) return
+
+      const nextKey = prefix ? `${prefix}.${key}` : key
+      if (typeof value === 'object') {
+        transformObjectToDotNotation(value, nextKey, result)
+      } else {
+        result.push(nextKey)
+      }
+    })
+
+    return result
+  }
+
+  return transformObjectToDotNotation(formikErrors)
 }
 
 export const getThemeStyle = (type) => {
@@ -82,6 +117,7 @@ const NewCampaign: React.FC<Props> = () => {
   const {id} = useParams()
   const location = useLocation()
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const logoReference = useRef<null | HTMLDivElement>(null)
   const [campaignBackground, setCampaignBackground] = useState({
     details: {name: ''},
     path: '',
@@ -108,6 +144,15 @@ const NewCampaign: React.FC<Props> = () => {
   const [scratchBoxBinary, setScratchBoxBinary] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
+  function scrollToMyDiv(element) {
+    document.getElementById('logo-div')
+    window.scroll({
+      top: element.offsetTop,
+      left: 0,
+      behavior: 'smooth',
+    })
+  }
+
   const formFields = {
     TYPE: 'type',
     START_DATE: 'start_date',
@@ -116,6 +161,7 @@ const NewCampaign: React.FC<Props> = () => {
     COMPANY_NAME: 'company_name',
     DIFFICULTY: 'difficulty',
     MAX_WINNER_PERDAY: 'max_winner_perday',
+
     LOGO: 'logo_url',
     BANNER1: 'banner1_url',
     BANNER2: 'banner2_url',
@@ -142,46 +188,46 @@ const NewCampaign: React.FC<Props> = () => {
     {
       label: 'Better luck next time',
       max_perday: 70,
-      sms_content: '',
-      coupon_code: '',
-      template_id: '',
+      sms_content: '{var1}',
+      coupon_code: 'betterlucknexttime',
+      template_id: 'template_id1',
     },
     {
       label: 'Get 20% off',
       max_perday: 10,
-      sms_content: '',
-      coupon_code: '',
-      template_id: '',
+      sms_content: '{var2}',
+      coupon_code: 'get20',
+      template_id: 'template_id2',
     },
     {
       label: 'Get 10% off',
       max_perday: 5,
-      sms_content: '',
-      coupon_code: '',
-      template_id: '',
+      sms_content: '{var3}',
+      coupon_code: 'get10',
+      template_id: 'template_id3',
     },
     {
       label: 'Get 5% off',
       max_perday: 5,
-      sms_content: '',
-      coupon_code: '',
-      template_id: '',
+      sms_content: '{var4}',
+      coupon_code: 'get5',
+      template_id: 'template_id4',
     },
 
     {
       label: 'Get Free Service',
       max_perday: 5,
-      sms_content: '',
-      coupon_code: '',
-      template_id: '',
+      sms_content: '{var5}',
+      coupon_code: 'getFreeService',
+      template_id: 'template_id5',
     },
 
     {
       label: 'Get 60% off',
       max_perday: 5,
-      sms_content: '',
-      coupon_code: '',
-      template_id: '',
+      sms_content: '{var6}',
+      coupon_code: 'get60',
+      template_id: 'template_id5',
     },
   ]
 
@@ -224,10 +270,9 @@ const NewCampaign: React.FC<Props> = () => {
       Yup.object().shape({
         [formFields.MAX_PERDAY]: Yup.string().required(),
         [formFields.LABEL]: Yup.string().required(),
-        [formFields.TEMPLATE_ID]: Yup.string().required(),
-        [formFields.TEMPLATE_ID]: Yup.string().required(),
-        [formFields.COUPON_CODE]: Yup.string().required(),
-        [formFields.SMS_CONTENT]: Yup.string().required(),
+        [formFields.TEMPLATE_ID]: Yup.string(),
+        [formFields.COUPON_CODE]: Yup.string(),
+        [formFields.SMS_CONTENT]: Yup.string(),
       })
     ),
   })
@@ -397,7 +442,7 @@ const NewCampaign: React.FC<Props> = () => {
   return (
     <Formik
       initialValues={initialData}
-      enableReinitialize
+      enableReinitialize={id ? true : false}
       validationSchema={validationSchema}
       onSubmit={async (values, {setSubmitting, resetForm}) => {
         setIsSubmitted(true)
@@ -406,10 +451,14 @@ const NewCampaign: React.FC<Props> = () => {
         payload['start_date'] = moment(values['start_date']).format(format)
         payload['end_date'] = moment(values['end_date']).format(format)
         payload['prop_color'] = [values['prop_color']]
+        if (!logoOfCampaign.path && !logoBinary) {
+          scrollToMyDiv(logoReference?.current)
+        }
+
         if (
           new Date(values[formFields.END_DATE]).getTime() >
             new Date(values[formFields.START_DATE]).getTime() &&
-          (logoBinary || values.logo_url)
+          ((logoOfCampaign.path && logoBinary) || values.logo_url)
         ) {
           setIsLoading(true)
           axios
@@ -512,9 +561,18 @@ const NewCampaign: React.FC<Props> = () => {
         handleSubmit,
         isSubmitting,
         initialErrors,
+        isValid,
+        submitCount,
       }) => {
         return (
           <form>
+            <ScrollToFieldError
+              isValid={isValid}
+              submitCount={submitCount}
+              errors={errors}
+              logo={logoOfCampaign}
+            />
+            {/* {ScrollToFieldError(isValid, submitCount)} */}
             <div>
               <div className='card-body new-campaign'>
                 {/* <Spin /> */}
@@ -888,7 +946,11 @@ const NewCampaign: React.FC<Props> = () => {
                       </div>
                     </div>
                   </div>
-                  <div className='col-xxl-8 col-xl-8 col-lg-10 col-md-8 col-sm-12'>
+                  <div
+                    className='col-xxl-8 col-xl-8 col-lg-10 col-md-8 col-sm-12'
+                    id='logo-div'
+                    ref={logoReference}
+                  >
                     <div className='row'>
                       <div className='col-xxl-3 col-lg-4 col-md-4 col-sm-4 col-4'>
                         <div className='form-label fw-bold mb-5'>
@@ -908,12 +970,14 @@ const NewCampaign: React.FC<Props> = () => {
                             setFieldValue(formFields.LOGO, file)
                           }}
                           fieldValue={values.logo_url}
+                          reference={logoReference}
                         />
                         {touched.logo_url &&
                           ((!id && !logoOfCampaign.path) ||
                             (id && !logoOfCampaign.path && !values.logo_url)) && (
                             <p className='text-danger'>Please select logo</p>
                           )}
+                        <small>Width: 120px - Height: 120px</small>
                       </div>
                       <div className='col-xxl-3 offset-xxl-1 col-lg-4 col-md-4 col-sm-4 col-4'>
                         <div className='form-label fw-bold mb-5'>Banner 1</div>
@@ -926,7 +990,9 @@ const NewCampaign: React.FC<Props> = () => {
                             setFieldValue(formFields.BANNER1, file)
                           }}
                           fieldValue={values.banner1_url}
+                          reference=''
                         />
+                        <small>Width: 1080px - Height: 100px</small>
                       </div>
                       <div className='col-xxl-3 offset-xxl-1 col-lg-4 col-md-4 col-sm-4 col-4'>
                         <div className='form-label fw-bold mb-5'>Banner 2 </div>
@@ -939,7 +1005,9 @@ const NewCampaign: React.FC<Props> = () => {
                             setFieldValue(formFields.BANNER2, file)
                           }}
                           fieldValue={values.banner2_url}
+                          reference=''
                         />
+                        <small>Width: 1080px - Height: 100px</small>
                       </div>
                     </div>
                   </div>
@@ -982,6 +1050,7 @@ const NewCampaign: React.FC<Props> = () => {
                           />
                         )}
                       </div>
+                      <small>Width: 1920px - Height: 1080px</small>
                     </div>
                     <div className='col-xxl-3 col-xl-6 col-md-3 col-lg-4 col-sm-3 col-12 row align-items-center'>
                       <div className='col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8'>
@@ -1020,10 +1089,10 @@ const NewCampaign: React.FC<Props> = () => {
                           {' '}
                           <div className='col-xxl-6 col-xl- col-lg-5 col-md-5 col-sm-5 col-5'>
                             <label className='form-label fw-bold'>
-                              Change
-                              {values.type === typeOfCampaigns.SCRATCH_THE_CARD && ' Scratch Card'}
-                              {values.type === typeOfCampaigns.CHOOSE_THE_BOX && ' Box'} Background
-                              Image
+                              {values.type === typeOfCampaigns.CHOOSE_THE_BOX && 'Choose Box Image'}
+
+                              {values.type === typeOfCampaigns.SCRATCH_THE_CARD &&
+                                'Choose Scratch Card Image'}
                             </label>
                           </div>
                           <div className='col-xxl-6 col-xl-4 col-lg-5 col-md-5 col-sm-5 col-5'>
@@ -1104,6 +1173,12 @@ const NewCampaign: React.FC<Props> = () => {
                               </div>
                             )}
                           </div>
+                          <small>
+                            {' '}
+                            {values.type === typeOfCampaigns.CHOOSE_THE_BOX
+                              ? 'Width: 100px - Height: 100px'
+                              : 'Width: 120px - Height: 120px'}
+                          </small>
                         </>
                       )}
                     </div>
@@ -1113,6 +1188,7 @@ const NewCampaign: React.FC<Props> = () => {
                         <label className='form-label fw-bold'>
                           Change Frontend Background Image
                         </label>
+                        <small>Width: 1920px - Height: 1080px</small>
                       </div>
                       <div className='col-xxl-6 col-xl-4 col-lg-5 col-md-5 col-sm-5 col-5'>
                         {!frontendBackground?.details?.name &&
@@ -1357,7 +1433,6 @@ const NewCampaign: React.FC<Props> = () => {
                                       name={`${formFields.WINNING_VALUES}.${index}.${formFields.SMS_CONTENT}`}
                                       value={item[formFields.SMS_CONTENT]}
                                       onChange={handleChange}
-                                      defaultValue={item[formFields.SMS_CONTENT]}
                                     >
                                       {' '}
                                     </textarea>

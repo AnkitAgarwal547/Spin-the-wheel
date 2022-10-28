@@ -17,6 +17,7 @@ import VerifyOTP from '../../_metronic/layout/components/user/auth/VerifyOTP'
 import UserCampaignWrapper from '../../_metronic/layout/components/user/campaigns/UserCampaignWrapper'
 import UserDetails from '../../_metronic/layout/components/user/claim-prize/UserDetails'
 import Terms from '../../_metronic/layout/components/user/terms/Terms'
+import SmsTerms from '../../_metronic/layout/components/user/sms-terms/SmsTerms'
 
 /**
  * Base URL of the website.
@@ -47,6 +48,7 @@ const AppRoutes: FC = () => {
             </>
           )}
           <Route path='/verify-mobile' element={<VerifyMobile />} />
+          <Route path='/sms-terms/:id' element={<SmsTerms />} />
 
           <Route path='/verify-otp' element={<VerifyOTP />} />
           <Route path='/campaign' element={<UserCampaignWrapper />} />

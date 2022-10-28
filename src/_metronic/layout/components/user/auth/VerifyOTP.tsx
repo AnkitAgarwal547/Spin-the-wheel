@@ -17,6 +17,7 @@ import OtpInput from 'react-otp-input'
 import {useLocation, useNavigate} from 'react-router'
 import {useAuth} from '../../../../../app/modules/auth'
 import {useAppSelector} from '../../../../../app/redux/hooks/hooks'
+import {Footer} from '../../Footer'
 
 export default function VerifyOTP() {
   const [loading, setLoading] = useState(false)
@@ -98,7 +99,7 @@ export default function VerifyOTP() {
 
   return (
     <>
-      <div className='container'>
+      <div className='container otp-screen'>
         <div className='row d-flex justify-content-center'>
           <div className='col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12'></div>
         </div>
@@ -117,7 +118,7 @@ export default function VerifyOTP() {
               : `url(${campaignDetails?.frontend_img})`,
           }}
         ></div>
-        <div className='sub-div'>
+        <div className='sub-div '>
           <div className='text-center heading'>Enter OTP</div>
           <div className='px-10'>
             {' '}
@@ -136,6 +137,7 @@ export default function VerifyOTP() {
                     borderRadius: '3px',
                   }}
                   containerStyle='justify-content-between'
+                  isInputNum
                   value={formik.values.otp}
                   onChange={(otp) => {
                     formik.setFieldValue('otp', otp)
@@ -169,6 +171,7 @@ export default function VerifyOTP() {
           </div>
         </div>
         <ToastContainer />
+        <Footer />
       </div>
     </>
   )

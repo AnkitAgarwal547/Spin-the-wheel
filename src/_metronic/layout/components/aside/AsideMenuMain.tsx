@@ -18,6 +18,7 @@ export function AsideMenuMain() {
         fontIcon='fa-home'
         activeIcon='/media/icons/black_dashboard.png'
         className='svg-icon-2'
+        
       />
 
       <AsideMenuItem

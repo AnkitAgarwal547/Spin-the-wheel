@@ -5,30 +5,40 @@ import {useAppDispatch, useAppSelector} from '../../../../../app/redux/hooks/hoo
 import * as Yup from 'yup'
 import './SmsTerms.scss'
 import {ToastMessage} from '../../../../../app/shared/ToastMessage'
-import {useNavigate} from 'react-router'
+import {useNavigate, useParams} from 'react-router'
 import {useAuth} from '../../../../../app/modules/auth'
-import {getUserType} from '../../../../../app/modules/auth/core/_requests'
+import {
+  getUserCampaignDetailsRequest,
+  getUserType,
+} from '../../../../../app/modules/auth/core/_requests'
 import {useDispatch} from 'react-redux'
 import {useReset} from '../../../../../app/shared/hooks/useReset'
 
 export default function SmsTerms() {
-  const {campaignDetails} = useAppSelector((state) => state.userReducer)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const {logout, currentUser} = useAuth()
   const [handleReset] = useReset()
+  const [campaignDetails, setCampaignDetails] = useState<any>()
+  const {id} = useParams()
 
-  const onClose = () => {
-    logout()
-    navigate(`/verify-mobile?campaignId=${campaignDetails._id}`)
-    handleReset()
-  }
-
-  // useEffect(() => {
-  //   if (currentUser && getUserType() == 'user') {
-  //     navigate(`/campaign?id=${campaignDetails._id}`)
-  //   }
-  // }, [])
+  useEffect(() => {
+    // if (currentUser && getUserType() == 'user') {
+    //   navigate(`/campaign?id=${campaignId}`)
+    // }
+    if (id) {
+      getUserCampaignDetailsRequest(id)
+        .then((resp) => {
+          setCampaignDetails(resp.data.data)
+        })
+        .catch(() => {
+          navigate('/error')
+        })
+    } else {
+      navigate('/error')
+      // logout()
+    }
+  }, [])
 
   return (
     <div
@@ -48,13 +58,13 @@ export default function SmsTerms() {
       {/* <Row className='justify-content-center'> */}
       {/* <Col sm={8} xxl={8} xl={8} lg={8} className='rounded  p-10'> */}
       <div className='sub-div'>
-        <div className='text-center heading'>Terms & Conditions</div>
+        <div className='text-center heading'>SMS Terms & Conditions</div>
         <div className='px-10'></div>
         <div className='logo-wrapper'>
           <img alt='logo' className='logo' src={campaignDetails?.logo_url} />
         </div>
         <div className='text-center px-10'>
-          <div className='term-text'>{campaignDetails?.tnc}</div>
+          <div className='term-text'>{campaignDetails?.sms_tnc}</div>
         </div>
       </div>
     </div>

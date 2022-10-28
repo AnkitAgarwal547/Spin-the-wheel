@@ -100,22 +100,29 @@ export default class Wheel extends Component<any, any> {
                     {item}
                   </div>
                 </div>
-                {type === 'TEMPLATE_2' && (
+
+                {/* {type === 'TEMPLATE_2' && (
                   <img
                     className='wheel-crackers'
-                    style={{paddingRight: index === 0 ? '10px' : ''}}
+                    style={{
+                      // paddingRight: index === 0 ? '10px' : '',
+                      // width: index === 4 ? '10px' : index === 0 ? '20px' : '',
+                      // height: index === 4 ? '35px' : index === 0 ? '35px' : '',
+                      left: index === 4 || index === 2 ? '60px' : '',
+                    }}
                     src={crackers[index]}
                   />
-                )}
+                )} */}
               </div>
             ))}
           </div>
-          {type === 'TEMPLATE_3' && (
-            <img
-              className='light'
-              src='https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/light.png'
-            />
-          )}
+          {type === 'TEMPLATE_3' ||
+            (type === 'TEMPLATE_2' && (
+              <img
+                className='light'
+                src='https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/light.png'
+              />
+            ))}
 
           {type === 'TEMPLATE_1' ? (
             <div className='wheel-center' />

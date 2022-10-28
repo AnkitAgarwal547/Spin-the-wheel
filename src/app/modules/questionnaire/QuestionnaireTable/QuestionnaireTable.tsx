@@ -36,26 +36,6 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
   const [selectedItem, setSelectedItem] = useState(0)
   const [selectedItemToDelete, setSelectedToDelete] = useState(0)
   const [addNewQuestionnaire, setAddNewQuestionnaire] = useState(false)
-  // const columns = [
-  //   {
-  //     name: 'QUESTION',
-  //     selector: (row: any) => row.title,
-  //   },
-  //   {
-  //     name: 'OPTION 1.',
-  //     selector: (row: any) => row.year,
-  //   },
-  //   {
-  //     name: 'OPTION 2.',
-  //     selector: (row: any) => row.year,
-  //   },
-
-  //   {
-  //     name: 'DIFFICULTY LEVEL',
-  //     selector: (row: any) => row.year,
-  //   },
-  // ]
-
   const [posts, setPosts] = useState<any[]>([])
   const {questionnaireCurrentPage} = useAppSelector((state) => state.paginationReducer)
   const [currentPage, setCurrentPage] = useState(questionnaireCurrentPage || 1)
@@ -102,7 +82,7 @@ const QuestionnaireTable: React.FC<Props> = ({}) => {
   }, [searchKey])
 
   useEffect(() => {
-    if (searchKey === '') {
+    if (searchKey === '' && currrentQuestionnaireList.length) {
       setCurrentData(currrentQuestionnaireList)
     }
   }, [currrentQuestionnaireList])

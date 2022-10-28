@@ -20,7 +20,6 @@ export const boxesList = [
   },
 ]
 export default function PickTheBox({img}) {
-  console.log('🚀 ~ file: PickTheBox.tsx ~ line 9 ~ PickTheBox ~ img', img)
   const dispatch = useDispatch()
 
   const [boxList, setBoxList] = useState(boxesList)
@@ -36,7 +35,6 @@ export default function PickTheBox({img}) {
       setBoxList(boxesList)
     }
 
-    console.log(list)
   }, [img])
 
   return (

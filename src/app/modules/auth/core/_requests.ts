@@ -172,7 +172,6 @@ export async function generateWinner(id) {
 
 
 export async function getTotalUsers(type) {
-  console.log("🚀 ~ file: _requests.ts ~ line 170 ~ getTotalUsers ~ type", type)
   return axios.get(`${GET_CAMPAIGNS_USERS}/users?${type}`, header)
 }
 

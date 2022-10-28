@@ -159,11 +159,13 @@
   }
 
   .wheel-text {
-    transform: translate(-25%, -50%) rotate(90deg);
+    transform: translate(0%, -50%) rotate(90deg);
     position: absolute;
     text-align: center;
-    width: 78%;
+    width: 55px;
     height: 25px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+
   }
 
 
@@ -187,11 +189,11 @@
 
 
   .wheel-crackers {
-    transform: translate(-100%, -50%);
+    transform: translate(-170%, -50%) rotate(90deg);
     position: absolute;
     top: 25%;
     bottom: 10%;
-    height: 40px;
+    height: 25px;
   }
 
 

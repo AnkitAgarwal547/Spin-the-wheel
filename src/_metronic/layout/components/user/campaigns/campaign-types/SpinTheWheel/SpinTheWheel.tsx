@@ -4,13 +4,14 @@ import './SpinTheWheel.scss'
 import {getToken, updateCount} from '../../../../../../../app/modules/auth/core/_requests'
 import {ToastContainer} from 'react-toastify'
 import {ToastMessage} from '../../../../../../../app/shared/ToastMessage'
+import ArcText from 'arc-text'
 
 export const crackers = [
-  'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/rocket_blue.png',
+  'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker_4.png',
+  'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker_2.png',
+  'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker_3.png',
   'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker1.png',
-  'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker2.png',
-  'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker1.png',
-  'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/rocket_red.png',
+  'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker_1.png',
   'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/spin_the_wheel/cracker2.png',
 ]
 // export const Delayed = ({children = null, waitBeforeShow = 500}) => {
@@ -32,6 +33,26 @@ export default class SpinTheWheel extends Component<any, any> {
       selectedItem: null,
     }
     this.selectItem = this.selectItem.bind(this)
+  }
+
+  componentDidMount(): void {
+    // this.circularText('this text is in a circle ', 80, 0)
+  }
+
+  circularText(txt, radius, classIndex) {
+    txt = txt.split('')
+    classIndex = document.getElementsByClassName('circTxt')[classIndex]
+
+    var deg = 150 / txt.length,
+      origin = 0
+
+    txt.forEach((ea) => {
+      ea = `<span style='height:${radius}px;position:absolute;transform:rotate(${origin}deg);transform-origin:0 100%'>${ea}</span>`
+      classIndex.innerHTML += ea
+      origin += deg
+
+      return ea
+    })
   }
 
   selectItem() {
@@ -116,36 +137,42 @@ export default class SpinTheWheel extends Component<any, any> {
                 key={index}
                 style={{'--item-nb': index} as React.CSSProperties}
               >
-                <div className='wheel-text'>
+                <div className='wheel-text' id='myElement'>
                   <div
                     style={{
                       color: details.forecolor,
                     }}
                   >
                     {item.label}
+                    {/* <div className='circTxt' id='test'></div> */}
                   </div>
                 </div>
-                {details.template === 'TEMPLATE_2' && (
+
+                {/* {this.circularText('this text is in a circle ', 100, 0)} */}
+
+                {/* {details.template === 'TEMPLATE_2' && (
                   <img
                     className='wheel-crackers'
                     style={{
-                      paddingRight: index === 0 ? '10px' : '',
-                      width: index === 4 || index === 0 ? '20px' : '',
-                      height: index === 4 ? '60px' : '',
+                      // paddingRight: index === 0 ? '10px' : '',
+                      width: index === 4 ? '20px' : index === 0 ? '24px' : '',
+                      // height: index === 4 ? '60px' : index === 0 ? '45px' : '',
+                      left: index === 4 || index === 0 ? '100px' : '',
                     }}
                     src={crackers[index]}
                   />
-                )}
+                )} */}
               </div>
             ))}
           </div>
-          {details.template === 'TEMPLATE_3' && (
-            <img
-              onClick={this.selectItem}
-              className='light cursor-pointer'
-              src='https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/light.png'
-            />
-          )}
+          {details.template === 'TEMPLATE_3' ||
+            (details.template === 'TEMPLATE_2' && (
+              <img
+                onClick={this.selectItem}
+                className='light cursor-pointer'
+                src='https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/light.png'
+              />
+            ))}
 
           {details.template === 'TEMPLATE_1' ? (
             <div className='wheel-center' />

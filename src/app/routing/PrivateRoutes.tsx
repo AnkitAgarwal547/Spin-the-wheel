@@ -43,7 +43,6 @@ const PrivateRoutes = () => {
         <Route path='/verify-otp' element={<VerifyOTP />} />
         <Route path='/campaign' element={<UserCampaignWrapper />} />
         <Route path='/question' element={<Question />} />
-        <Route path='/sms-terms/:id' element={<SmsTerms />} />
       </Route>
     </Routes>
   )

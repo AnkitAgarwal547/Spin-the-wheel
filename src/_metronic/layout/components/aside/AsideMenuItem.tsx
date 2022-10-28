@@ -4,6 +4,12 @@ import {Link} from 'react-router-dom'
 import {useLocation} from 'react-router'
 import {checkIsActive, KTSVG, toAbsoluteUrl, WithChildren} from '../../../helpers'
 import {useLayout} from '../../core'
+import {
+  TRIGGER_CAMPAIGN_DETAILS_CURRENT_PAGE,
+  TRIGGER_CAMPAIGN_TABLE_CURRENT_PAGE,
+  TRIGGER_QUESTIONNAIRE_CURRENT_PAGE,
+} from '../../../../app/redux/actions/actionTypes'
+import {useDispatch} from 'react-redux'
 
 type Props = {
   to: string
@@ -31,6 +37,7 @@ const AsideMenuItem: FC<Props & WithChildren> = ({
   const isActive = checkIsActive(pathname, to)
   const {config} = useLayout()
   const {aside} = config
+  const dispatch = useDispatch()
 
   return (
     <div className='menu-item'>
@@ -42,6 +49,20 @@ const AsideMenuItem: FC<Props & WithChildren> = ({
             e.preventDefault()
             request()
           }
+
+          dispatch({
+            type: TRIGGER_CAMPAIGN_DETAILS_CURRENT_PAGE,
+            campaignDetailsTableCurrentPage: 1,
+          })
+
+          dispatch({
+            type: TRIGGER_CAMPAIGN_TABLE_CURRENT_PAGE,
+            campaignTableCurrentPage: 1,
+          })
+          dispatch({
+            type: TRIGGER_QUESTIONNAIRE_CURRENT_PAGE,
+            questionnaireCurrentPage: 1,
+          })
         }}
       >
         {hasBullet && (

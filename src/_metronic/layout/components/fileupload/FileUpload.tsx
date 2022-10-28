@@ -16,6 +16,7 @@ export default function FileUpload({
   setBinaryData,
   setFieldValue,
   fieldValue,
+  reference,
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
   const {id} = useParams()
@@ -26,28 +27,42 @@ export default function FileUpload({
     }
   }
 
+  const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
+    const byteCharacters = atob(b64Data)
+    const byteArrays: any = []
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize)
+
+      const byteNumbers = new Array(slice.length)
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i)
+      }
+
+      const byteArray = new Uint8Array(byteNumbers)
+      byteArrays.push(byteArray)
+    }
+
+    const blob = new Blob(byteArrays, {type: contentType})
+    return blob
+  }
+
   const handleFileChange = async (event: any) => {
     const fileObj = event.target.files && event.target.files[0]
     let file = event.target.files[0]
-    // if (!id) {
-    // setFieldValue(file)
-    // }
+    let fileExtension = event.target.files[0].name.split('.').pop()
+
+    const contentType = `image/${fileExtension}`
+    let base64Data
+
+    var reader = new FileReader()
 
     getBase64(file)
       .then((result) => {
         file['base64'] = result
-        const base64Response = fetch(`data:image/jpeg;base64,${result}`)
-
-        fetch(result as string)
-          .then((res) => {
-            return res.blob()
-          })
-          .then((blob) => {
-            setBinaryData(blob)
-          })
-          .catch(() => {
-            ToastMessage('Something went wrong!', 'error')
-          })
+        base64Data = file['base64'].split(',')[1]
+        const blob = b64toBlob(base64Data, contentType)
+        setBinaryData(blob)
       })
       .catch((err) => {
         ToastMessage('Something went wrong!', 'error')
@@ -78,6 +93,7 @@ export default function FileUpload({
         'border border-gray-600 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3',
         {'error-border': showError}
       )}
+      // ref={reference ? reference : null}
     >
       <div className='upload-files-container text-center'>
         <div className='text-center my-2'>

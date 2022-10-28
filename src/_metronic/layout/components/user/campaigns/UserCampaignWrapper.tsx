@@ -25,6 +25,7 @@ import {ToastContainer} from 'react-toastify'
 import {useReset} from '../../../../../app/shared/hooks/useReset'
 import ScratchCardWrapper from '../../scratchCard/ScratchCard'
 import PickTheBox from './campaign-types/PickTheBox/PickTheBox'
+import {Footer} from '../../Footer'
 
 export default function UserCampaignWrapper() {
   const search = useLocation().search
@@ -126,9 +127,10 @@ export default function UserCampaignWrapper() {
         <Loader size='1rem' />
       ) : (
         <div
-          className='user-campaign-spin-wheel'
+          className='user-campaign-spin-wheel position-relative'
           style={{
             backgroundImage: `url(${campaignDetails?.backimg})`,
+            overflow: campaignDetails.type === typeOfCampaigns.SCRATCH_THE_CARD ? 'hidden' : '',
           }}
         >
           <div className='logo-wrapper'>
@@ -244,6 +246,7 @@ export default function UserCampaignWrapper() {
               }}
             ></div>
           )}
+          <Footer />
         </div>
       )}
 

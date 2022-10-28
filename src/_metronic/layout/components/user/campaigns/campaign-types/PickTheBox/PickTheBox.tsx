@@ -71,16 +71,9 @@ export default function PickTheBox() {
         <Row gx={5} gy={5}>
           {boxes.map((item, i) => {
             return (
-              <Col
-                xxl={6}
-                xl={6}
-                lg={6}
-                md={6}
-                sm={6}
-                col={3}
-                key={i}
+              <div
                 className={clsx(
-                  'position-relative ',
+                  'position-relative  col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6',
                   {'border-start': i == 1 || i == 3},
                   {
                     'border-top': i == 3 || i == 2,
@@ -115,10 +108,7 @@ export default function PickTheBox() {
                     <div className='index-text center'>{i + 1}</div>
                   </div>
                   {selectedBoxIndex === i && (prizeIndex || prizeIndex === 0) && (
-                    <div
-                      className='center  fadeIn w-100'
-                      style={{fontWeight: 'bold', color: campaignDetails?.forecolor}}
-                    >
+                    <div className='center reward-text w-100' style={{fontWeight: 'bold'}}>
                       <div>
                         You got "
                         {(prizeIndex || prizeIndex === 0) &&
@@ -128,8 +118,7 @@ export default function PickTheBox() {
                     </div>
                   )}
                 </div>
-                {/* )} */}
-              </Col>
+              </div>
             )
           })}
           {/* <Col xxl={6} xl={6} lg={6} md={6} sm={6} className='border-start'>

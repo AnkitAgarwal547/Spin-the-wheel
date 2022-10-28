@@ -23,20 +23,21 @@ const CountWidget: React.FC<Props> = ({className}) => {
     <div className='mt-10'>
       <div className='row'>
         <div className='col-xxl-4 col-xl-4 col-md-4 col-sm-4 '>
-          <div className='count-widget-block bg-primary rounded mr-auto'>
-            <div>
-              <h1 className='text-white'>{counts?.user_count}</h1>
-              <small className='text-white'>Total Users</small>
-            </div>
-            <div className='d-flex flex-column'>
-              <Link to='/campaign/totalUsers' className='btn btn-light btn-sm px-3 py-2'>
+          <Link to='/campaign/totalUsers'>
+            <div className='count-widget-block bg-primary rounded mr-auto'>
+              <div>
+                <h1 className='text-white'>{counts?.user_count}</h1>
+                <small className='text-white'>Total Users</small>
+              </div>
+              {/* <div className='d-flex flex-column'>
                 View All
-              </Link>
+              </div> */}
+              {/* end::Text */}
             </div>
-            {/* end::Text */}
-          </div>
+          </Link>
         </div>
         <div className='col-xxl-4  col-xl-4 col-md-4 col-sm-4'>
+          {/* <Link to='/campaign/totalWinners'> */}
           <div className='count-widget-block bg-danger rounded m-auto'>
             {/* begin::Symbol */}
             <div>
@@ -45,31 +46,26 @@ const CountWidget: React.FC<Props> = ({className}) => {
             </div>
             {/* end::Symbol */}
             {/* begin::Text */}
-            <div className='d-flex flex-column'>
-              <Link to='/campaign/totalWinners' className='btn btn-light btn-sm px-3 py-2'>
-                View All
-              </Link>
-            </div>
+            {/* <div className='d-flex flex-column'>View All</div> */}
             {/* end::Text */}
           </div>
+          {/* </Link> */}
         </div>
         <div className='col-xxl-4 col-xl-4 col-md-4 col-sm-4'>
           {/* begin::Item */}
-          <div className='count-widget-block bg-success rounded' style={{marginLeft: 'auto'}}>
-            {/* begin::Symbol */}
-            <div>
-              <h1 className='text-white'>{counts?.submittedetail_count}</h1>
-              <small className='text-white'>Total Users submitted details</small>
+          <Link to='/campaign/totalUserSubmitted'>
+            <div className='count-widget-block bg-success rounded' style={{marginLeft: 'auto'}}>
+              {/* begin::Symbol */}
+              <div>
+                <h1 className='text-white'>{counts?.submittedetail_count}</h1>
+                <small className='text-white'>Total Users submitted details</small>
+              </div>
+              {/* end::Symbol */}
+              {/* begin::Text */}
+              {/* <div className='d-flex flex-column'>View All</div> */}
+              {/* end::Text */}
             </div>
-            {/* end::Symbol */}
-            {/* begin::Text */}
-            <div className='d-flex flex-column'>
-              <Link to='/campaign/totalUserSubmitted' className='btn btn-light btn-sm px-3 py-2'>
-                View All
-              </Link>
-            </div>
-            {/* end::Text */}
-          </div>
+          </Link>
           {/* end::Item */}
           {/* begin::Item */}
         </div>

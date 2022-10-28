@@ -11,6 +11,7 @@ import {TRIGGER_USER_DETAILS} from '../../../../../app/redux/actions/actionTypes
 import {getUserType, submitAnswer} from '../../../../../app/modules/auth/core/_requests'
 import {ToastContainer} from 'react-toastify'
 import {useAuth} from '../../../../../app/modules/auth'
+import {Footer} from '../../Footer'
 
 export default function UserDetails() {
   const {
@@ -116,6 +117,7 @@ export default function UserDetails() {
               'https://s3.ap-south-1.amazonaws.com/fedicoms.net/template_images/background_images/background.png'
             )`
             : `url(${campaignDetails?.frontend_img})`,
+          clipPath: campaignDetails?.frontend_img && 'polygon(100% 0, 0% 0%, 0% 0%, 0 0%, 0 0)',
         }}
       ></div>
       <div className='sub-div'>
@@ -232,6 +234,7 @@ export default function UserDetails() {
         </div>
       </div>
       <ToastContainer />
+      <Footer />
     </div>
   )
 }

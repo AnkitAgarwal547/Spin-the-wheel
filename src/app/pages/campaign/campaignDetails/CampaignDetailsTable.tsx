@@ -21,6 +21,7 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
   const {searchKey} = useAppSelector((state) => state.searchReducer)
   const {campaignDetailsTableCurrentPage} = useAppSelector((state) => state.paginationReducer)
   const {type} = useParams()
+  console.log('🚀 ~ file: CampaignDetailsTable.tsx ~ line 24 ~ type', type)
 
   const columns = useMemo(
     () => [
@@ -94,7 +95,7 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
 
   const [posts, setPosts] = useState(data || [])
   const [currentPage, setCurrentPage] = useState(campaignDetailsTableCurrentPage || 1)
-  const [postsPerPage, setPostsPerPage] = useState(5)
+  const [postsPerPage, setPostsPerPage] = useState(10)
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
   const currentUsers = posts?.length && posts.slice(indexOfFirstPost, indexOfLastPost)
@@ -136,12 +137,15 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
                 <tr className='fw-bold text-dark'>
                   {/* <th className='min-w-100px text-center'> QUESTION ID</th> */}
                   <th className='min-w-100px'>USER NAME</th>
-                  {/* <th className='min-w-120px'>DATE</th> */}
-                  <th className='min-w-100px'>EMAIL</th>
-                  <th className='max-w-100px'>MOBILE</th>
+                  {type !== 'totalUsers' && <th className='min-w-100px'>CAMPAIGN NAME</th>}
+
+                  {/* <th className='min-w-100px'>LAST NAME</th> */}
+                  <th className='max-w-100px text-center'>MOBILE</th>
+                  <th className='min-w-120px text-center'>DATE OF CREATION</th>
+                  {/* <th className='min-w-100px'>EMAIL</th> */}
                   {/* <th className='min-w-100px text-center'>TOTAL USER ATTEMTS</th>
                 <th className='min-w-100px'>GIFT</th> */}
-                  <th className='min-w-100px text-center'>Pincode</th>
+                  {/* <th className='min-w-100px text-center'>Pincode</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -151,14 +155,20 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
                       <tr key={i}>
                         {/* <td className='text-center'>{item._id}</td> */}
                         <td>{item?.first_name + ' ' + item?.last_name}</td>
+                        {type !== 'totalUsers' && <td>{item?.campaign_name}</td>}
+                        {/* <td>{item?.last_name}</td> */}
 
-                        {/* <td>{moment.utc(item.created_at).format('DD/MM/YYYY')}</td> */}
-                        <td>{item?.email}</td>
-                        <td>{item?.country_code + '-' + (item?.mobile_no || '')}</td>
+                        <td className='text-center'>
+                          {item?.country_code + '-' + (item?.mobile_no || '')}
+                        </td>
+                        <td className='text-center'>
+                          {new Date(item.created_at).toLocaleString()}
+                        </td>
+                        {/* <td>{item?.email}</td> */}
 
                         {/* <td className='text-center'>{item.game_played}</td>
                       <td>{item.gift_unlock_text}</td> */}
-                        <td className='text-center'>{item.comments}</td>
+                        {/* <td className='text-center'>{item.comments}</td> */}
                       </tr>
                     )
                   })

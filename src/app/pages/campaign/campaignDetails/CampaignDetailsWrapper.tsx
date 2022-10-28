@@ -39,7 +39,15 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
       setIsLoadingDetails(true)
       getCampaignUsers(id)
         .then((resp) => {
-          setUserList(resp?.data?.data?.users)
+          let data = resp?.data?.data?.users.map((item) => {
+            return {
+              ...item,
+              created_at: new Date(item.created_at).toLocaleString(),
+              modified_at: new Date(item.modified_at).toLocaleString(),
+              game_played_at: new Date(item.game_played_at).toLocaleString(),
+            }
+          })
+          setUserList(data)
           setDetails(resp?.data?.data?.stats)
           setIsLoadingDetails(false)
         })
@@ -49,7 +57,10 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
         })
 
       getCampaignClickedUsers(id).then((resp) => {
-        setUsersWithClicks(resp?.data?.data)
+        let data = resp?.data?.data.map((item) => {
+          return {...item, created_at: new Date(item.created_at).toLocaleString()}
+        })
+        setUsersWithClicks(data)
       })
     }
   }, [id])
@@ -187,6 +198,7 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
             </>
           )}
           {type && <h2 className='mb-5'>{getTypeName(type)}</h2>}
+
           <CampaignDetailsTable data={userList} error={error} />
         </>
       )}

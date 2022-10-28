@@ -67,7 +67,9 @@
         background-position: center;
     }
 
-
+    .footer {
+        position: sticky;
+    }
 
 }
 
@@ -76,7 +78,7 @@
     .user-campaign-spin-wheel {
 
 
-        overflow: hidden !important;
+        overflow-x: hidden !important;
 
         .logo-wrapper {
 
@@ -117,9 +119,14 @@
 
         }
 
-        .next-btn-div {
-            margin: 10px auto !important;
-        }
+        // .next-btn-div {
+        //     margin: 10px auto !important;
+        // }
     }
 
+}
+
+
+.footer {
+    border-top: 2px solid blue;
 }

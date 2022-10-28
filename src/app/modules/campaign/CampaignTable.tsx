@@ -33,7 +33,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
   const {campaignTableCurrentPage} = useAppSelector((state) => state.paginationReducer)
   const [campaigns, setCampaigns] = useState<any[]>([])
   const [currentPage, setCurrentPage] = useState(campaignTableCurrentPage || 1)
-  const [campaignsPerPage, setCampaignsPerPage] = useState(5)
+  const [campaignsPerPage, setCampaignsPerPage] = useState(10)
   const indexOfLastCampaign = currentPage * campaignsPerPage
   const indexOfFirstCampaign = indexOfLastCampaign - campaignsPerPage
   const [isLoading, setIsLoading] = useState(false)
@@ -97,7 +97,8 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
     if (searchKey !== '') {
       const timeout = setTimeout(() => {
         const filter = _.filter(campaigns, (user) => {
-          return _.includes(_.lowerCase(JSON.stringify(_.values(user))), _.lowerCase(searchKey))
+          let userObj = {company_name: user.company_name, title: user.title, type: user.type}
+          return _.includes(_.lowerCase(JSON.stringify(_.values(userObj))), _.lowerCase(searchKey))
         })
         setCurrentData(filter)
       }, 500)
@@ -106,7 +107,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
   }, [searchKey])
 
   useEffect(() => {
-    if (searchKey === '') {
+    if (searchKey === '' && currentCampaignsList.length) {
       setCurrentData(currentCampaignsList)
     }
   }, [currentCampaignsList])
@@ -118,6 +119,18 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
     })
   }, [])
 
+  const formatData = (campaigns) => {
+    let data = campaigns.map((item) => {
+      return {
+        ...item,
+        created_at: moment.utc(item.created_at).format('DD/MM/YYYY h:mm A'),
+        start_date: moment.utc(item.start_date).format('DD/MM/YYYY h:mm A'),
+        end_date: moment.utc(item.end_date).format('DD/MM/YYYY h:mm A'),
+      }
+    })
+    return data
+  }
+
   return (
     <div className={`campaign-table-wrapper ${className}`}>
       <div className='d-flex flex-wrap flex-stack mb-6'>
@@ -126,7 +139,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
           <div className='d-flex flex-wrap my-2'>
             <div className='me-4'>
               <CSVLink
-                data={campaigns}
+                data={formatData(campaigns)}
                 className='btn btn-outline-dark btn-sm rounded-pill'
                 filename={`Campaigns${moment.utc().format('DD-MM-YY')}.csv`}
                 target='_blank'
@@ -170,7 +183,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                         <td className='text-center'>
                           {(currentPage - 1) * campaignsPerPage + i + 1}
                         </td>
-                        <td className='text-start'>{item.company_name}</td>
+                        <td className='text-start'>{item.company_name} </td>
                         <td className='text-center'>{item.title}</td>
                         <td>{typeOfCampaign(item.type)}</td>
                         <td>
@@ -181,8 +194,8 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
                               style={{width: '100px'}}
                               target='_blank'
                               className='text-primary'
-                              href={`http://localhost:3011/verify-mobile?campaignId=${item._id}`}
-                            >{`http://localhost:3011/verify-mobile?campaignId=${item._id}`}</a>
+                              href={`https://fedicoms.net/verify-mobile?campaignId=${item._id}`}
+                            >{`https://fedicoms.net/verify-mobile?campaignId=${item._id}`}</a>
                           </div>
                         </td>
                         <td className='text-center'>
@@ -235,7 +248,7 @@ const CampaignTable: React.FC<Props> = ({className, showButtons}) => {
 
             {campaigns?.length > campaignsPerPage && searchKey === '' && (
               <PaginationWrappper
-                postsPerPage={5}
+                postsPerPage={campaignsPerPage}
                 totalPosts={campaigns.length}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}

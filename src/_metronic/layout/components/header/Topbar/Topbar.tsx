@@ -1,4 +1,5 @@
 import React, {FC, useContext} from 'react'
+import {useLocation} from 'react-router'
 import {KTSVG} from '../../../../helpers'
 
 import {useLayout} from '../../../core'
@@ -14,6 +15,7 @@ const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
 const Topbar: FC = () => {
   const {config} = useLayout()
   const user = useContext(AsideContext)
+  const location = useLocation()
 
   return (
     <nav className='navbar navbar-expand-sm navbar-light bg-light px-2 py-5 topbar'>
@@ -35,7 +37,9 @@ const Topbar: FC = () => {
             </div>
           </div>
           <div className='col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6'>
-            <Search />
+            {location?.pathname !== '/new-campaign' &&
+              !location?.pathname.includes('/edit-campaign') &&
+              location.pathname !== '/change-password' && <Search />}
           </div>
           <div className='col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3 text-right'>
             <div className='text-right d-flex align-items-center justify-content-end'>
