@@ -2,8 +2,6 @@ import axios from 'axios'
 import { AuthModel, UserModel } from './_models'
 
 const API_URL: any = process.env.REACT_APP_API_URL
-
-
 export const GET_USER_BY_ACCESSTOKEN_URL = `${API_URL}/admin/verify_token`
 export const ADMIN_LOGIN_URL = `${API_URL}/admin/login`
 export const USER_LOGIN_URL = `${API_URL}/login`
@@ -175,6 +173,11 @@ export async function getTotalUsers(type) {
   return axios.get(`${GET_CAMPAIGNS_USERS}/users?${type}`, header)
 }
 
+export async function getUserHistory(id) {
+  return axios.get(`${API_URL}/admin/users/${id}/history`, header)
+}
+
+
 
 
 
@@ -182,12 +185,12 @@ export async function getTotalUsers(type) {
 // user login
 
 
-export function userLogin(mobile_no: string, country_code: string, first_name: string, last_name: string) {
+export function userLogin(mobile_no: string, country_code: string, first_name: string, last_name: string, campaignId) {
   return axios.post(USER_LOGIN_URL, {
-    mobile_no,
-    country_code,
-    first_name,
-    last_name
+    "mobile_no": mobile_no,
+    "country_code": country_code,
+    "first_name": first_name,
+    "last_name": last_name, "campaign_id": campaignId
   })
 }
 

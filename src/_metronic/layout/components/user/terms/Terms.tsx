@@ -10,6 +10,7 @@ import {useAuth} from '../../../../../app/modules/auth'
 import {getUserType} from '../../../../../app/modules/auth/core/_requests'
 import {useDispatch} from 'react-redux'
 import {useReset} from '../../../../../app/shared/hooks/useReset'
+import {Footer} from '../../Footer'
 
 export default function Terms() {
   const {campaignDetails} = useAppSelector((state) => state.userReducer)
@@ -53,7 +54,7 @@ export default function Terms() {
         <div className='logo-wrapper'>
           <img alt='logo' className='logo' src={campaignDetails?.logo_url} />
         </div>
-        <div className='text-center px-10'>
+        <div className='text-center px-10 pb-5'>
           <p className='terms-heading'>Terms & Conditions</p>
           <div className='term-text'>{campaignDetails?.tnc}</div>
 
@@ -62,6 +63,7 @@ export default function Terms() {
           </button>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

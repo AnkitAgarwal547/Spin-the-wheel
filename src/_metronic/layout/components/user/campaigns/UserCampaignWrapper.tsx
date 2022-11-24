@@ -26,6 +26,7 @@ import {useReset} from '../../../../../app/shared/hooks/useReset'
 import ScratchCardWrapper from '../../scratchCard/ScratchCard'
 import PickTheBox from './campaign-types/PickTheBox/PickTheBox'
 import {Footer} from '../../Footer'
+import 'inobounce'
 
 export default function UserCampaignWrapper() {
   const search = useLocation().search
@@ -131,6 +132,7 @@ export default function UserCampaignWrapper() {
           style={{
             backgroundImage: `url(${campaignDetails?.backimg})`,
             overflow: campaignDetails.type === typeOfCampaigns.SCRATCH_THE_CARD ? 'hidden' : '',
+            overscrollBehavior: campaignDetails.type === 'SPIN_THE_WHEEL' ? 'contain' : '',
           }}
         >
           <div className='logo-wrapper'>
@@ -213,7 +215,12 @@ export default function UserCampaignWrapper() {
             <PickTheBox />
           )}
 
-          <div className='row justify-content-center my-10 next-btn-div'>
+          <div
+            className='row justify-content-center my-10 next-btn-div'
+            style={{
+              paddingBottom: campaignDetails.type === 'SPIN_THE_WHEEL' ? '80px' : '',
+            }}
+          >
             <button
               className='btn btn-block btn-light next-btn  btn-lg col-md-5 col-xxl-3 col-xl-3 col-lg-3 col-sm-5 col-4'
               style={{

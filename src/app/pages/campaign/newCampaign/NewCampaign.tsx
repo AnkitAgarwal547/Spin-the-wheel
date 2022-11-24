@@ -182,6 +182,8 @@ const NewCampaign: React.FC<Props> = () => {
     SMS_CONTENT: 'sms_content',
     SMS_TNC: 'sms_tnc',
     ScratchBoxBackground: 'scratchBox_bg',
+    OTP_SENDER_ID: 'otp_sender_id',
+    COUPON_CODE_SENDER_ID: 'coupon_code_sender_id',
   }
 
   const initialWinningValues = [
@@ -247,6 +249,8 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.WHEEL_BACKGROUNDCOLOR]: '#da3768',
     [formFields.FRONTEND_IMG]: '',
     [formFields.SMS_TNC]: '',
+    [formFields.OTP_SENDER_ID]: '',
+    [formFields.COUPON_CODE_SENDER_ID]: '',
   }
 
   const validationSchema = Yup.object().shape({
@@ -266,6 +270,8 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.FRONTEND_IMG]: Yup.string(),
     [formFields.FONT_COLOR]: Yup.string(),
     [formFields.SMS_TNC]: Yup.string().required(),
+    [formFields.OTP_SENDER_ID]: Yup.string().required(),
+    [formFields.COUPON_CODE_SENDER_ID]: Yup.string().required(),
     [formFields.WINNING_VALUES]: Yup.array().of(
       Yup.object().shape({
         [formFields.MAX_PERDAY]: Yup.string().required(),
@@ -425,6 +431,8 @@ const NewCampaign: React.FC<Props> = () => {
       [formFields.FRONTEND_IMG]: obj[formFields.FRONTEND_IMG],
       [formFields.SMS_TNC]: obj[formFields.SMS_TNC],
       [formFields.ScratchBoxBackground]: obj[formFields.ScratchBoxBackground],
+      [formFields.OTP_SENDER_ID]: obj[formFields.OTP_SENDER_ID],
+      [formFields.COUPON_CODE_SENDER_ID]: obj[formFields.COUPON_CODE_SENDER_ID],
     }
 
     setInitialData(newObj)
@@ -436,8 +444,6 @@ const NewCampaign: React.FC<Props> = () => {
       patchForm()
     }
   }, [])
-
-  const numberRegEx = /\-?\d*\.?\d{1,2}/
 
   return (
     <Formik
@@ -451,7 +457,12 @@ const NewCampaign: React.FC<Props> = () => {
         payload['start_date'] = moment(values['start_date']).format(format)
         payload['end_date'] = moment(values['end_date']).format(format)
         payload['prop_color'] = [values['prop_color']]
-        if (!logoOfCampaign.path && !logoBinary) {
+        // delete payload['opt_sender_id']
+        // delete payload['coupon_code_sender_id']
+        if (
+          (!logoOfCampaign.path && !logoBinary && !id) ||
+          (!logoOfCampaign.path && !logoBinary && id && !values['logo_url'])
+        ) {
           scrollToMyDiv(logoReference?.current)
         }
 
@@ -697,7 +708,7 @@ const NewCampaign: React.FC<Props> = () => {
                           }
                         }}
                         value={values[formFields.MAX_PLAY_USER]}
-                        disabled={id ? true : false}
+                        // disabled={id ? true : false}
                         className={clsx(
                           'form-control ',
                           {
@@ -1273,6 +1284,61 @@ const NewCampaign: React.FC<Props> = () => {
                   </div>
 
                   <>
+                    <div className='col-xxl-12 my-8'>
+                      <div className='row'>
+                        <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12'>
+                          <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
+                            OTP Sender ID<sup className='text-danger'>*</sup>
+                          </label>
+                          <input
+                            type='text'
+                            placeholder='000'
+                            name={formFields.OTP_SENDER_ID}
+                            value={values[formFields.OTP_SENDER_ID]}
+                            onChange={handleChange}
+                            className={clsx(
+                              'form-control ',
+                              {
+                                'is-invalid':
+                                  touched[formFields.OTP_SENDER_ID] &&
+                                  errors[formFields.OTP_SENDER_ID],
+                              },
+                              {
+                                'is-valid':
+                                  touched[formFields.OTP_SENDER_ID] &&
+                                  !errors[formFields.OTP_SENDER_ID],
+                              }
+                            )}
+                          />
+                        </div>
+                        <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12'>
+                          <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
+                            Coupon Code Sender ID<sup className='text-danger'>*</sup>
+                          </label>
+                          <input
+                            type='text'
+                            placeholder='000'
+                            name={formFields.COUPON_CODE_SENDER_ID}
+                            value={values[formFields.COUPON_CODE_SENDER_ID]}
+                            onChange={handleChange}
+                            className={clsx(
+                              'form-control ',
+                              {
+                                'is-invalid':
+                                  touched[formFields.COUPON_CODE_SENDER_ID] &&
+                                  errors[formFields.COUPON_CODE_SENDER_ID],
+                              },
+                              {
+                                'is-valid':
+                                  touched[formFields.COUPON_CODE_SENDER_ID] &&
+                                  !errors[formFields.COUPON_CODE_SENDER_ID],
+                              }
+                            )}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
                     <div className='col-xxl-12 my-5'>
                       <label htmlFor='exampleFormControlInput1' className='form-label fw-bold mb-5'>
                         {values.type === typeOfCampaigns.SPIN_THE_WHEEL && 'Wheel '}

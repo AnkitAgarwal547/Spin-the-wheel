@@ -13,6 +13,7 @@ import {
 } from '../../../../../app/modules/auth/core/_requests'
 import {useDispatch} from 'react-redux'
 import {useReset} from '../../../../../app/shared/hooks/useReset'
+import {Footer} from '../../Footer'
 
 export default function SmsTerms() {
   const navigate = useNavigate()
@@ -67,6 +68,7 @@ export default function SmsTerms() {
           <div className='term-text'>{campaignDetails?.sms_tnc}</div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

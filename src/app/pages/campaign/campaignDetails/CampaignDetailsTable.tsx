@@ -10,6 +10,9 @@ import {
   TRIGGER_CAMPAIGN_DETAILS_CURRENT_PAGE,
   TRIGGER_SEARCH_KEYWORD,
 } from '../../../redux/actions/actionTypes'
+import {Modal} from 'react-bootstrap'
+import {getUserHistory} from '../../../modules/auth/core/_requests'
+import Loader from '../../../shared/Loader'
 
 type Props = {
   data?: any
@@ -21,86 +24,18 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
   const {searchKey} = useAppSelector((state) => state.searchReducer)
   const {campaignDetailsTableCurrentPage} = useAppSelector((state) => state.paginationReducer)
   const {type} = useParams()
-  console.log('🚀 ~ file: CampaignDetailsTable.tsx ~ line 24 ~ type', type)
-
-  const columns = useMemo(
-    () => [
-      {
-        id: 1,
-        name: 'QUESTION ID.',
-        selector: (row: any) => row.id,
-        maxWidth: '120px',
-        left: true,
-      },
-      {
-        id: 2,
-        name: 'USER WINNER NAME',
-        selector: (row: any) => row.name,
-        maxWidth: '180px',
-      },
-      {
-        id: 3,
-        name: 'DATE',
-        selector: (row: any) => row.date,
-        maxWidth: '150px',
-      },
-
-      {
-        id: 4,
-        name: 'EMAIL',
-        selector: (row: any) => row.email,
-        left: true,
-        reorder: true,
-        maxWidth: '160px',
-      },
-
-      {
-        id: 5,
-        name: 'MOBILE',
-        selector: (row: any) => row.mobile,
-        left: true,
-        reorder: true,
-        maxWidth: '120px',
-      },
-
-      {
-        id: 6,
-        name: 'TOTAL USER ATTEMPTS',
-        selector: (row: any) => row.totalAttempts,
-        center: true,
-        reorder: true,
-        maxWidth: '170px',
-      },
-
-      {
-        id: 7,
-        name: 'GIFT',
-        selector: (row: any) => row.gift,
-        left: true,
-        reorder: true,
-        minWidth: '150px',
-      },
-
-      {
-        id: 8,
-        name: 'ANSWER',
-        selector: (row: any) => row.answer,
-        right: true,
-        reorder: true,
-        maxWidth: '120px',
-      },
-    ],
-    []
-  )
 
   const [posts, setPosts] = useState(data || [])
   const [currentPage, setCurrentPage] = useState(campaignDetailsTableCurrentPage || 1)
   const [postsPerPage, setPostsPerPage] = useState(10)
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
+  const [showUserHistory, setShowUserHistory] = useState(false)
   const currentUsers = posts?.length && posts.slice(indexOfFirstPost, indexOfLastPost)
   const dispatch = useDispatch()
   const [currentData, setCurrentData] = useState(currentUsers)
+  const [userHistoryList, setUserHistoryList] = useState<any>([])
+  const [userHistoryListLoader, setUserHistoryListLoader] = useState<any>(false)
 
   useEffect(() => {
     if (searchKey !== '') {
@@ -126,6 +61,20 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
       searchKey: '',
     })
   }, [])
+
+  const getUserHistoryRequest = (id) => {
+    setUserHistoryListLoader(true)
+    setShowUserHistory(true)
+    getUserHistory(id)
+      .then((resp) => {
+        setUserHistoryList(resp.data.data)
+        setUserHistoryListLoader(false)
+      })
+      .catch((err) => {
+        setUserHistoryListLoader(false)
+        setUserHistoryList([])
+      })
+  }
 
   return (
     <div className='campaign-details-table'>
@@ -154,7 +103,16 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
                     return (
                       <tr key={i}>
                         {/* <td className='text-center'>{item._id}</td> */}
-                        <td>{item?.first_name + ' ' + item?.last_name}</td>
+                        <td>
+                          <button
+                            className='btn btn-link p-0'
+                            onClick={() => {
+                              getUserHistoryRequest(item.user_id)
+                            }}
+                          >
+                            {item?.first_name + ' ' + item?.last_name}
+                          </button>
+                        </td>
                         {type !== 'totalUsers' && <td>{item?.campaign_name}</td>}
                         {/* <td>{item?.last_name}</td> */}
 
@@ -234,6 +192,60 @@ const CampaignDetailsTable: React.FC<Props> = ({data, error}) => {
           />
         )}
       </div>
+
+      <Modal
+        show={showUserHistory}
+        onHide={() => {
+          setShowUserHistory(false)
+          setUserHistoryList([])
+        }}
+        dialogClassName='modal-90w'
+        aria-labelledby='example-custom-modal-styling-title'
+        centered
+        size='lg'
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>User History</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className='user-history-modal'>
+          {userHistoryListLoader ? (
+            <Loader size='10px' />
+          ) : (
+            <div className='table-responsive tbodyDiv'>
+              <table className='table user-history table-row-dashed table-row-gray-300 align-middle gs-0 table-fixed'>
+                <thead className='bg-secondary rounded sticky-top'>
+                  <tr className='fw-bold text-dark'>
+                    <th className='min-w-150px text-center'>CAMPAIGN NAME</th>
+                    <th className='min-w-100px text-center'>GIFT</th>
+                    <th className='min-w-120px text-center'>MOBILE</th>
+                    <th className='min-w-120px text-center'>EMAIL</th>
+                    <th className='max-w-100px text-center'>DATE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {userHistoryList.length > 0 && !error ? (
+                    userHistoryList.map((item, i) => {
+                      return (
+                        <tr key={i}>
+                          <td className='text-center'>{item?.camp_name}</td>
+                          <td className='text-center'>{item?.gift_unlock_text}</td>
+                          <td className='text-center'>{item?.submitted_detail_mobileno}</td>
+                          <td>{item?.submitted_detail_email}</td>
+                          <td className='text-center'>
+                            {new Date(item.created_at).toLocaleString()}
+                          </td>
+                        </tr>
+                      )
+                    })
+                  ) : (
+                    <div className='center no-data'>No data</div>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </Modal.Body>
+      </Modal>
     </div>
   )
 }

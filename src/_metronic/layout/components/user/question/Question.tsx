@@ -26,6 +26,7 @@ export default function Question() {
     answerDetails,
     isAnswerCorrect,
   } = useAppSelector((state) => state.userReducer)
+  console.log('🚀 ~ file: Question.tsx ~ line 29 ~ Question ~ campaignDetails', campaignDetails)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false)
@@ -142,7 +143,9 @@ export default function Question() {
                   <div className='postion-relative'>
                     <div className='sub-div'>
                       <div className='heading'>
-                        Congratulations you have been rewarded with special Gift Voucher
+                        {campaignDetails?.winning_values[prizeIndex]['key'] === 'betterlucknexttime'
+                          ? 'Oops Please try your luck again'
+                          : ' Congratulations you have been rewarded with special Gift Voucher'}
                       </div>
                       <div>
                         <h2 className='text-center text-primary my-3'>
@@ -156,8 +159,13 @@ export default function Question() {
                               ) +
                               '% off'}
 
-                          {campaignDetails?.winning_values[prizeIndex]['key'] ===
-                            'betterlucknexttime' && 'Oops Please try your luck again'}
+                          {campaignDetails?.winning_values[prizeIndex]['key'] !==
+                            'betterlucknexttime' && (
+                            <p className='text-danger'>
+                              {'Your coupon code is : ' +
+                                campaignDetails?.winning_values[prizeIndex]['key']}
+                            </p>
+                          )}
                         </h2>
                         {/* {answer}
                       <br /> */}
@@ -176,8 +184,16 @@ export default function Question() {
                         </h4>
                       )} */}
                       </div>
+                      {campaignDetails?.winning_values[prizeIndex]['key'] ===
+                      'betterlucknexttime' ? (
+                        <>
+                          <p>Please answer the below question to proceed further</p>
+                          <p>Share your details</p>
+                        </>
+                      ) : (
+                        <p>Please answer the below question to get the voucher code</p>
+                      )}
 
-                      <p>Please answer the below question to get the voucher code</p>
                       <div className='question'>{question?.question}</div>
                       <Row className='gx-10'>
                         {question?.options?.map((item, i) => {
@@ -215,7 +231,6 @@ export default function Question() {
                           )
                         })}
                       </Row>
-
                       <button
                         className='btn btn-primary btn-block w-100 mt-10'
                         type='submit'
@@ -224,7 +239,6 @@ export default function Question() {
                       >
                         Next
                       </button>
-
                       <div className='banner-div'>
                         {campaignDetails?.banner1_url && (
                           <div

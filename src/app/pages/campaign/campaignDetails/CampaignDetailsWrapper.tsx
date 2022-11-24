@@ -45,6 +45,7 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
               created_at: new Date(item.created_at).toLocaleString(),
               modified_at: new Date(item.modified_at).toLocaleString(),
               game_played_at: new Date(item.game_played_at).toLocaleString(),
+              answer_timetaken: String(new Date(item.answer_timetaken).toISOString().slice(11, 19)),
             }
           })
           setUserList(data)
@@ -189,7 +190,10 @@ const CampaignDetailsWrapper: React.FC<Props> = ({className, showButtons}) => {
                       <div className='vr'></div>
                       <div className='px-4'>
                         <div className='label'>Avg Shortest Time Taken</div>
-                        <div className='value'>{bumperWinnerDetails?.avg_timetaken} Sec</div>
+                        <div className='value'>
+                          {bumperWinnerDetails?.avg_timetaken}
+                          Sec
+                        </div>
                       </div>
                     </>
                   )}
