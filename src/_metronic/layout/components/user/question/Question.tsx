@@ -163,7 +163,7 @@ export default function Question() {
                             'betterlucknexttime' && (
                             <p className='text-danger'>
                               {'Your coupon code is : ' +
-                                campaignDetails?.winning_values[prizeIndex]['key']}
+                                campaignDetails?.winning_values[prizeIndex]['coupon_code']}
                             </p>
                           )}
                         </h2>
