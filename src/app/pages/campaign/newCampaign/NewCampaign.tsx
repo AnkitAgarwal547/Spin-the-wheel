@@ -708,7 +708,7 @@ const NewCampaign: React.FC<Props> = () => {
                           }
                         }}
                         value={values[formFields.MAX_PLAY_USER]}
-                        // disabled={id ? true : false}
+                        disabled={id ? true : false}
                         className={clsx(
                           'form-control ',
                           {
