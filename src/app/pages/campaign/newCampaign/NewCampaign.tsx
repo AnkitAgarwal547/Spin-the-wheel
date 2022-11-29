@@ -184,6 +184,8 @@ const NewCampaign: React.FC<Props> = () => {
     ScratchBoxBackground: 'scratchBox_bg',
     OTP_SENDER_ID: 'otp_sender_id',
     COUPON_CODE_SENDER_ID: 'coupon_code_sender_id',
+    OTP_TEMAPLATE_ID: 'otp_template_id',
+    OTP_SMS_CONTENT: 'otp_sms_content',
   }
 
   const initialWinningValues = [
@@ -251,6 +253,8 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.SMS_TNC]: '',
     [formFields.OTP_SENDER_ID]: '',
     [formFields.COUPON_CODE_SENDER_ID]: '',
+    [formFields.OTP_SMS_CONTENT]: '',
+    [formFields.OTP_TEMAPLATE_ID]: '',
   }
 
   const validationSchema = Yup.object().shape({
@@ -272,6 +276,8 @@ const NewCampaign: React.FC<Props> = () => {
     [formFields.SMS_TNC]: Yup.string().required(),
     [formFields.OTP_SENDER_ID]: Yup.string().required(),
     [formFields.COUPON_CODE_SENDER_ID]: Yup.string().required(),
+    [formFields.OTP_SMS_CONTENT]: Yup.string().required(),
+    [formFields.OTP_TEMAPLATE_ID]: Yup.string().required(),
     [formFields.WINNING_VALUES]: Yup.array().of(
       Yup.object().shape({
         [formFields.MAX_PERDAY]: Yup.string().required(),
@@ -433,6 +439,8 @@ const NewCampaign: React.FC<Props> = () => {
       [formFields.ScratchBoxBackground]: obj[formFields.ScratchBoxBackground],
       [formFields.OTP_SENDER_ID]: obj[formFields.OTP_SENDER_ID],
       [formFields.COUPON_CODE_SENDER_ID]: obj[formFields.COUPON_CODE_SENDER_ID],
+      [formFields.OTP_SMS_CONTENT]: obj[formFields.OTP_SMS_CONTENT],
+      [formFields.OTP_TEMAPLATE_ID]: obj[formFields.OTP_TEMAPLATE_ID],
     }
 
     setInitialData(newObj)
@@ -1307,6 +1315,55 @@ const NewCampaign: React.FC<Props> = () => {
                                 'is-valid':
                                   touched[formFields.OTP_SENDER_ID] &&
                                   !errors[formFields.OTP_SENDER_ID],
+                              }
+                            )}
+                          />
+                        </div>
+                        <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12'>
+                          <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
+                            OTP Template ID<sup className='text-danger'>*</sup>
+                          </label>
+                          <input
+                            type='text'
+                            placeholder='000'
+                            name={formFields.OTP_TEMAPLATE_ID}
+                            value={values[formFields.OTP_TEMAPLATE_ID]}
+                            onChange={handleChange}
+                            className={clsx(
+                              'form-control ',
+                              {
+                                'is-invalid':
+                                  touched[formFields.OTP_TEMAPLATE_ID] &&
+                                  errors[formFields.OTP_TEMAPLATE_ID],
+                              },
+                              {
+                                'is-valid':
+                                  touched[formFields.OTP_TEMAPLATE_ID] &&
+                                  !errors[formFields.OTP_TEMAPLATE_ID],
+                              }
+                            )}
+                          />
+                        </div>
+                        <div className='col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12'>
+                          <label htmlFor='exampleFormControlInput1' className='form-label fw-bold'>
+                            OTP SMS Content<sup className='text-danger'>*</sup>
+                          </label>
+                          <textarea
+                            placeholder='Enter sms content'
+                            name={formFields.OTP_SMS_CONTENT}
+                            value={values[formFields.OTP_SMS_CONTENT]}
+                            onChange={handleChange}
+                            className={clsx(
+                              'form-control ',
+                              {
+                                'is-invalid':
+                                  touched[formFields.OTP_SMS_CONTENT] &&
+                                  errors[formFields.OTP_SMS_CONTENT],
+                              },
+                              {
+                                'is-valid':
+                                  touched[formFields.OTP_SMS_CONTENT] &&
+                                  !errors[formFields.OTP_SMS_CONTENT],
                               }
                             )}
                           />
