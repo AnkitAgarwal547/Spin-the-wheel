@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
-  <g id="check" transform="translate(-2222 -588)">
-    <g id="Rectangle_144" data-name="Rectangle 144" transform="translate(2222 588)" fill="#fff" stroke="#707070" stroke-width="1">
-      <rect width="40" height="40" rx="5" stroke="none"/>
-      <rect x="0.5" y="0.5" width="39" height="39" rx="4.5" fill="none"/>
-    </g>
-    <path id="Icon_feather-check" data-name="Icon feather-check" d="M26.489,9,12.4,23.086,6,16.683" transform="translate(2225.701 591.957)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
-  </g>
-</svg>
